@@ -1077,6 +1077,11 @@ Class WoW_Characters /*implements Interface_Characters*/ {
         }
         self::CalculateBaseStats($recalculate);
         self::CalculateMeleeStats($recalculate);
+        self::CalculateRangedStats($recalculate);
+        self::CalculateSpellStats($recalculate);
+        self::CalculateDefenseStats($recalculate);
+        self::CalculateResistanceStats($recalculate);
+        return true;
     }
     
     private static function UpdateStatsInfo($stat_type, $value) {
