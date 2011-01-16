@@ -190,26 +190,6 @@ Class WoW_Utils {
     }
     
     /**
-     * Returns spell bonus damage.
-     * @category Utils class
-     * @access   public
-     * @param    int $school
-     * @param    int $guid
-     * @param    object $db
-     * @return   int
-     **/
-    public function GetSpellBonusDamage($school, $guid, $db) {
-        $field_done_pos = PLAYER_FIELD_MOD_DAMAGE_DONE_POS+$school+1;
-        $field_done_neg = PLAYER_FIELD_MOD_DAMAGE_DONE_NEG+$school+1;
-        $field_done_pct = PLAYER_FIELD_MOD_DAMAGE_DONE_PCT+$school+1;
-        $damage_done_pos = $db->selectCell("
-        SELECT CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(`data`, ' ', %d), ' ', '-1') AS UNSIGNED)
-            FROM `armory_character_stats` 
-                WHERE `guid`=%d", $field_done_pos, $guid);
-        return $damage_done_pos;
-    }
-    
-    /**
      * Calculates attack power for different classes by stat mods
      * @category Utils class
      * @access   public
@@ -260,6 +240,9 @@ Class WoW_Utils {
      * @return   float
      **/
     public function GetCritChanceFromAgility($rating, $class, $agility) {
+        if(!is_array($rating)) {
+            return 1;
+        }
         $base = array(3.1891, 3.2685, -1.532, -0.295, 3.1765, 3.1890, 2.922, 3.454, 2.6222, 20, 7.4755);
         $ratingkey = array_keys($rating);
         if(isset($ratingkey[$class]) && isset($rating[$ratingkey[$class]]) && isset($base[$class - 1])) {
@@ -277,6 +260,9 @@ Class WoW_Utils {
      * @return   float
      **/
     public function GetSpellCritChanceFromIntellect($rating, $class, $intellect) {
+        if(!is_array($rating)) {
+            return 1;
+        }
         $base = array(0, 3.3355, 3.602, 0, 1.2375, 0, 2.201, 0.9075, 1.7, 20, 1.8515);
         $ratingkey = array_keys($rating);
         if(isset($base[$class - 1]) && isset($ratingkey[11 + $class]) && isset($rating[$ratingkey[11 + $class]])) {
@@ -293,6 +279,9 @@ Class WoW_Utils {
      * @return   float
      **/
     public function GetHRCoefficient($rating, $class) {
+        if(!is_array($rating)) {
+            return 1;
+        }
         $ratingkey = array_keys($rating);
         if(!isset($ratingkey[22 + $class]) || !isset($rating[$ratingkey[22 + $class]])) {
             return 1;
@@ -313,6 +302,9 @@ Class WoW_Utils {
      * @return   float
      **/
     public function GetMRCoefficient($rating, $class) {
+        if(!is_array($rating)) {
+            return 1;
+        }
         $ratingkey = array_keys($rating);
         if(!isset($ratingkey[33 + $class]) || !isset($rating[$ratingkey[33 + $class]])) {
             return 1;

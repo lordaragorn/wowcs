@@ -47,7 +47,8 @@ else {
                 WoW_Template::SetPageData('page', 'character_profile');
                 WoW_Characters::CalculateStats(true);
                 break;
-            case 'talent3':
+            /*
+            case 'talent':
                 WoW_Template::SetPageIndex('character_talents');
                 WoW_Template::SetPageData('page', 'character_talents');
                 WoW_Template::SetPageData('talents', 'primary');
@@ -55,6 +56,7 @@ else {
                     WoW_Template::SetPageData('talents', 'secondary');
                 }
                 break;
+            */
         }
         
     }

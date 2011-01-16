@@ -379,6 +379,11 @@ World of Warcraft
         $stamina = WoW_Characters::GetCharacterStamina();
         $intellect = WoW_Characters::GetCharacterIntellect();
         $spirit = WoW_Characters::GetCharacterSpirit();
+        $melee_stats = WoW_Characters::GetMeleeStats();
+        $ranged_stats = WoW_Characters::GetRangedStats();
+        $spell = WoW_Characters::GetSpellStats();
+        $defense = WoW_Characters::GetDefenseStats();
+        $resistances = WoW_Characters::GetResistanceStats();
         ?>
 
 	 
@@ -454,7 +459,7 @@ World of Warcraft
 				<a id="summary-stats-simple-arrow" class="summary-stats-simple-arrow" href="javascript:;"></a>
 
 
-	<div class="summary-stats-column" style="display: none">
+	<div class="summary-stats-column" style="<?php echo WoW_Characters::GetRole() != ROLE_MELEE ? 'display: none;' : null; ?>">
 		<h4><?php echo WoW_Locale::GetString('template_profile_melee_stats'); ?></h4>
 		<ul>
 
@@ -464,7 +469,7 @@ World of Warcraft
 
 	<li data-id="meleedamage" class="">
 		<span class="name"><?php echo WoW_Locale::GetString('stat_damage'); ?></span>
-		<span class="value">295 – 437</span>
+		<span class="value"><?php echo sprintf('%d - %d', $melee_stats['damage']['min'], $melee_stats['damage']['max']); ?></span>
 	<span class="clear"><!-- --></span>
 	</li>
 
@@ -473,8 +478,8 @@ World of Warcraft
 	
 
 	<li data-id="meleedps" class="">
-		<span class="name">УВС</span>
-		<span class="value">123,5</span>
+		<span class="name"><?php echo WoW_Locale::GetString('stat_dps'); ?></span>
+		<span class="value"><?php echo $melee_stats['damage']['dps']; ?></span>
 	<span class="clear"><!-- --></span>
 	</li>
 
@@ -484,8 +489,8 @@ World of Warcraft
 
 
 	<li data-id="meleeattackpower" class="">
-		<span class="name">Сила атаки</span>
-		<span class="value">66</span>
+		<span class="name"><?php echo WoW_Locale::GetString('stat_attack_power'); ?></span>
+		<span class="value"><?php echo $melee_stats['attack_power']['effective']; ?></span>
 	<span class="clear"><!-- --></span>
 	</li>
 
@@ -494,8 +499,8 @@ World of Warcraft
 	
 
 	<li data-id="meleespeed" class="">
-		<span class="name">Скорость</span>
-		<span class="value">2,96</span>
+		<span class="name"><?php echo WoW_Locale::GetString('stat_haste'); ?></span>
+		<span class="value"><?php echo $melee_stats['haste_rating']['value']; ?></span>
 	<span class="clear"><!-- --></span>
 	</li>
 
@@ -506,8 +511,8 @@ World of Warcraft
 
 
 	<li data-id="meleehaste" class="">
-		<span class="name">Рейтинг скорости</span>
-		<span class="value">4,54%</span>
+		<span class="name"><?php echo WoW_Locale::GetString('stat_haste_rating'); ?></span>
+		<span class="value"><?php echo $melee_stats['haste_rating']['hastePercent']; ?>%</span>
 	<span class="clear"><!-- --></span>
 	</li>
 
@@ -518,8 +523,8 @@ World of Warcraft
 
 
 	<li data-id="meleehit" class="">
-		<span class="name">Меткость</span>
-		<span class="value">+1,15%</span>
+		<span class="name"><?php echo WoW_Locale::GetString('stat_hit'); ?></span>
+		<span class="value">+<?php echo $melee_stats['hit_rating']['increasedHitPercent']; ?>%</span>
 	<span class="clear"><!-- --></span>
 	</li>
 
@@ -530,8 +535,8 @@ World of Warcraft
 
 
 	<li data-id="meleecrit" class="">
-		<span class="name">Критический удар</span>
-		<span class="value">6,13%</span>
+		<span class="name"><?php echo WoW_Locale::GetString('stat_crit'); ?></span>
+		<span class="value"><?php echo $melee_stats['crit_rating']['percent']; ?>%</span>
 	<span class="clear"><!-- --></span>
 	</li>
 
@@ -540,16 +545,16 @@ World of Warcraft
 	
 
 	<li data-id="expertise" class="">
-		<span class="name">Мастерство</span>
-		<span class="value">0</span>
+		<span class="name"><?php echo WoW_Locale::GetString('stat_expertise'); ?></span>
+		<span class="value"><?php echo $melee_stats['expertise_rating']['value']; ?></span>
 	<span class="clear"><!-- --></span>
 	</li>
 		</ul>
 	</div>
 
 
-	<div class="summary-stats-column" style="display: none">
-		<h4>Дальний бой</h4>
+	<div class="summary-stats-column" style="<?php echo WoW_Characters::GetRole() != ROLE_RANGED ? 'display: none;' : null; ?>">
+		<h4><?php echo WoW_Locale::GetString('template_profile_ranged_stats'); ?></h4>
 		<ul>
 
 	 
@@ -557,8 +562,8 @@ World of Warcraft
 	
 
 	<li data-id="rangeddamage" class="">
-		<span class="name">Урон</span>
-		<span class="value">673 – 1250</span>
+		<span class="name"><?php echo WoW_Locale::GetString('stat_damage'); ?></span>
+		<span class="value"><?php echo sprintf('%s - %d', $ranged_stats['damage']['min'], $ranged_stats['damage']['max']); ?></span>
 	<span class="clear"><!-- --></span>
 	</li>
 
@@ -569,8 +574,8 @@ World of Warcraft
 
 
 	<li data-id="rangeddps" class="">
-		<span class="name">УВС</span>
-		<span class="value">628,5</span>
+		<span class="name"><?php echo WoW_Locale::GetString('stat_dps'); ?></span>
+		<span class="value"><?php echo $ranged_stats['damage']['dps']; ?></span>
 	<span class="clear"><!-- --></span>
 	</li>
 
@@ -580,8 +585,8 @@ World of Warcraft
 
 
 	<li data-id="rangedattackpower" class="">
-		<span class="name">Сила атаки</span>
-		<span class="value">0</span>
+		<span class="name"><?php echo WoW_Locale::GetString('stat_attack_power'); ?></span>
+		<span class="value"><?php echo $ranged_stats['attack_power']['effective']; ?></span>
 	<span class="clear"><!-- --></span>
 	</li>
 
@@ -592,8 +597,8 @@ World of Warcraft
 
 
 	<li data-id="rangedspeed" class="">
-		<span class="name">Скорость</span>
-		<span class="value">1,53</span>
+		<span class="name"><?php echo WoW_Locale::GetString('stat_haste'); ?></span>
+		<span class="value"><?php echo $ranged_stats['haste_rating']['value']; ?></span>
 	<span class="clear"><!-- --></span>
 	</li>
 
@@ -604,8 +609,8 @@ World of Warcraft
 
 
 	<li data-id="rangedhaste" class="">
-		<span class="name">Рейтинг скорости</span>
-		<span class="value">4,54%</span>
+		<span class="name"><?php echo WoW_Locale::GetString('stat_haste_rating'); ?></span>
+		<span class="value"><?php echo $ranged_stats['haste_rating']['hastePercent']; ?>%</span>
 	<span class="clear"><!-- --></span>
 	</li>
 
@@ -616,8 +621,8 @@ World of Warcraft
 
 
 	<li data-id="rangedhit" class="">
-		<span class="name">Меткость</span>
-		<span class="value">+1,15%</span>
+		<span class="name"><?php echo WoW_Locale::GetString('stat_hit'); ?></span>
+		<span class="value">+<?php echo $melee_stats['hit_rating']['increasedHitPercent']; ?>%</span>
 	<span class="clear"><!-- --></span>
 	</li>
 
@@ -628,16 +633,16 @@ World of Warcraft
 
 
 	<li data-id="rangedcrit" class="">
-		<span class="name">Критический удар</span>
-		<span class="value">6,13%</span>
+		<span class="name"><?php echo WoW_Locale::GetString('stat_crit'); ?></span>
+		<span class="value"><?php echo $melee_stats['crit_rating']['percent']; ?>%</span>
 	<span class="clear"><!-- --></span>
 	</li>
 		</ul>
 	</div>
 
 
-	<div class="summary-stats-column">
-		<h4>Заклинания</h4>
+	<div class="summary-stats-column" style="<?php echo WoW_Characters::GetRole() != ROLE_CASTER ? 'display: none;' : null; ?>">
+		<h4><?php echo WoW_Locale::GetString('template_profile_spell_stats'); ?></h4>
 		<ul>
 
 	 
@@ -647,8 +652,8 @@ World of Warcraft
 
 
 	<li data-id="spellpower" class="">
-		<span class="name">Сила заклинаний</span>
-		<span class="value">4037</span>
+		<span class="name"><?php echo WoW_Locale::GetString('stat_spell_power'); ?></span>
+		<span class="value"><?php echo $spell['power']['value']; ?></span>
 	<span class="clear"><!-- --></span>
 	</li>
 
@@ -659,8 +664,8 @@ World of Warcraft
 
 
 	<li data-id="spellhaste" class="">
-		<span class="name">Скорость произнесения заклинаний</span>
-		<span class="value">4,54%</span>
+		<span class="name"><?php echo WoW_Locale::GetString('stat_spell_haste'); ?></span>
+		<span class="value"><?php echo $spell['haste_rating']['hastePercent']; ?>%</span>
 	<span class="clear"><!-- --></span>
 	</li>
 
@@ -671,8 +676,8 @@ World of Warcraft
 
 
 	<li data-id="spellhit" class="">
-		<span class="name">Меткость</span>
-		<span class="value">+1,35%</span>
+		<span class="name"><?php echo WoW_Locale::GetString('stat_hit'); ?></span>
+		<span class="value">+<?php echo $spell['hit_rating']['increasedHitPercent']; ?>%</span>
 	<span class="clear"><!-- --></span>
 	</li>
 
@@ -683,8 +688,8 @@ World of Warcraft
 
 
 	<li data-id="spellcrit" class="">
-		<span class="name">Критический удар</span>
-		<span class="value">8,59%</span>
+		<span class="name"><?php echo WoW_Locale::GetString('stat_crit'); ?></span>
+		<span class="value"><?php echo $spell['crit_rating']['value']; ?>%</span>
 	<span class="clear"><!-- --></span>
 	</li>
 
@@ -695,8 +700,8 @@ World of Warcraft
 
 
 	<li data-id="spellpenetration" class="">
-		<span class="name">Проникающая способность заклинаний</span>
-		<span class="value">0</span>
+		<span class="name"><?php echo WoW_Locale::GetString('stat_spell_penetration'); ?></span>
+		<span class="value"><?php echo $spell['hit_rating']['penetration']; ?></span>
 	<span class="clear"><!-- --></span>
 	</li>
 
@@ -707,8 +712,8 @@ World of Warcraft
 
 
 	<li data-id="manaregen" class="">
-		<span class="name">Восполнение маны</span>
-		<span class="value">2551</span>
+		<span class="name"><?php echo WoW_Locale::GetString('stat_mana_regen'); ?></span>
+		<span class="value"><?php echo $spell['mana_regen']['notCasting']; ?></span>
 	<span class="clear"><!-- --></span>
 	</li>
 
@@ -719,8 +724,8 @@ World of Warcraft
 
 
 	<li data-id="combatregen" class="">
-		<span class="name">Восполнение в бою</span>
-		<span class="value">2397</span>
+		<span class="name"><?php echo WoW_Locale::GetString('stat_combat_regen'); ?></span>
+		<span class="value"><?php echo $spell['mana_regen']['casting']; ?></span>
 	<span class="clear"><!-- --></span>
 	</li>
 		</ul>
@@ -728,7 +733,7 @@ World of Warcraft
 
 
 	<div class="summary-stats-column" style="display: none">
-		<h4>Защита</h4>
+		<h4><?php echo WoW_Locale::GetString('template_profile_defense_stats'); ?></h4>
 		<ul>
 
 	 
@@ -738,8 +743,8 @@ World of Warcraft
 
 
 	<li data-id="armor" class="">
-		<span class="name">Броня</span>
-		<span class="value">7098</span>
+		<span class="name"><?php echo WoW_Locale::GetString('stat_armor'); ?></span>
+		<span class="value"><?php echo $defense['armor']['effective']; ?></span>
 	<span class="clear"><!-- --></span>
 	</li>
 
@@ -750,8 +755,8 @@ World of Warcraft
 
 
 	<li data-id="dodge" class="">
-		<span class="name">Уклонение</span>
-		<span class="value">3,37%</span>
+		<span class="name"><?php echo WoW_Locale::GetString('stat_dodge'); ?></span>
+		<span class="value"><?php echo $defense['dodge']['percent']; ?>%</span>
 	<span class="clear"><!-- --></span>
 	</li>
 
@@ -762,8 +767,8 @@ World of Warcraft
 
 
 	<li data-id="parry" class="">
-		<span class="name">Парирование</span>
-		<span class="value">0,00%</span>
+		<span class="name"><?php echo WoW_Locale::GetString('stat_parry'); ?></span>
+		<span class="value"><?php echo $defense['parry']['percent']; ?>%</span>
 	<span class="clear"><!-- --></span>
 	</li>
 
@@ -774,8 +779,8 @@ World of Warcraft
 
 
 	<li data-id="block" class="">
-		<span class="name">Блокирование</span>
-		<span class="value">0,00%</span>
+		<span class="name"><?php echo WoW_Locale::GetString('stat_block'); ?></span>
+		<span class="value"><?php echo $defense['block']['percent']; ?>%</span>
 	<span class="clear"><!-- --></span>
 	</li>
 
@@ -786,8 +791,8 @@ World of Warcraft
 
 
 	<li data-id="resilience" class="">
-		<span class="name">Устойчивость</span>
-		<span class="value">245</span>
+		<span class="name"><?php echo WoW_Locale::GetString('stat_resilience'); ?></span>
+		<span class="value"><?php echo $defense['resilience']['value']; ?></span>
 	<span class="clear"><!-- --></span>
 	</li>
 		</ul>
@@ -795,7 +800,7 @@ World of Warcraft
 
 
 	<div class="summary-stats-column" style="display: none">
-		<h4>Сопротивление</h4>
+		<h4><?php echo WoW_Locale::GetString('template_profile_resistances_stats'); ?></h4>
 		<ul>
 
 	 
@@ -814,8 +819,8 @@ World of Warcraft
 			<img src="http://eu.battle.net/wow-assets/static/images/icons/18/resist_arcane.jpg" alt="" width="12" height="12" />
 		</span>
 </span>
-		<span class="name">Тайная магия</span>
-		<span class="value">85</span>
+		<span class="name"><?php echo WoW_Locale::GetString('stat_resistance_arcane'); ?></span>
+		<span class="value"><?php echo $resistances['resistance']['arcane']; ?></span>
 	<span class="clear"><!-- --></span>
 	</li>
 
@@ -835,8 +840,8 @@ World of Warcraft
 			<img src="http://eu.battle.net/wow-assets/static/images/icons/18/resist_fire.jpg" alt="" width="12" height="12" />
 		</span>
 </span>
-		<span class="name">Магия огня</span>
-		<span class="value">0</span>
+		<span class="name"><?php echo WoW_Locale::GetString('stat_resistance_fire'); ?></span>
+		<span class="value"><?php echo $resistances['resistance']['fire']; ?></span>
 	<span class="clear"><!-- --></span>
 	</li>
 
@@ -856,8 +861,8 @@ World of Warcraft
 			<img src="http://eu.battle.net/wow-assets/static/images/icons/18/resist_frost.jpg" alt="" width="12" height="12" />
 		</span>
 </span>
-		<span class="name">Магия льда</span>
-		<span class="value">0</span>
+		<span class="name"><?php echo WoW_Locale::GetString('stat_resistance_frost'); ?></span>
+		<span class="value"><?php echo $resistances['resistance']['frost']; ?></span>
 	<span class="clear"><!-- --></span>
 	</li>
 
@@ -877,8 +882,8 @@ World of Warcraft
 			<img src="http://eu.battle.net/wow-assets/static/images/icons/18/resist_nature.jpg" alt="" width="12" height="12" />
 		</span>
 </span>
-		<span class="name">Силы природы</span>
-		<span class="value">0</span>
+		<span class="name"><?php echo WoW_Locale::GetString('stat_resistance_nature'); ?></span>
+		<span class="value"><?php echo $resistances['resistance']['nature']; ?></span>
 	<span class="clear"><!-- --></span>
 	</li>
 
@@ -898,8 +903,8 @@ World of Warcraft
 			<img src="http://eu.battle.net/wow-assets/static/images/icons/18/resist_shadow.jpg" alt="" width="12" height="12" />
 		</span>
 </span>
-		<span class="name">Темная магия</span>
-		<span class="value">0</span>
+		<span class="name"><?php echo WoW_Locale::GetString('stat_resistance_shadow'); ?></span>
+		<span class="value"><?php echo $resistances['resistance']['shadow']; ?></span>
 	<span class="clear"><!-- --></span>
 	</li>
 		</ul>
@@ -923,132 +928,132 @@ World of Warcraft
 			"masteryDescription": "",
 			"averageItemLevelEquipped": <?php echo WoW_Characters::GetAVGEquippedItemLevel(); ?>,
 			"averageItemLevelBest": <?php echo WoW_Characters::GetAVGItemLevel(); ?>,
-			"dmgMainMax": 437,
-			"dmgMainMin": 295,
+			"dmgMainMax": <?php echo $melee_stats['damage']['max']; ?>,
+			"dmgMainMin": <?php echo $melee_stats['damage']['min']; ?>,
 			"resilience_crit": -1,
 			"holyResist": 0,
-			"spellHitRating": 138,
+			"spellHitRating": <?php echo $spell['hit_rating']['value']; ?>,
 			"agiBase": <?php echo $agility['base']; ?>,
-			"rangeAtkPowerBase": 0,
-			"expertiseOffPercent": 0,
-			"critPercent": 6.12911319732666,
-			"dmgOffMin": 5,
+			"rangeAtkPowerBase": <?php echo $ranged_stats['attack_power']['effective']; ?>,
+			"expertiseOffPercent": <?php echo $melee_stats['expertise_rating']['percent']; ?>,
+			"critPercent": <?php echo $melee_stats['crit_rating']['percent']; ?>,
+			"dmgOffMin": 0,
 			"spellDmg_petAp": -1,
 			"agi_armor": <?php echo $agility['armor']; ?>,
-			"rangeCritPercent": 6.12911319732666,
+			"rangeCritPercent": <?php echo $melee_stats['crit_rating']['percent']; // they are the same. ?>,
 			"resistHoly_pet": -1,
-			"dodgeRatingPercent": 0,
-			"parryRating": 0,
-			"parry": 0,
+			"dodgeRatingPercent": <?php echo $defense['dodge']['increasePercent']; ?>,
+			"parryRating": <?php echo $defense['parry']['rating']; ?>,
+			"parry": <?php echo $defense['parry']['percent']; ?>,
 			"rangeBonusWeaponRating": 0,
-			"atkPowerBase": 66,
+			"atkPowerBase": <?php echo $melee_stats['attack_power']['base']; ?>,
 			"str_ap": <?php echo $strength['attack']; ?>,
-			"hitRating": 138,
-			"block_damage": 30,
-			"dmgOffMax": 6,
+			"hitRating": <?php echo $melee_stats['hit_rating']['value']; ?>,
+			"block_damage": <?php echo $defense['block']['percent']; ?>,
+			"dmgOffMax": 0,
 			"masteryRating": 0,
-			"spellCritRating": 480,
+			"spellCritRating": <?php echo $spell['crit_rating']['rating']; ?>,
 			"bonusOffWeaponRating": 0,
-			"resilience_damage": 2.5731260776519775,
-			"resilience": 245,
+			"resilience_damage": <?php echo $defense['resilience']['damagePercent']; ?>,
+			"resilience": <?php echo $defense['resilience']['value']; ?>,
 			"masteryRatingBonus": 0,
 			"expertiseOff": 0,
-			"dmgMainSpeed": 2.9649999141693115,
+			"dmgMainSpeed": <?php echo $melee_stats['damage']['haste']; ?>,
 			"rangeAtkPowerBonus": 0,
 			"expertiseMain": 0,
-			"shadowDamage": 4037,
+			"shadowDamage": <?php echo $spell['power']['value']; ?>,
 			"defensePercent": 0,
-			"rangeHitRating": 138,
-			"blockRating": 0,
+			"rangeHitRating": <?php echo $melee_stats['hit_rating']['value']; ?>,
+			"blockRating": <?php echo $defense['block']['rating']; ?>,
 			"spellDmg_petSpellDmg": -1,
-			"shadowResist": 0,
+			"shadowResist": <?php echo $resistances['resistance']['shadow']; ?>,
 			"armor_petArmor": -1,
-			"block": 0,
-			"dmgOffDps": 2.7257111072540283,
+			"block": <?php echo $defense['block']['percent']; ?>,
+			"dmgOffDps": 0,
 			"resistNature_pet": -1,
-			"dmgRangeMax": 1250,
-			"armorPercent": 21.400144577026367,
+			"dmgRangeMax": <?php echo $ranged_stats['damage']['max']; ?>,
+			"armorPercent": <?php echo $defense['armor']['reductionPercent']; ?>,
 			"resistArcane_pet": -1,
-			"dmgMainDps": 123.50955963134766,
-			"spellHitRatingPercent": 1.3470549583435059,
-			"healing": 4037,
-			"manaRegenPerFive": 2551,
+			"dmgMainDps": <?php echo $melee_stats['damage']['dps']; ?>,
+			"spellHitRatingPercent": <?php echo $spell['hit_rating']['increasedHitPercent']; ?>,
+			"healing": <?php echo $spell['power']['value']; ?>,
+			"manaRegenPerFive": <?php echo $spell['mana_regen']['notCasting']; ?>,
 			"str_block": <?php echo $strength['block']; ?>,
 			"rangeAtkPowerLoss": 0,
-			"dmgRangeDps": 628.5289306640625,
-			"frostCrit": 8.58888053894043,
+			"dmgRangeDps": <?php echo $ranged_stats['damage']['dps']; ?>,
+			"frostCrit": <?php echo $spell['crit_rating']['rating']; ?>,
 			"armorPenetrationPercent": 0,
-			"rangeCritRating": 480,
-			"fireDamage": 4037,
+			"rangeCritRating": <?php echo $melee_stats['crit_rating']['value']; ?>,
+			"fireDamage": <?php echo $spell['power']['value']; ?>,
 			"resistShadow_pet": -1,
-			"shadowCrit": 8.58888053894043,
-			"hasteRating": 582,
-			"rangeHitRatingPercent": 1.1489579677581787,
-			"natureResist": 0,
-			"arcaneDamage": 4037,
+			"shadowCrit": <?php echo $spell['crit_rating']['rating']; ?>,
+			"hasteRating": <?php echo $melee_stats['haste_rating']['hasteRating']; ?>,
+			"rangeHitRatingPercent": <?php echo $melee_stats['hit_rating']['increasedHitPercent']; // they are the same ?>,
+			"natureResist": <?php echo $resistances['resistance']['nature']; ?>,
+			"arcaneDamage": <?php echo $spell['power']['value']; ?>,
 			"intTotal": <?php echo $intellect['effective']; ?>,
 			"expertiseRating": 0,
 			"bonusOffMainWeaponSkill": 0,
-			"expertiseMainPercent": 0,
+			"expertiseMainPercent": <?php echo $melee_stats['expertise_rating']['percent']; ?>,
 			"agiTotal": <?php echo $agility['effective']; ?>,
-			"frostResist": 0,
+			"frostResist": <?php echo $resistances['resistance']['frost']; ?>,
 			"int_mp": <?php echo $intellect['mana']; ?>,
-			"arcaneCrit": 8.58888053894043,
-			"ap_dps": 4.714285850524902,
-			"holyCrit": 8.58888053894043,
+			"arcaneCrit": <?php echo $spell['crit_rating']['rating']; ?>,
+			"ap_dps": <?php echo $melee_stats['attack_power']['increasedDps']; ?>,
+			"holyCrit": <?php echo $spell['crit_rating']['rating']; ?>,
 			"atkPowerLoss": 0,
 			"staBase": <?php echo $stamina['base']; ?>,
 			"bonusMainWeaponSkill": 0,
-			"fireResist": 0,
-			"blockRatingPercent": 0,
-			"natureCrit": 8.58888053894043,
-			"hitRatingPercent": 1.1489579677581787,
-			"sprBase": 196,
+			"fireResist": <?php echo $resistances['resistance']['fire']; ?>,
+			"blockRatingPercent": <?php echo $defense['block']['increasePercent']; ?>,
+			"natureCrit": <?php echo $spell['crit_rating']['rating']; ?>,
+			"hitRatingPercent": <?php echo $melee_stats['hit_rating']['increasedHitPercent']; ?>,
+			"sprBase": <?php echo $spirit['base']; ?>,
 			"agi_ap": <?php echo $agility['attack']; ?>,
-			"dodge": 3.367211103439331,
+			"dodge": <?php echo $defense['dodge']['percent']; ?>,
 			"atkPowerBonus": 0,
 			"int_crit": <?php echo $intellect['hitCritPercent']; ?>,
 			"rap_petSpellDmg": -1,
 			"spr_regen": <?php echo $spirit['manaRegen']; ?>,
-			"mastery": 10.65506362915039,
+			"mastery": 0,
 			"expertiseRatingPercent": 0,
-			"arcaneResist": 85,
+			"arcaneResist": <?php echo $resistances['resistance']['arcane']; ?>,
 			"sprTotal": <?php echo $spirit['effective']; ?>,
-			"manaRegenCombat": 2397,
-			"rangeCritRatingPercent": 2.6773760318756104,
+			"manaRegenCombat": <?php echo $spell['mana_regen']['casting']; ?>,
+			"rangeCritRatingPercent": <?php echo $melee_stats['crit_rating']['percent']; ?>,
 			"resistFrost_pet": -1,
-			"dmgRangeSpeed": 1.5299999713897705,
-			"dodgeRating": 0,
+			"dmgRangeSpeed": <?php echo $ranged_stats['damage']['haste']; ?>,
+			"dodgeRating": <?php echo $defense['dodge']['rating']; ?>,
 			"bonusMainWeaponRating": 0,
 			"intBase": <?php echo $intellect['base']; ?>,
-			"hasteRatingPercent": 4.544846057891846,
-			"frostDamage": 4037,
+			"hasteRatingPercent": <?php echo $melee_stats['haste_rating']['hastePercent']; ?>,
+			"frostDamage": <?php echo $spell['power']['value']; ?>,
 			"agi_crit": <?php echo $agility['hitCritPercent']; ?>,
 			"sta_hp": <?php echo $stamina['health']; ?>,
 			"strBase": <?php echo $strength['base']; ?>,
-			"armorTotal": 7098,
-			"critRatingPercent": 2.6773760318756104,
-			"rangeHasteRatingPercent": 4.544846057891846,
+			"armorTotal": <?php echo $defense['armor']['effective']; ?>,
+			"critRatingPercent": <?php echo $melee_stats['crit_rating']['percent']; ?>,
+			"rangeHasteRatingPercent": <?php echo $melee_stats['haste_rating']['hastePercent']; ?>,
 			"rangeBonusWeaponSkill": 0,
 			"sta_petSta": <?php echo $stamina['petBonus']; ?>,
-			"spellCritRatingPercent": 2.6773760318756104,
-			"dmgRangeMin": 673,
-			"rangeHasteRating": 582,
-			"armorBase": 7098,
-			"critRating": 480,
-			"spellCritPercent": 8.58888053894043,
+			"spellCritRatingPercent": <?php echo $spell['crit_rating']['value']; ?>,
+			"dmgRangeMin": <?php echo $ranged_stats['damage']['min']; ?>,
+			"rangeHasteRating": <?php echo $melee_stats['haste_rating']['value']; ?>,
+			"armorBase": <?php echo $defense['armor']['base']; ?>,
+			"critRating": <?php echo $melee_stats['crit_rating']['value']; ?>,
+			"spellCritPercent": <?php echo $spell['crit_rating']['value']; ?>,
 			"armorPenetration": 0,
-			"dmgOffSpeed": 1.9129999876022339,
+			"dmgOffSpeed": 0,
 			"resistFire_pet": -1,
 			"defense": 0,
-			"spellPenetration": 0,
+			"spellPenetration": <?php echo $spell['hit_rating']['penetration']; ?>,
 			"strTotal": <?php echo $strength['effective']; ?>,
-			"parryRatingPercent": 0,
+			"parryRatingPercent": <?php echo $defense['parry']['increasePercent']; ?>,
 			"staTotal": <?php echo $stamina['effective']; ?>,
 			"rap_petAp": -1,
-			"fireCrit": 8.58888053894043,
-			"natureDamage": 4037,
-			"holyDamage": 4037,
+			"fireCrit": <?php echo $spell['crit_rating']['rating']; ?>,
+			"natureDamage": <?php echo $spell['power']['value']; ?>,
+			"holyDamage": <?php echo $spell['power']['value']; ?>,
             "foo": true
 });
 		});
@@ -1062,7 +1067,7 @@ World of Warcraft
 	<ul>
 		<li class="rating"><span class="name">Рейтинг на полях боя</span><span class="value">0</span>	<span class="clear"><!-- --></span>
 </li>
-		<li class="kills"><span class="name">Почетные победы</span><span class="value">11852</span>	<span class="clear"><!-- --></span>
+		<li class="kills"><span class="name">Почетные победы</span><span class="value"><?php echo WoW_Characters::GetTotalKills(); ?></span>	<span class="clear"><!-- --></span>
 </li>
 	</ul>
 							</div>
@@ -1132,10 +1137,6 @@ World of Warcraft
 					
 
 	<span class="clear"><!-- --></span>
-
-				<div class="summary-lastupdate">
-					Последнее обновление 09/01/2011
-				</div>
 
 			</div>
 

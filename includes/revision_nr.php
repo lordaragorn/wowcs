@@ -18,6 +18,6 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  **/
 
-define('WOW_REVISION', '1');
+define('WOW_REVISION', 2);
 define('DB_VERSION', '1');
 ?>

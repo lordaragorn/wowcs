@@ -68,6 +68,9 @@ Class WoW_Characters /*implements Interface_Characters*/ {
     private static $talent_points  = array(); // Talent Points (e.g., 51/15/5)
     private static $stats_holder   = array();
     private static $rating         = array();
+    private static $info_stats     = array();
+    private static $fullTalentData = array();
+    private static $role           = 0;
     
     /**
      * Loads character data
@@ -280,6 +283,7 @@ Class WoW_Characters /*implements Interface_Characters*/ {
         if(!self::IsInventoryLoaded()) {
             if(!self::LoadInventory(true)) {
                 self::$item_level = array('avgEquipped' => 0, 'avg' => 0);
+                return true;
             }
         }
         $total_iLvl = 0;
@@ -993,10 +997,11 @@ Class WoW_Characters /*implements Interface_Characters*/ {
                 $talent_spec[$i]['roles'] = null;
             }
         }
-        return array(
+        self::$fullTalentData = array(
             'build' => self::$talent_build,
             'specsData' => $specsData
         );
+        return self::$fullTalentData;
     }
     
     /************************
@@ -1004,38 +1009,38 @@ Class WoW_Characters /*implements Interface_Characters*/ {
     ************************/
     
     public static function GetCharacterStrength() {
-        if(!isset(self::$stats_holder['strength'])) {
+        if(!isset(self::$stats_holder['base_stats']['strength'])) {
             self::CalculateCharacterStrength(true);
         }
-        return self::$stats_holder['strength'];
+        return self::$stats_holder['base_stats']['strength'];
     }
     
     public static function GetCharacterAgility() {
-        if(!isset(self::$stats_holder['agility'])) {
+        if(!isset(self::$stats_holder['base_stats']['agility'])) {
             self::CalculateCharacterAgility(true);
         }
-        return self::$stats_holder['agility'];
+        return self::$stats_holder['base_stats']['agility'];
     }
     
     public static function GetCharacterStamina() {
-        if(!isset(self::$stats_holder['stamina'])) {
+        if(!isset(self::$stats_holder['base_stats']['stamina'])) {
             self::CalculateCharacterStamina(true);
         }
-        return self::$stats_holder['stamina'];
+        return self::$stats_holder['base_stats']['stamina'];
     }
     
     public static function GetCharacterIntellect() {
-        if(!isset(self::$stats_holder['intellect'])) {
+        if(!isset(self::$stats_holder['base_stats']['intellect'])) {
             self::CalculateCharacterIntellect(true);
         }
-        return self::$stats_holder['intellect'];
+        return self::$stats_holder['base_stats']['intellect'];
     }
     
     public static function GetCharacterSpirit() {
-        if(!isset(self::$stats_holder['spirit'])) {
+        if(!isset(self::$stats_holder['base_stats']['spirit'])) {
             self::CalculateCharacterSpirit(true);
         }
-        return self::$stats_holder['spirit'];
+        return self::$stats_holder['base_stats']['spirit'];
     }
     
     private static function SetRating() {
@@ -1071,7 +1076,19 @@ Class WoW_Characters /*implements Interface_Characters*/ {
             return false;
         }
         self::CalculateBaseStats($recalculate);
+        self::CalculateMeleeStats($recalculate);
     }
+    
+    private static function UpdateStatsInfo($stat_type, $value) {
+        self::$info_stats[$stat_type] = $value;
+        return true;
+    }
+    
+    private static function GetStatsInfo($stat_type) {
+        return isset(self::$info_stats[$stat_type]) ? self::$info_stats[$stat_type] : false;
+    }
+    
+    /* Base stats */
     
     private static function CalculateBaseStats($recalculate = false) {
         if(!self::IsCorrect()) {
@@ -1079,11 +1096,13 @@ Class WoW_Characters /*implements Interface_Characters*/ {
             return false;
         }
         self::SetRating(); // Load rating definitions for class.
+        self::UpdateStatsInfo('base_stats', false);
         self::CalculateCharacterStrength($recalculate);
         self::CalculateCharacterAgility($recalculate);
         self::CalculateCharacterStamina($recalculate);
         self::CalculateCharacterIntellect($recalculate);
         self::CalculateCharacterSpirit($recalculate);
+        self::UpdateStatsInfo('base_stats', true);
         return true;
     }
     
@@ -1092,16 +1111,16 @@ Class WoW_Characters /*implements Interface_Characters*/ {
             WoW_Log::WriteError('%s : character was not found.', __METHOD__);
             return false;
         }
-        if(isset(self::$stats_holder['strength']) && !$recalculate) {
+        if(isset(self::$stats_holder['base_stats']['strength']) && !$recalculate) {
             return true;
         }
-        self::$stats_holder['strength'] = array(
+        self::$stats_holder['base_stats']['strength'] = array(
             'effective' => self::GetStat(STAT_STRENGTH),
             'attack'    => WoW_Utils::GetAttackPowerForStat(STAT_STRENGTH, self::GetStat(STAT_STRENGTH), self::GetClassID()),
             'base'      => self::GetStat(STAT_STRENGTH) - WoW_Utils::GetFloatValue(self::GetPosStat(STAT_STRENGTH), 0) - WoW_Utils::GetFloatValue(self::GetNegStat(STAT_STRENGTH), 0),
             'block'     => (in_array(self::GetClassID(), array(CLASS_WARRIOR, CLASS_PALADIN, CLASS_SHAMAN))) ? max(0, self::GetStat(STAT_STRENGTH) * BLOCK_PER_STRENGTH - 10) : -1
         );
-        return self::$stats_holder['strength'];
+        return true;
     }
     
     private static function CalculateCharacterAgility($recalculate = false) {
@@ -1109,10 +1128,10 @@ Class WoW_Characters /*implements Interface_Characters*/ {
             WoW_Log::WriteError('%s : character was not found.', __METHOD__);
             return false;
         }
-        if(isset(self::$stats_holder['agility']) && !$recalculate) {
+        if(isset(self::$stats_holder['base_stats']['agility']) && !$recalculate) {
             return true;
         }
-        self::$stats_holder['agility'] = array(
+        self::$stats_holder['base_stats']['agility'] = array(
             'armor'          => self::GetStat(STAT_AGILITY) * ARMOR_PER_AGILITY,
             'attack'         => WoW_Utils::GetAttackPowerForStat(STAT_AGILITY, self::GetStat(STAT_AGILITY), self::GetClassID()),
             'base'           => self::GetStat(STAT_AGILITY) - WoW_Utils::GetFloatValue(self::GetPosStat(STAT_AGILITY), 0) - WoW_Utils::GetFloatValue(self::GetNegStat(STAT_AGILITY), 0),
@@ -1127,15 +1146,15 @@ Class WoW_Characters /*implements Interface_Characters*/ {
             WoW_Log::WriteError('%s : character was not found.', __METHOD__);
             return false;
         }
-        if(isset(self::$stats_holder['stamina']) && !$recalculate) {
+        if(isset(self::$stats_holder['base_stats']['stamina']) && !$recalculate) {
             return true;
         }
-        self::$stats_holder['stamina'] = array(
+        self::$stats_holder['base_stats']['stamina'] = array(
             'base'      => self::GetStat(STAT_STAMINA) - WoW_Utils::GetFloatValue(self::GetPosStat(STAT_STAMINA), 0) - WoW_Utils::GetFloatValue(self::GetNegStat(STAT_STAMINA), 0),
             'effective' => self::GetStat(STAT_STAMINA)
         );
-        self::$stats_holder['stamina']['health'] = self::$stats_holder['stamina']['base'] + ((self::GetStat(STAT_STAMINA) - min(20, self::GetStat(STAT_STAMINA))) * HEALTH_PER_STAMINA);
-        self::$stats_holder['stamina']['petBonus'] = WoW_Utils::ComputePetBonus(STAT_STAMINA, self::GetStat(STAT_STAMINA), self::GetClassID());
+        self::$stats_holder['base_stats']['stamina']['health'] = self::$stats_holder['base_stats']['stamina']['base'] + ((self::GetStat(STAT_STAMINA) - min(20, self::GetStat(STAT_STAMINA))) * HEALTH_PER_STAMINA);
+        self::$stats_holder['base_stats']['stamina']['petBonus'] = WoW_Utils::ComputePetBonus(STAT_STAMINA, self::GetStat(STAT_STAMINA), self::GetClassID());
         return true;
     }
     
@@ -1144,12 +1163,12 @@ Class WoW_Characters /*implements Interface_Characters*/ {
             WoW_Log::WriteError('%s : character was not found.', __METHOD__);
             return false;
         }
-        if(isset(self::$stats_holder['intellect']) && !$recalculate) {
+        if(isset(self::$stats_holder['base_stats']['intellect']) && !$recalculate) {
             return true;
         }
         $base_intellect = min(20, self::GetStat(STAT_INTELLECT));
         $more_intellect = self::GetStat(STAT_INTELLECT) - $base_intellect;
-        self::$stats_holder['intellect'] = array(
+        self::$stats_holder['base_stats']['intellect'] = array(
             'base'           => self::GetStat(STAT_INTELLECT) - WoW_Utils::GetFloatValue(self::GetPosStat(STAT_INTELLECT), 0) - WoW_Utils::GetFloatValue(self::GetNegStat(STAT_INTELLECT), 0),
             'hitCritPercent' => self::IsManaUser() ? round(WoW_Utils::GetSpellCritChanceFromIntellect(self::$rating, self::GetClassID(), self::GetStat(STAT_INTELLECT)), 2) : -1,
             'effective'      => self::GetStat(STAT_INTELLECT),
@@ -1164,7 +1183,7 @@ Class WoW_Characters /*implements Interface_Characters*/ {
             WoW_Log::WriteError('%s : character was not found.', __METHOD__);
             return false;
         }
-        if(isset(self::$stats_holder['spirit']) && !$recalculate) {
+        if(isset(self::$stats_holder['base_stats']['spirit']) && !$recalculate) {
             return true;
         }
         $baseRatio = array(0, 0.625, 0.2631, 0.2, 0.3571, 0.1923, 0.625, 0.1724, 0.1212, 0.1282, 1, 0.1389);
@@ -1172,13 +1191,637 @@ Class WoW_Characters /*implements Interface_Characters*/ {
         $more_spirit = self::GetStat(STAT_SPIRIT) - $base_spirit;
         $healthRegen = floor($base_spirit * $baseRatio[self::GetClassID()] + $more_spirit * WoW_Utils::GetHRCoefficient(self::$rating, self::GetClassID()));
         $manaRegen = self::IsManaUser() ? floor(sqrt(self::GetStat(STAT_INTELLECT) * self::GetStat(STAT_SPIRIT) * WoW_Utils::GetMRCoefficient(self::$rating, self::GetClassID())) * 5) : -1;
-        self::$stats_holder['spirit'] = array(
+        self::$stats_holder['base_stats']['spirit'] = array(
             'base'        => self::GetStat(STAT_SPIRIT) - WoW_Utils::GetFloatValue(self::GetPosStat(STAT_SPIRIT), 0) - WoW_Utils::GetFloatValue(self::GetNegStat(STAT_SPIRIT), 0),
             'effective'   => self::GetStat(STAT_SPIRIT),
             'healthRegen' => $healthRegen,
             'manaRegen'   => $manaRegen
         );
         return true;
+    }
+    
+    /* Melee stats */
+    
+    private static function CalculateMeleeStats($recalculate = false) {
+        if(!self::IsCorrect()) {
+            WoW_Log::WriteError('%s : character was not found.', __METHOD__);
+            return false;
+        }
+        self::SetRating(); // Load rating definitions for class.
+        self::UpdateStatsInfo('melee_stats', false);
+        self::CalculateMeleeDamage($recalculate);
+        self::CalculateMeleeAttackPower($recalculate);
+        self::CalculateMeleeHasteRating($recalculate);
+        self::CalculateMeleeHitRating($recalculate);
+        self::CalculateMeleeCritRating($recalculate);
+        self::CalculateMeleeExpertiseRating($recalculate);
+        self::UpdateStatsInfo('melee_stats', true);
+        return true;
+    }
+    
+    public static function GetMeleeStats() {
+        if(!self::IsCorrect()) {
+            WoW_Log::WriteError('%s : character was not found.', __METHOD__);
+            return false;
+        }
+        if(!self::GetStatsInfo('melee_stats')) {
+            self::CalculateMeleeStats(true);
+        }
+        return self::$stats_holder['melee'];
+    }
+    
+    private static function CalculateMeleeDamage($recalculate = false) {
+        if(!self::IsCorrect()) {
+            WoW_Log::WriteError('%s : character was not found.', __METHOD__);
+            return false;
+        }
+        if(isset(self::$stats_holder['melee']['damage']) && !$recalculate) {
+            return true;
+        }
+        $min = WoW_Utils::GetFloatValue(self::GetDataField(UNIT_FIELD_MINDAMAGE), 0);
+        $max = WoW_Utils::GetFloatValue(self::GetDataField(UNIT_FIELD_MAXDAMAGE), 0);
+        $haste = round(WoW_Utils::GetFloatValue(self::GetDataField(UNIT_FIELD_BASEATTACKTIME), 2) / 1000, 2);
+        if($haste < 0.1) {
+            $haste = 0.1;
+        }
+        $damage = ($min + $max) * 0.5;
+        $dps = round((max($damage, 1) / $haste), 1);
+        self::$stats_holder['melee']['damage'] = array(
+            'min' => $min,
+            'max' => $max,
+            'dps' => $dps,
+            'haste' => $haste
+        );
+        return true;
+    }
+    
+    private static function CalculateMeleeAttackPower($recalculate = false) {
+        if(!self::IsCorrect()) {
+            WoW_Log::WriteError('%s : character was not found.', __METHOD__);
+            return false;
+        }
+        if(isset(self::$stats_holder['melee']['attack_power']) && !$recalculate) {
+            return true;
+        }
+        $multipler = WoW_Utils::GetFloatValue(self::GetDataField(UNIT_FIELD_ATTACK_POWER_MULTIPLIER), 8);
+        if($multipler < 0) {
+            $multipler = 0;
+        }
+        else {
+            $multipler += 1;
+        }
+        $base = self::GetDataField(UNIT_FIELD_ATTACK_POWER) * $multipler;
+        $effective = $base + (self::GetDataField(UNIT_FIELD_ATTACK_POWER_MODS) * $multipler);
+        self::$stats_holder['melee']['attack_power'] = array(
+            'base' => $base,
+            'effective' => $effective,
+            'increasedDps' => floor(max($effective, 0) / 14)
+        );
+        return true;
+    }
+    
+    private static function CalculateMeleeHasteRating($recalculate = false) {
+        if(!self::IsCorrect()) {
+            WoW_Log::WriteError('%s : character was not found.', __METHOD__);
+            return false;
+        }
+        if(isset(self::$stats_holder['melee']['haste_rating']) && !$recalculate) {
+            return true;
+        }
+        self::$stats_holder['melee']['haste_rating'] = array(
+            'value' => round(WoW_Utils::GetFloatValue(self::GetDataField(UNIT_FIELD_BASEATTACKTIME), 2) / 1000, 2),
+            'hasteRating' => self::GetDataField(PLAYER_FIELD_COMBAT_RATING_1 + 17),
+            'hastePercent' => round(self::GetDataField(PLAYER_FIELD_COMBAT_RATING_1 + 17) / WoW_Utils::GetRatingCoefficient(self::$rating, 19), 2)
+        );
+        return true;
+    }
+    
+    private static function CalculateMeleeHitRating($recalculate = false) {
+        if(!self::IsCorrect()) {
+            WoW_Log::WriteError('%s : character was not found.', __METHOD__);
+            return false;
+        }
+        if(isset(self::$stats_holder['melee']['hit_rating']) && !$recalculate) {
+            return true;
+        }
+        self::$stats_holder['melee']['hit_rating'] = array(
+            'value' => self::GetDataField(PLAYER_FIELD_COMBAT_RATING_1 + 5),
+            'increasedHitPercent' => floor(self::GetDataField(PLAYER_FIELD_COMBAT_RATING_1 + 5) / WoW_Utils::GetRatingCoefficient(self::$rating, 6))
+        );
+        return true;
+    }
+    
+    private static function CalculateMeleeCritRating($recalculate = false) {
+        if(!self::IsCorrect()) {
+            WoW_Log::WriteError('%s : character was not found.', __METHOD__);
+            return false;
+        }
+        if(isset(self::$stats_holder['melee']['crit_rating']) && !$recalculate) {
+            return true;
+        }
+        self::$stats_holder['melee']['crit_rating'] = array(
+            'value' => self::GetDataField(PLAYER_FIELD_COMBAT_RATING_1 + 8),
+            'percent' => WoW_Utils::GetFloatValue(self::GetDataField(PLAYER_CRIT_PERCENTAGE), 2),
+            'plusPercent' => floor(self::GetDataField(PLAYER_FIELD_COMBAT_RATING_1 + 8) / WoW_Utils::GetRatingCoefficient(self::$rating, 9))
+        );
+        return true;
+    }
+    
+    private static function CalculateMeleeExpertiseRating($recalculate = false) {
+        if(!self::IsCorrect()) {
+            WoW_Log::WriteError('%s : character was not found.', __METHOD__);
+            return false;
+        }
+        if(isset(self::$stats_holder['melee']['expertise_rating']) && !$recalculate) {
+            return true;
+        }
+        self::$stats_holder['melee']['expertise_rating'] = array(
+            'value' => self::GetDataField(PLAYER_EXPERTISE),
+            'percent' => self::GetDataField(PLAYER_EXPERTISE) * 0.25,
+        );
+    }
+    
+    /* Ranged stats */
+    
+    private static function CalculateRangedStats($recalculate = false) {
+        if(!self::IsCorrect()) {
+            WoW_Log::WriteError('%s : character was not found.', __METHOD__);
+            return false;
+        }
+        self::SetRating();
+        self::UpdateStatsInfo('ranged_stats', false);
+        self::CalculateRangedCritRating($recalculate);
+        self::CalculateRangedHitRating($recalculate);
+        self::CalculateRangedHasteRating($recalculate);
+        self::CalculateRangedAttackPower($recalculate);
+        self::CalculateRangedDamage($recalculate);
+        self::UpdateStatsInfo('ranged_stats', true);
+        return true;
+    }
+    
+    public static function GetRangedStats() {
+        if(!self::IsCorrect()) {
+            WoW_Log::WriteError('%s : character was not found.', __METHOD__);
+            return false;
+        }
+        if(!self::GetStatsInfo('ranged_stats')) {
+            self::CalculateRangedStats(true);
+        }
+        return self::$stats_holder['ranged'];
+    }
+    
+    private static function CalculateRangedDamage($recalculate = false) {
+        if(!self::IsCorrect()) {
+            WoW_Log::WriteError('%s : character was not found.', __METHOD__);
+            return false;
+        }
+        if(isset(self::$stats_holder['ranged']['damage']) && !$recalculate) {
+            return true;
+        }
+        $rangedSkillID = WoW_Utils::GetSkillIDFromItemID(self::GetDataField(PLAYER_VISIBLE_ITEM_18_ENTRYID));
+        if($rangedSkillID == SKILL_UNARMED) {
+            self::$stats_holder['ranged']['damage'] = array(
+                'min' => 0,
+                'max' => 0,
+                'haste' => 0,
+                'dps' => 0
+            );
+            return true;
+        }
+        $min = WoW_Utils::GetFloatValue(self::GetDataField(UNIT_FIELD_MINRANGEDDAMAGE), 0);
+        $max = WoW_Utils::GetFloatValue(self::GetDataField(UNIT_FIELD_MAXRANGEDDAMAGE), 0);
+        $haste = round(WoW_Utils::GetFloatValue(self::GetDataField(UNIT_FIELD_RANGEDATTACKTIME), 2) / 100, 2);
+        $dps = ($min + $max) * 0.5;
+        if($haste < 0.1) {
+            $haste = 0.1;
+        }
+        $dps = round((max($dps, 1) / $haste));
+        self::$stats_holder['ranged']['damage'] = array(
+            'min' => $min,
+            'max' => $max,
+            'haste' => $haste,
+            'dps' => $dps
+        );
+        return true;
+    }
+    
+    private static function CalculateRangedAttackPower($recalculate = false) {
+        if(!self::IsCorrect()) {
+            WoW_Log::WriteError('%s : character was not found.', __METHOD__);
+            return false;
+        }
+        if(isset(self::$stats_holder['ranged']['attack_power']) && !$recalculate) {
+            return true;
+        }
+        $multipler = WoW_Utils::GetFloatValue(self::GetDataField(UNIT_FIELD_RANGED_ATTACK_POWER_MULTIPLIER), 8);
+        if($multipler < 0) {
+            $multipler = 0;
+        }
+        else {
+            $multipler += 1;
+        }
+        $effective = self::GetDataField(UNIT_FIELD_RANGED_ATTACK_POWER) * $multipler;
+        $buff = self::GetDataField(UNIT_FIELD_RANGED_ATTACK_POWER_MODS) * $multipler;
+        $multiple = WoW_Utils::GetFloatValue(self::GetDataField(UNIT_FIELD_RANGED_ATTACK_POWER_MULTIPLIER), 2);
+        $posBuff = 0;
+        $negBuff = 0;
+        if($buff > 0) {
+            $posBuff = $buff;
+        }
+        elseif($buff < 0) {
+            $negBuff = $buff;
+        }
+        $stat = $effective + $buff;
+        self::$stats_holder['ranged']['attack_power'] = array(
+            'base' => floor($effective),
+            'effective' => floor($stat),
+            'increasedDps' => floor(max($stat, 0) / 14),
+            'petAttack' => floor(WoW_Utils::ComputePetBonus(0, $stat, self::GetClassID())),
+            'petSpell' => floor(WoW_Utils::ComputePetBonus(1, $stat, self::GetClassID()))
+        );
+        return true;
+    }
+    
+    private static function CalculateRangedHasteRating($recalculate = false) {
+        if(!self::IsCorrect()) {
+            WoW_Log::WriteError('%s : character was not found.', __METHOD__);
+            return false;
+        }
+        if(isset(self::$stats_holder['ranged']['haste_rating']) && !$recalculate) {
+            return true;
+        }
+        $rangedSkillID = WoW_Utils::GetSkillIDFromItemID(self::GetDataField(PLAYER_VISIBLE_ITEM_18_ENTRYID));
+        if($rangedSkillID == SKILL_UNARMED) {
+            self::$stats_holder['ranged']['haste_rating'] = array(
+                'value' => 0,
+                'hasteRating' => 0,
+                'hastePercent' => 0
+            );
+            return true;
+        }
+        self::$stats_holder['ranged']['haste_rating'] = array(
+            'value' => round(WoW_Utils::GetFloatValue(self::GetDataField(UNIT_FIELD_RANGEDATTACKTIME), 2) / 1000, 2),
+            'hasteRating' => round(self::GetDataField(PLAYER_FIELD_COMBAT_RATING_1 + 18)),
+            'hastePercent' => round((round(self::GetDataField(PLAYER_FIELD_COMBAT_RATING_1 + 18))) / WoW_Utils::GetRatingCoefficient(self::$rating, 19), 2)
+        );
+        return true;
+    }
+    
+    private static function CalculateRangedHitRating($recalculate = false) {
+        if(!self::IsCorrect()) {
+            WoW_Log::WriteError('%s : character was not found.', __METHOD__);
+            return false;
+        }
+        if(isset(self::$stats_holder['melee']['hit_rating'])) {
+            // Melee hit & ranged hit are equal.
+            return true;
+        }
+        self::CalculateMeleeHitRating($recalculate);
+        return true;
+    }
+    
+    private static function CalculateRangedCritRating($recalculate = false) {
+        if(!self::IsCorrect()) {
+            WoW_Log::WriteError('%s : character was not found.', __METHOD__);
+            return false;
+        }
+        if(isset(self::$stats_holder['melee']['crit_rating'])) {
+            // Melee crit & ranged crit are equal.
+            return true;
+        }
+        self::CalculateMeleeCritRating($recalculate);
+        return true;
+    }
+    
+    /* Spell stats */
+    
+    private static function CalculateSpellStats($recalculate = false) {
+        if(!self::IsCorrect()) {
+            WoW_Log::WriteError('%s : character was not found.', __METHOD__);
+            return false;
+        }
+        self::SetRating();
+        self::UpdateStatsInfo('spell_stats', false);
+        self::CalculateSpellPower($recalculate);
+        self::CalculateSpellHasteRating($recalculate);
+        self::CalculateSpellHitRating($recalculate);
+        self::CalculateSpellCritRating($recalculate);
+        self::CalculateManaRegeneration($recalculate);
+        self::UpdateStatsInfo('spell_stats', true);
+        return true;
+    }
+    
+    public static function GetSpellStats() {
+        if(!self::IsCorrect()) {
+            WoW_Log::WriteError('%s : character was not found.', __METHOD__);
+            return false;
+        }
+        if(!self::GetStatsInfo('spell_stats')) {
+            self::CalculateSpellStats(true);
+        }
+        return self::$stats_holder['spell'];
+    }
+    
+    private static function CalculateSpellPower($recalculate = false) {
+        if(!self::IsCorrect()) {
+            WoW_Log::WriteError('%s : character was not found.', __METHOD__);
+            return false;
+        }
+        if(isset(self::$stats_holder['spell']['power']) && !$recalculate) {
+            return true;
+        }
+        self::$stats_holder['spell']['power'] = array(
+            'value' => self::GetDataField(PLAYER_FIELD_MOD_HEALING_DONE_POS)
+        );
+        return true;
+    }
+    
+    private static function CalculateSpellHasteRating($recalculate = false) {
+        if(!self::IsCorrect()) {
+            WoW_Log::WriteError('%s : character was not found.', __METHOD__);
+            return false;
+        }
+        if(isset(self::$stats_holder['spell']['haste_rating']) && !$recalculate) {
+            return true;
+        }
+        self::$stats_holder['spell']['haste_rating'] = array(
+            'hasteRating' => self::GetDataField(PLAYER_FIELD_COMBAT_RATING_1 + 19),
+            'hastePercent' => round((self::GetDataField(PLAYER_FIELD_COMBAT_RATING_1 + 19)) / WoW_Utils::GetRatingCoefficient(self::$rating, 20), 2)
+        );
+        return true;
+    }
+    
+    private static function CalculateSpellHitRating($recalculate = false) {
+        if(!self::IsCorrect()) {
+            WoW_Log::WriteError('%s : character was not found.', __METHOD__);
+            return false;
+        }
+        if(isset(self::$stats_holder['spell']['hit_rating']) && !$recalculate) {
+            return true;
+        }
+        self::$stats_holder['spell']['hit_rating'] = array(
+            'value' => self::GetDataField(PLAYER_FIELD_COMBAT_RATING_1 + 7),
+            'increasedHitPercent' => floor((self::GetDataField(PLAYER_FIELD_COMBAT_RATING_1 + 7)) / WoW_Utils::GetRatingCoefficient(self::$rating, 8)),
+            'penetration' => self::GetDataField(PLAYER_FIELD_MOD_TARGET_RESISTANCE)
+        );
+        return true;
+    }
+    
+    private static function CalculateSpellCritRating($recalculate = false) {
+        if(!self::IsCorrect()) {
+            WoW_Log::WriteError('%s : character was not found.', __METHOD__);
+            return false;
+        }
+        if(isset(self::$stats_holder['spell']['crit_rating']) && !$recalculate) {
+            return true;
+        }
+        self::$stats_holder['spell']['crit_rating'] = array(
+            'rating' => self::GetDataField(PLAYER_FIELD_COMBAT_RATING_1 + 10),
+            'spell_crit_pct' => self::GetDataField(PLAYER_FIELD_COMBAT_RATING_1 + 10) / WoW_Utils::GetRatingCoefficient(self::$rating, 11),
+            'value' => WoW_Utils::GetFloatValue(self::GetDataField(PLAYER_SPELL_CRIT_PERCENTAGE1 + 1), 2)
+        );
+        return true;
+    }
+    
+    private static function CalculateManaRegeneration($recalculate = false) {
+        if(!self::IsCorrect()) {
+            WoW_Log::WriteError('%s : character was not found.', __METHOD__);
+            return false;
+        }
+        if(isset(self::$stats_holder['spell']['mana_regen']) && !$recalculate) {
+            return true;
+        }
+        $notCasting = self::GetDataField(UNIT_FIELD_POWER_REGEN_FLAT_MODIFIER);
+        $casting = self::GetDataField(UNIT_FIELD_POWER_REGEN_INTERRUPTED_FLAT_MODIFIER);
+        self::$stats_holder['spell']['mana_regen'] = array(
+            'notCasting' => floor(WoW_Utils::GetFloatValue($notCasting, 2) * 5),
+            'casting' => round(WoW_Utils::GetFloatValue($casting, 2) * 5, 2)
+        );
+        return true;
+    }
+    
+    /* Defense Stats */
+    
+    private static function CalculateDefenseStats($recalculate = false) {
+        if(!self::IsCorrect()) {
+            WoW_Log::WriteError('%s : character was not found.', __METHOD__);
+            return false;
+        }
+        self::SetRating();
+        self::UpdateStatsInfo('defense_stats', false);
+        self::CalculateArmor($recalculate);
+        self::CalculateDodge($recalculate);
+        self::CalculateParry($recalculate);
+        self::CalculateBlock($recalculate);
+        self::CalculateResilience($recalculate);
+        self::UpdateStatsInfo('defense_stats', true);
+        return true;
+    }
+    
+    public static function GetDefenseStats() {
+        if(!self::IsCorrect()) {
+            WoW_Log::WriteError('%s : character was not found.', __METHOD__);
+            return false;
+        }
+        if(!self::GetStatsInfo('defense_stats')) {
+            self::CalculateDefenseStats(true);
+        }
+        return self::$stats_holder['defense'];
+    }
+    
+    private static function CalculateArmor($recalculate = false) {
+        if(!self::IsCorrect()) {
+            WoW_Log::WriteError('%s : character was not found.', __METHOD__);
+            return false;
+        }
+        if(isset(self::$stats_holder['defense']['armor']) && !$recalculate) {
+            return true;
+        }
+        $effective = self::GetDataField(UNIT_FIELD_RESISTANCES);
+        $bonus_armor = WoW_Utils::GetFloatValue(self::GetDataField(UNIT_FIELD_RESISTANCEBUFFMODSPOSITIVE), 0);
+        $negative_armor = WoW_Utils::GetFloatValue(self::GetDataField(UNIT_FIELD_RESISTANCEBUFFMODSNEGATIVE), 0);
+        $base = $effective - $bonus_armor - $negative_armor;
+        $levelModifier = 0;
+        if(self::GetLevel() > 59) {
+            $levelModifier = self::GetLevel() + (4.5 * (self::GetLevel() - 59));
+        }
+        $reductionPercent = 0.1 * $effective / (8.5 * $levelModifier + 40);
+        $reductionPercent = round($reductionPercent / (1 + $reductionPercent) * 100, 2);
+        if($reductionPercent > 75) {
+            $reductionPercent = 75;
+        }
+        if($reductionPercent < 0) {
+            $reductionPercent = 0;
+        }
+        self::$stats_holder['defense']['armor'] = array(
+            'base' => $base,
+            'effective' => $effective,
+            'reductionPercent' => $reductionPercent
+        );
+        return true;
+    }
+    
+    private static function CalculateDodge($recalculate = false) {
+        if(!self::IsCorrect()) {
+            WoW_Log::WriteError('%s : character was not found.', __METHOD__);
+            return false;
+        }
+        if(isset(self::$stats_holder['defense']['dodge']) && !$recalculate) {
+            return true;
+        }
+        self::$stats_holder['defense']['dodge'] = array(
+            'percent' => WoW_Utils::GetFloatValue(self::GetDataField(PLAYER_DODGE_PERCENTAGE), 2),
+            'rating' => self::GetDataField(PLAYER_FIELD_COMBAT_RATING_1 + 2),
+            'increasePercent' => floor(self::GetDataField(PLAYER_FIELD_COMBAT_RATING_1 + 2) / WoW_Utils::GetRatingCoefficient(self::$rating, 3))
+        );
+        return true;
+    }
+    
+    private static function CalculateParry($recalculate = false) {
+        if(!self::IsCorrect()) {
+            WoW_Log::WriteError('%s : character was not found.', __METHOD__);
+            return false;
+        }
+        if(isset(self::$stats_holder['defense']['parry']) && !$recalculate) {
+            return true;
+        }
+        self::$stats_holder['defense']['parry'] = array(
+            'percent' => WoW_Utils::GetFloatValue(self::GetDataField(PLAYER_PARRY_PERCENTAGE), 2),
+            'rating' => self::GetDataField(PLAYER_FIELD_COMBAT_RATING_1 + 3),
+            'increasePercent' => floor(self::GetDataField(PLAYER_FIELD_COMBAT_RATING_1 + 3) / WoW_Utils::GetRatingCoefficient(self::$rating, 4))
+        );
+    }
+    
+    private static function CalculateBlock($recalculate = false) {
+        if(!self::IsCorrect()) {
+            WoW_Log::WriteError('%s : character was not found.', __METHOD__);
+            return false;
+        }
+        if(isset(self::$stats_holder['defense']['block']) && !$recalculate) {
+            return true;
+        }
+        self::$stats_holder['defense']['block'] = array(
+            'percent' => WoW_Utils::GetFloatValue(self::GetDataField(PLAYER_BLOCK_PERCENTAGE), 2),
+            'rating' => self::GetDataField(PLAYER_SHIELD_BLOCK),
+            'increasePercent' => self::GetDataField(PLAYER_FIELD_COMBAT_RATING_1 + 4)
+        );
+    }
+    
+    private static function CalculateResilience($recalculate = false) {
+        if(!self::IsCorrect()) {
+            WoW_Log::WriteError('%s : character was not found.', __METHOD__);
+            return false;
+        }
+        if(isset(self::$stats_holder['defense']['resilience']) && !$recalculate) {
+            return true;
+        }
+        $melee = self::GetDataField(PLAYER_FIELD_CRIT_TAKEN_MELEE_RATING);
+        $ranged = self::GetDataField(PLAYER_FIELD_CRIT_TAKEN_RANGED_RATING);
+        $spell = self::GetDataField(PLAYER_FIELD_CRIT_TAKEN_SPELL_RATING);
+        $value = min($melee, $ranged, $spell);
+        $damagePercent = $melee / WoW_Utils::GetRatingCoefficient(self::$rating, 15);
+        $hitPercent = $spell / WoW_Utils::GetRatingCoefficient(self::$rating, 17);
+        self::$stats_holder['defense']['resilience'] = array(
+            'value' => $value,
+            'hitPercent' => $hitPercent,
+            'damagePercent' => $damagePercent
+        );
+        return true;
+    }
+    
+    /* Resistance stats */
+    
+    private static function CalculateResistanceStats($recalculate = false) {
+        if(!self::IsCorrect()) {
+            WoW_Log::WriteError('%s : character was not found.', __METHOD__);
+            return false;
+        }
+        self::SetRating();
+        self::UpdateStatsInfo('resistance_stats', false);
+        self::CalculateResistances($recalculate);
+        self::UpdateStatsInfo('resistance_stats', true);
+        return true;
+    }
+    
+    public static function GetResistanceStats() {
+        if(!self::IsCorrect()) {
+            WoW_Log::WriteError('%s : character was not found.', __METHOD__);
+            return false;
+        }
+        if(!self::GetStatsInfo('resistance_stats')) {
+            self::CalculateResistanceStats(true);
+        }
+        return self::$stats_holder['resistance'];
+    }
+    
+    private static function CalculateResistances($recalculate = false) {
+        if(!self::IsCorrect()) {
+            WoW_Log::WriteError('%s : character was not found.', __METHOD__);
+            return false;
+        }
+        if(isset(self::$stats_holder['resistance']['resistance']) && !$recalculate) {
+            return true;
+        }
+        self::$stats_holder['resistance']['resistance'] = array(
+            'fire' => self::GetDataField(UNIT_FIELD_RESISTANCES + SPELL_SCHOOL_FIRE),
+            'nature' => self::GetDataField(UNIT_FIELD_RESISTANCES + SPELL_SCHOOL_NATURE),
+            'frost' => self::GetDataField(UNIT_FIELD_RESISTANCES + SPELL_SCHOOL_NATURE),
+            'shadow' => self::GetDataField(UNIT_FIELD_RESISTANCES + SPELL_SCHOOL_SHADOW),
+            'arcane' => self::GetDataField(UNIT_FIELD_RESISTANCES + SPELL_SCHOOL_ARCANE)
+        );
+        return true;
+    }
+    
+    public static function GetRole() {
+        if(self::$role > 0) {
+            return self::$role;
+        }
+        switch(self::GetClassID()) {
+            case CLASS_WARRIOR:
+            case CLASS_ROGUE:
+            case CLASS_DK:
+                self::$role = ROLE_MELEE;
+                return ROLE_MELEE;
+                break;
+            case CLASS_PALADIN:
+            case CLASS_DRUID:
+            case CLASS_SHAMAN:
+                // Hybrid classes. Need to check active talent tree.
+                foreach(self::$fullTalentData['specsData'] as $spec) {
+                    if($spec['active'] == 0) {
+                        continue;
+                    }
+                    if($spec['treeOne'] > $spec['treeTwo'] && $spec['treeOne'] > $spec['treeThree']) {
+                        self::$role = ROLE_CASTER;
+                        return ROLE_CASTER; // Paladin: Holy, Druid: Balance, Shaman: Elemental
+                    }
+                    elseif($spec['treeTwo'] > $spec['treeOne'] && $spec['treeTwo'] > $spec['treeThree']) {
+                        self::$role = ROLE_MELEE;
+                        return ROLE_MELEE; // Paladin: Protection, Druid: Feral, Shaman: Enhancemenet
+                    }
+                    else {
+                        if(self::GetClassID() == CLASS_PALADIN) {
+                            self::$role = ROLE_MELEE;
+                            return ROLE_MELEE; // Retribution
+                        }
+                        else {
+                            self::$role = ROLE_CASTER;
+                            return ROLE_CASTER; // Shaman, Druid: Restoration
+                        }
+                    }
+                }
+                break;
+            case CLASS_PRIEST:
+            case CLASS_MAGE:
+            case CLASS_WARLOCK:
+                self::$role = ROLE_CASTER;
+                return ROLE_CASTER;
+                break;
+            case CLASS_HUNTER:
+                self::$role = ROLE_RANGED;
+                return ROLE_RANGED;
+                break;
+        }
     }
 }
 ?>

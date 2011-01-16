@@ -889,4 +889,9 @@ define('IN_HOURS', 60 * IN_MINUTES);
 define('IN_DAYS', 24 * IN_HOURS);
 define('IN_WEEKS', 7 * IN_DAYS);
 define('IN_MONTHS', 30 * IN_DAYS);
+
+/** Class Roles **/
+define('ROLE_MELEE', 1);
+define('ROLE_RANGED', 2);
+define('ROLE_CASTER', 3);
 ?>
