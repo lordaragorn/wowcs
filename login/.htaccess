@@ -1,0 +1,2 @@
+RewriteEngine On
+RewriteRule login.frag login_frag.php

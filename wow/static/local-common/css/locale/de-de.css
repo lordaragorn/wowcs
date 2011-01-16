@@ -1,0 +1,8 @@
+@charset "utf-8";
+
+/* service bar */
+#service-bar #explore-link .dropdown-link { padding: 0 32px 7px 0; }
+
+.post-detail { width:556px; }
+.post-info { width:143px; } /* post-info + post-detail = 699 */
+.karma .rateup { width:72px }

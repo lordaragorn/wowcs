@@ -1,0 +1,13 @@
+@charset "utf-8";
+
+.profile-section-header { zoom: 1; }
+
+ul.profile-sidebar-menu a { zoom: 1; }
+ul.profile-sidebar-menu a:hover { background-color: #1a0f09; }
+
+a.profile-sidebar-character-model .hover { display: none; }
+a.profile-sidebar-character-model:hover .hover { display: block; }
+
+ul.profile-view-options { zoom: 1; width: 350px; }
+
+.profile-box-full { background: #170d07; zoom: 1;  }

@@ -1,0 +1,12 @@
+@charset "utf-8";
+
+/* service bar */
+#service-bar #explore-link .dropdown-link { padding: 0 36px 7px 5px; }
+
+/* Forums */
+.talkback-controls a { width:134px; }
+.talkback-controls .c { width:133px; }
+
+.post-detail { width:552px; }
+.post-info { width:147px; } /* post-info + post-detail = 699 */
+.karma .rateup { width:76px }

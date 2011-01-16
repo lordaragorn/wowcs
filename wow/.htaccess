@@ -1,0 +1,8 @@
+RewriteEngine On
+
+RewriteRule ^item/(.*) /wow/item.php?%{QUERY_STRING}
+RewriteRule ^blog/(.*) /wow/blog.php?id=$1%{QUERY_STRING}
+RewriteRule ^forum/(.*) /wow/forum.php?%{QUERY_STRING}
+RewriteRule ^character/(.*) /wow/character.php?%{QUERY_STRING}
+RewriteRule ^guild/(.*) /wow/guild.php?%{QUERY_STRING}
+RewriteRule ^vault/(.*) /wow/vault.php?%{QUERY_STRING}

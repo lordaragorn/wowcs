@@ -1,0 +1,78 @@
+
+/* game boxes */
+.homepage #content { padding: 15px 0 }
+#homepage .game-column { position: relative; float: left; width: 330px; padding-top: 425px; color: #787878; font-size: 11px; }
+#homepage .game-column ul { text-transform: uppercase; }
+#homepage .game-column li { padding: 15px 0; border-top: 1px solid #b3b0ac; }
+#homepage .game-column li:first-child { border: none; }
+#homepage .game-column li span { color: #505050; font-size: 18px; font-weight: bold; }
+#homepage .game-column li span.text-green { color: #4a8432; }
+#homepage .game-column li span.text-red { color: #944a4a; }
+
+#homepage .game-promo { left: 6px; top: -95px; width: 319px; height: 500px; display: block; position: absolute; outline: none; border: none; text-align: right; padding: 0; font-size: 16px; -moz-box-shadow: 0 0 20px #000; -webkit-box-shadow: 0 0 10px #1e2023;  -moz-border-radius: 7px; -webkit-border-radius: 7px; border-radius: 7px; }
+#homepage .game-promo:hover { text-decoration: none; }
+#homepage .game-promo span { padding-right: 35px; background: transparent url("../images/homepage/promo-arrow.gif") 100% -3px no-repeat; }
+#homepage .game-promo .game-tip { position:absolute; top:7px; padding: 5px 25px 5px 10px; width:270px; left: 7px; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; color:#B2BAC7; }
+#homepage .game-promo:hover .game-tip { color: #fff; border-color: #007db0; background-position: 100% -41px }
+#homepage #home-game-sc2 .game-promo { background: url("../images/homepage/starcraft2.png") 0 0 no-repeat; }
+#homepage #home-game-sc2 .game-promo:hover { background-position: -330px 0; }
+#homepage #home-game-wow .game-promo { background: url("../images/homepage/wow.png") 0 0 no-repeat; }
+#homepage #home-game-wow .game-promo:hover { background-position: -330px 0; }
+#homepage #home-game-d3 .game-promo { background: url("../images/homepage/diablo3.png") 0 0 no-repeat; }
+#homepage #home-game-d3 .game-promo:hover { background-position: -330px 0; }
+
+/* game showcase */
+#game-showcase { padding: 1px 0 10px 0;}
+#game-showcase #game-selections { color: #848890; padding-left: 8px }
+#game-showcase .selection-block { float: left; position: relative; }
+#game-showcase .selection-title { position: absolute; top: -25px; left: 0px; color: #4d606d }
+#game-showcase .selection-title span,
+#community-section .selection-title span { color: #aaafb8; }
+#community-section { padding-left: 10px; }
+#community-section .selection-title { color: #4d606d }
+
+.game-selection { float: left; width: 129px; cursor: pointer; min-height: 245px; padding: 20px 5px 0; position: relative; text-align: center; }
+.game-selection .box { -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; -moz-box-shadow: 0 0 8px #000; -webkit-box-shadow: 0 0 15px #000; border: 1px solid #005679 }
+.game-selection:hover .box,
+.game-selection.unowned:hover .box { border: 1px solid #007db0 } 
+.game-selection.opened .box,
+.game-selection.unowned.opened .box  { border: 1px solid #00a7de }
+.game-selection.unowned .box { border: 1px solid #484c4e; }
+.game-selection .plus { position: absolute; top: 170px; right: -4px; }
+.game-selection.opened .pointer { position: absolute; bottom: -1px; left: 50%; height: 20px; width: 36px; margin-left: -18px; margin-right: -18px; background: url('../images/homepage/showcase-arrow.png') no-repeat 0 0 }
+.game-selection .game-price { font-size: 16px; font-weight: bold; color: #B2BAC7; text-align: center; }
+.game-selection .game-label { text-align: center; line-height: 1.1em; color: #fff; }
+.game-selection.unowned .game-label { color: #698692; } 
+
+/*.game-selection.opened,
+.game-selection.opened:hover  { background: url('../images/homepage/showcase-bg.gif') repeat-x 0 0; color: #fff;  }*/
+.game-selection.unowned .box { opacity: 0.5; }
+.game-selection.opened .box,
+.game-selection:hover .box { opacity: 1; }
+.game-selection.opened .game-label,
+.game-selection:hover .game-label,
+.game-selection:hover .game-price { color: #fff; }
+.game-selection.opened .game-price { color: #fff; }
+
+.game-selection-dialog { padding: 30px 15px; background: url('../images/layout/game-dialogs.png') no-repeat -9px -9px; }
+.game-selection-dialog .game-label { float: left; padding: 5px; color: #fff; font-size: 22px; font-weight: bold; letter-spacing: -1px; }
+.game-selection-dialog .dialog-button { display: block; color: #fff; float: right; margin: 0 10px; font-size: 18px; border-bottom:3px solid #2a5164; }
+.game-selection-dialog .dialog-button:hover { color: #fff; border-color: #fff; }
+.game-selection-dialog .dialog-button span { padding: 5px 0; display: block; }
+.game-selection-dialog .dialog-button.free-trial span { padding-left: 30px; background: url("../images/homepage/dialog-icons.gif") 0px 5px no-repeat; }
+.game-selection-dialog .dialog-button.buy-physical span { padding-left: 30px; background: url("../images/homepage/dialog-icons.gif") 0px -70px no-repeat; }
+.game-selection-dialog .dialog-button.buy-digital span { padding-left: 30px; background: url("../images/homepage/dialog-icons.gif") 0px -149px no-repeat; }
+.game-selection-dialog .dialog-button.community span { padding-left: 30px; background: url("../images/homepage/dialog-icons.gif") 0px -378px no-repeat; }
+.game-selection-dialog .dialog-button.manage-game span { padding-left: 30px; background: url("../images/homepage/dialog-icons.gif") 0px -225px no-repeat; }
+.game-selection-dialog .dialog-button.upgrade span { padding-left: 30px; background: url("../images/homepage/dialog-icons.gif") 0px -302px no-repeat; }
+.game-selection-dialog .close-dialog { background:url("../images/icons/circle-close.png") no-repeat 0 0; cursor:pointer; display:inline-block; float:right; height:26px; position:relative; left:10px; top:-25px; width:26px; }
+.game-selection-dialog .close-dialog:hover { background-position: 0px -25px; }
+
+#welcome-intro { padding: 40px 100px; }
+#welcome-intro h2 #learn-more { font-weight: normal; color: #a2b9c2; padding-right: 16px; }
+#welcome-intro h2 #learn-more:hover { color: #fff; }
+#welcome-intro h2 #learn-more span { color: #566b73; font-size: 14px; border: 1px solid #3a4c53; position: relative; top: -5px; padding: 2px 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; }
+#welcome-intro h2 #learn-more:hover span { background: #3a4c53; border-color: #3a4c53; color: #93bdce; }
+#welcome-intro #welcome-right { float: right; width: 200px; color: #a2b9c2; text-align: center; padding-top: 10px; }
+#welcome-intro #welcome-right .ui-button { margin-bottom: 5px; }
+#welcome-intro #welcome-right .ui-button span { text-transform: uppercase; font-size: 18px; text-shadow: #00678f 1px 1px 1px; }

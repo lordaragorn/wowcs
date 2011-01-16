@@ -1,0 +1,7 @@
+@charset "utf-8";
+
+/* service bar */
+#service-bar #explore-link .dropdown-link { padding: 0 29px 7px 0; }
+
+.post-detail { width:571px; }
+.post-info { width:128px; } /* post-info + post-detail = 699 */

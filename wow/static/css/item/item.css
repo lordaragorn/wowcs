@@ -1,0 +1,36 @@
+
+#content .content-top { background: url("../../images/items/bg.jpg") 50% 0 no-repeat; }
+
+/* item details */
+.item-detail { padding: 20px 20px 0; position: relative; zoom: 1; }
+.item-detail .details { padding-left: 70px; color: #fff; float: left; width: 310px; margin-bottom: 50px; position: relative; }
+.item-detail .details .frame-56 { position: absolute; overflow: hidden; left: 0; top: 5px; }
+.item-detail .tab-menu { margin-bottom: 15px; }
+.item-detail .faction-related { position: absolute; left: 0; top: 85px; background: #000; padding: 5px; height: 21px; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; }
+.item-detail .has-tip { border-bottom: 1px dotted #565656; cursor: help; }
+.item-detail a.has-tip { cursor: pointer; }
+.item-detail .ah { font-weight: bold; padding: 1px 25px 1px 0; background: url("../../images/items/ah.gif") 100% 50% no-repeat; }
+
+.item-meta { position: absolute; top: 20px; right: 0; width: 590px; }
+
+.item-quickfacts, .item-external { padding: 10px; text-align: right; line-height: 1.75em; background: url("../../images/items/fade.png") right top repeat-y; }
+
+.item-quickfacts { margin-bottom: 1px; }
+.item-quickfacts strong { color: #FEF092; }
+
+/* table styles */
+.reagent { width: 22px; margin-right: 5px; font-weight: bold; text-align: center; display: inline-block; }
+
+/* item browse */
+.item-browse { padding: 5px 20px 5px 20px; }
+.item-browse .cell label { display: block; padding-bottom: 5px; }
+.item-results .table-options { background: url("../../images/items/fade.png") 100% 0 repeat-y; padding: 0 20px; }
+.item-results .no-results td { padding: 50px; text-align: center; }
+.item-results .item-link { display: block; }
+
+.item-locations em { color: #EFC9A0; font-style: normal; }
+
+/* ie6 */
+.ie6 .item-detail .model-viewer div { background: #000; }
+.ie6 .item-results .table-options,
+.ie6 .item-quickfacts { background: none; }

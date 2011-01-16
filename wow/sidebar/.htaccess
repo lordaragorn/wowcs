@@ -1,0 +1,7 @@
+RewriteEngine On
+RewriteRule sotd sotd.xml
+RewriteRule forums forums.xml
+RewriteRule events events.xml
+RewriteRule guild-news guild-news.xml
+RewriteRule auctions auctions.xml
+RewriteRule friends friends.xml

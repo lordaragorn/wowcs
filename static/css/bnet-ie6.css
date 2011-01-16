@@ -1,0 +1,50 @@
+@charset "utf-8";
+
+/* form */
+.input { color: #5a5a5a; }
+.form-note { padding-top: 10px; }
+.note .note-arrow { margin-bottom: -12px; }
+
+/* buttons */
+.button1 span { background-image: url("../images/buttons/button-1.gif"); }
+.button2 span { background-image: url("../images/buttons/button-2.gif"); }
+
+/* layout */
+#layout-top { background: url("../images/layout/bg-sides-msie.png") bottom center no-repeat; }
+#layout-top .wrapper { z-index: 1; }
+#layout-middle .wrapper { z-index: 0; }
+
+/* header */
+/* DXImage filters are relative to the document, not the CSS file, so use absolute paths. */
+#header #logo a { background: none; cursor: pointer; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/static/local-common/images/logos/bnet-default.png', sizingMethod='image'); }
+#header .ui-breadcrumb li { background: url("../local-common/images/icons/arrows.gif") 105% -91px no-repeat; }
+
+/* dropdown */
+.ui-dropdown .dropdown-toggler { cursor: pointer; }
+.ui-dropdown .dropdown-toggler:hover { color: #fff; }
+
+/* section */
+#section { zoom: 1; background: none; }
+.section-header { height: 50px; margin-bottom: 0; }
+
+/* homepage */
+#homepage #home-game-sc2 .game-promo { background: url("../images/homepage/starcraft2.gif") 0 0 no-repeat; }
+#homepage #home-game-wow .game-promo { background: url("../images/homepage/wow.gif") 0 0 no-repeat; }
+#homepage #home-game-d3 .game-promo { background: url("../images/homepage/diablo3.gif") 0 0 no-repeat; }
+
+/* homepage - game showcase */
+.game-selection { height: 197px; zoom: 1; margin: 0; }
+.game-selection .plus { display: none; }
+.game-selection.unowned .box { filter: alpha(opacity = 30); }
+.game-selection.opened .box,
+.game-selection:hover .box { filter: alpha(opacity = 100); }
+
+.game-selection-dialog { zoom: 1; }
+.game-selection-dialog { background: url('../images/layout/game-dialogs.gif') no-repeat -9px -9px; }
+.game-selection-dialog .dialog-button span { float: left; width: auto; }
+.game-selection.opened .pointer { background: url('../images/homepage/showcase-arrow.gif') no-repeat 0 0 }
+
+#welcome-intro { zoom: 1; position: relative; }
+
+/* error */
+.error-page { background: #070808; }

@@ -1,0 +1,20 @@
+@charset "utf-8";
+
+/* view options */
+#profile-view-options-talents li { position: relative; }
+#profile-view-options-talents .active-spec { position: absolute; left: 8px; top: 13px; width: 15px; height: 11px; background: url(../../images/character/summary/talents-check.gif) no-repeat; }
+
+/* character talents */
+.character-talents { }
+
+/* character glyphs */
+.character-glyphs { padding-top: 20px; }
+.character-glyphs ul {margin-top: 5px; }
+.character-glyphs li { border-top: 1px solid #331509; line-height: 31px; padding: 5px 0; white-space: nowrap; }
+.character-glyphs li a { display: block; }
+.character-glyphs li.filled { color: #F5EBD1; }
+.character-glyphs li.locked { color: #5d442b; }
+.character-glyphs .icon { float: left; padding-right: 6px; height: 31px; }
+.character-glyphs .name { float: left; width: 167px; overflow: hidden; text-overflow: ellipsis; }
+.character-glyphs-column { float: left; width: 204px; margin-right: 30px; }
+.character-glyphs-column.glyphs-minor { float: right; margin-right: 0; }

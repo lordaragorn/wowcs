@@ -1,0 +1,20 @@
+@charset "utf-8";
+
+.talentcalc-tree-wrapper { margin-right: 21px; }
+
+.talentcalc-tree-header .icon-frame-treeheader .frame { background-image: url("../../images/tool/talent-calculator/tree-icon-frame.gif"); }
+
+.talentcalc-tree-header .icon-frame-treeheader .lock { background: none; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/wow/static/images/tool/talent-calculator/tree-locked-icon.png', sizingMethod='crop'); }
+
+.talentcalc-tree-overview ul.spells .icon-frame-ability .frame { background-image: url("../../images/tool/talent-calculator/tree-overview-icon-ability-frame.gif"); }
+
+.talentcalc-cell .icon .ability { background-image: url("../../images/tool/talent-calculator/icon-frame-ability.gif"); }
+.talentcalc-cell .icon .frame { background-image: url("../../images/tool/talent-calculator/icon-frame.gif"); }
+
+.talentcalc-cell .points .frame { background-image: url("../../images/tool/talent-calculator/points-frame.gif"); }
+
+.talentcalc-cell .arrow ins, .talentcalc-cell .arrow-down { background-image: url("../../images/tool/talent-calculator/arrow-down.gif"); }
+.talentcalc-cell .arrow em { background-image: url("../../images/tool/talent-calculator/arrow-corner.gif"); }
+.talentcalc-cell .arrow-left, .talentcalc-cell .arrow-right { background-image: url("../../images/tool/talent-calculator/arrow-horiz.gif"); }
+
+.talentcalc-tree-overview ul.spells .fansite-link { display: block;}

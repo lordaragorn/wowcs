@@ -1,0 +1,20 @@
+
+<div>
+	<div class="sidebar-title">
+		<h3 class="title-sotd">
+			<a href="/wow/ru/media/screenshots/screenshot-of-the-day/cataclysm">Скриншот дня</a>
+		</h3>
+	</div>
+
+	<div class="sidebar-content">
+		<div class="sotd" style="background-image: url('/wow/media/screenshots/screenshot-of-the-day/cataclysm/cataclysm-ss1506-large.jpg');">
+			<a href="/wow/ru/media/screenshots/screenshot-of-the-day/cataclysm?view#/cataclysm-ss1506" class="image"> </a>
+
+			<div class="caption">
+				<a href="/wow/ru/media/screenshots/screenshot-of-the-day/cataclysm" class="view">Смотреть все скриншоты</a>
+					<a href="http://www.worldofwarcraft.com/community/submission/screenshot-form.html" class="submit">Отправить скриншот</a>
+	<span class="clear"><!-- --></span>
+			</div>
+		</div>
+	</div>
+</div>

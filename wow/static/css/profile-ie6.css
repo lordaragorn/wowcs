@@ -1,0 +1,35 @@
+@charset "utf-8";
+
+.profile-contents { height: 807px; }
+
+ul.profile-sidebar-menu a.back-to span.arrow,
+ul.profile-sidebar-menu a.has-submenu span.arrow { background-image: url("../images/profile/sidebar-menu-arrows.gif"); }
+ul.profile-sidebar-menu a.vault .icon { background-image: url("../images/profile/sidebar-lock.gif"); }
+
+ul.profile-view-options a { background-image: url("../images/icons/view-options.gif"); }
+
+ul.profile-sidebar-links a.wowhead { background-image: url("../images/icons/wowhead.gif"); }
+
+a.profile-sidebar-character-model .fade { background: none; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/wow/static/images/character/model-fade.png', sizingMethod='crop'); }
+a.profile-sidebar-character-model .hover { background: none; }
+
+.profile-sidebar-character-info .level-race-class { letter-spacing: 1px; }
+
+.profile-box-full { background: none; border-top: 2px solid #46230E; }
+
+/* activity */
+.activity-feed li { zoom: 1; }
+.activity-feed-wide li dd { float: left; }
+
+/* guild-specific stuff */
+.guild-tabard-default { width: 216px; height:240px; background: url("../images/guild/tabards/default-alliance-ie6.png") no-repeat 0 0;}
+.guild-tabard-default.tabard-horde { background-image: url("../images/guild/tabards/default-horde-ie6.png") }
+
+/* sidebar tabard */
+.profile-info-anchor { background: none !important; }
+.profile-sidebar-tabard .guild-tabard .tabard-overlay { background: none; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/wow/static/images/guild/tabards/bg_overlay_01.png', sizingMethod='image');}
+.profile-sidebar-tabard .guild-tabard .crest { background: none; }
+
+/* tabard */
+.profile-wrapper-alliance .guild-tabard .crest { background: none; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/wow-dev/static/images/guild/sidebar-crest-alliance.png', sizingMethod='image'); }
+.profile-wrapper-horde    .guild-tabard .crest { background: none; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/wow-dev/static/images/guild/sidebar-crest-horde.png', sizingMethod='image'); }

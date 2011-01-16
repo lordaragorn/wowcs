@@ -1,0 +1,6 @@
+@charset "utf-8";
+
+.talentcalc { zoom: 1; }
+
+.talentcalc-tree-overview { background-color: black; }
+.talentcalc-tree-overview .icon-wrapper .frame { background: none; }

@@ -1,0 +1,20 @@
+
+#layout-top, #layout-middle, #layout-bottom { z-index: 0 }
+
+/* homepage - game showcase */
+#game-showcase { width: 990px; }
+#game-selections, #homepage { zoom:1 }
+.game-selection { height: 197px; zoom: 1; margin: 0; }
+.game-selection .plus { display: none; }
+.game-selection.unowned .box { filter: alpha(opacity = 30); }
+.game-selection.opened .box,
+.game-selection:hover .box { filter: alpha(opacity = 100); }
+
+.game-selection-dialog { zoom: 1;  }
+.game-selection-dialog { padding: 30px 15px 0; }
+.game-selection-dialog .dialog-button span { float: left; width: auto; }
+.game-selection-dialog .dialog-button { zoom:1 }
+
+/* layout */
+#layout-top .wrapper { z-index: 1; }
+#layout-middle .wrapper { z-index: 0; }

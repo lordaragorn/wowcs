@@ -1,0 +1,141 @@
+@charset "utf-8";
+
+/* layout */
+.talentcalc { }
+.talentcalc-tree-wrapper { float: left; width: 228px; margin-right: 24px; position: relative; }
+.talentcalc-tree-wrapper.tree-last { margin-right: 0 !important; }
+.talentcalc-tree-wrapper.tree-specialization .talentcalc-tree-header .icon .frame { background-position: 0 -50px; }
+.talentcalc-pet .talentcalc-tree-wrapper { margin-right: 0 !important; }
+
+/* choose a spec text */
+.talentcalc-choosetext { position: relative; width: 1px; margin: 0 auto; }
+.talentcalc-choosetext div { position: absolute; left: -375px; top: -55px; width: 750px; font-size: 22px; text-align: center; }
+
+/* tree header */
+.talentcalc-tree-header { height: 40px; margin-top: 4px; margin-bottom: 8px; }
+.talentcalc-tree-header .points, .talentcalc-tree-header .name { float: left; height: 32px; line-height: 32px; }
+.talentcalc-tree-header .icon { float: left; margin-right: 12px; }
+.talentcalc-tree-header .icon-frame-treeheader { display: block; width: 32px; height: 32px; position: relative;  }
+.talentcalc-tree-header .icon-frame-treeheader img { display: block; width: 26px; height: 26px; padding: 3px 0 0 3px; }
+.talentcalc-tree-header .icon-frame-treeheader .frame { position: absolute; left: -9px; top: -9px; width: 50px; height: 50px; background: url("../../images/tool/talent-calculator/tree-icon-frame.png") left top no-repeat; }
+.talentcalc-tree-header .points { font-size: 16px; color: white; margin-right: 8px; }
+.talentcalc-tree-header .name { font-size: 16px; width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.talentcalc-tree-header .roles { display: block; position: absolute; left: 3px; top: 19px; width: 32px; height: 16px; }
+
+/* tree */
+.talentcalc-tree { position: relative; background: black left top no-repeat; border: 1px solid #180c07; }
+.talentcalc-tree-wrapper.tree-specialization .talentcalc-tree,
+.talentcalc-tree-wrapper.tree-specialization .talentcalc-tree-overview { border: 1px solid #ffd200; }
+
+/* tree button */
+.talentcalc-tree-button { position: absolute; left: 31px; top: 2px; }
+.talentcalc-tree-button button span span { width: 110px; }
+
+/* tree overview */
+.talentcalc-tree-overview { position: absolute; left: 0; top: 52px; border: 1px solid black; background: rgba(0, 0, 0, 0.9); z-index: 1; }
+.talentcalc-tree-overview .icon-wrapper { position: absolute; width: 1px; height: 1px; left: 50%; top: 0; }
+.talentcalc-tree-overview .icon-wrapper .icon { position: absolute; left: -28px; top: 30px; }
+.talentcalc-tree-overview .icon-wrapper .icon,
+.talentcalc-tree-overview .icon-wrapper .texture { width: 56px; height: 56px; -moz-border-radius: 28px; -webkit-border-radius: 28px; border-radius: 28px; }
+.talentcalc-tree-overview .icon-wrapper .texture { display: block; background: center center no-repeat; }
+.talentcalc-tree-overview .icon-wrapper .frame { position: absolute; left: -4px; top: -4px; width: 64px; height: 64px; background: url("../../images/tool/talent-calculator/tree-overview-icon-frame.png") no-repeat; }
+.talentcalc-tree-overview ul.spells { position: absolute; left: 20px; top: 100px; }
+.talentcalc-tree-overview ul.spells li { line-height: 22px; padding: 3px 0; color: #F5EBD1; cursor: help; }
+.talentcalc-tree-overview ul.spells li.is-ability { line-height: 48px; font-weight: bold; }
+.talentcalc-tree-overview ul.spells .icon, .talentcalc-tree-overview ul.spells .name { float: left; height: 22px; }
+.talentcalc-tree-overview ul.spells .icon { margin-right: 5px; }
+.talentcalc-tree-overview ul.spells li.is-ability .icon { margin-right: 2px; }
+.talentcalc-tree-overview ul.spells li.is-ability .icon, .talentcalc-tree-overview ul.spells li.is-ability .name { height: 48px; }
+.talentcalc-tree-overview ul.spells .icon-frame-ability { float: left; position: relative; width: 43px; height: 48px; }
+.talentcalc-tree-overview ul.spells .icon-frame-ability img { display: block; width: 28px; height: 28px; padding: 10px 0 0 5px; }
+.talentcalc-tree-overview ul.spells .icon-frame-ability .frame { position: absolute; left: -5px; top: 0; width: 48px; height: 48px; background: url("../../images/tool/talent-calculator/tree-overview-icon-ability-frame.png") no-repeat; }
+.talentcalc-tree-overview ul.spells .name { font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.talentcalc-tree-overview .description { position: absolute; left: 20px; top: 300px; color: #F5EBD1; font-size: 11px; }
+
+.talentcalc-tree-wrapper.tree-nonspecialization .talentcalc-tree-overview ul.spells li,
+.talentcalc-tree-wrapper.tree-nonspecialization .talentcalc-tree-overview .description { color: #8d8d8d; }
+.talentcalc-tree-wrapper.tree-nonspecialization .talentcalc-tree-overview ul.spells li .icon .icon-frame-ability .frame { background-position: -48px 0; }
+
+/* cells */
+.talentcalc-cells-wrapper { position: absolute; left: 8px; top: 8px; }
+
+/* cell */
+.talentcalc-cell { position: absolute; width: 53px; height: 53px; }
+
+	/* icon */
+	.talentcalc-cell .icon { position: absolute; left: 8px; top: 8px; width: 36px; height: 36px; border: 1px solid #545557; }
+	.talentcalc-cell .icon .texture { display: block; width: 36px; height: 36px; background: no-repeat; }
+	.talentcalc-cell .icon .ability { position: absolute; left: -9px; top: -9px; width: 54px; height: 54px; background: url("../../images/tool/talent-calculator/icon-frame-ability.png") no-repeat -54px 0; }
+	.talentcalc-cell .icon .frame { position: absolute; left: -6px; top: -5px; width: 47px; height: 46px; background: url("../../images/tool/talent-calculator/icon-frame.png") no-repeat; }
+	.talentcalc-cell.talent-partial .icon .texture,
+	.talentcalc-cell.talent-full .icon .texture { display: none; }
+	.talentcalc-cell.talent-partial .icon .ability,
+	.talentcalc-cell.talent-full .icon .ability { background-position: 0 0; }
+	.talentcalc-cell.talent-partial .icon { border-color: #17c815; }
+	.talentcalc-cell.talent-partial .icon .frame { background-position: -47px top; }
+	.talentcalc-cell.talent-full .icon { border-color: #c7a200; } 
+	.talentcalc-cell.talent-full .icon .frame { background-position: -94px top; }
+	
+	/* points */
+	.talentcalc-cell .points { position: absolute; left: 37px; top: 34px; width: 14px; height: 15px; line-height: 14px; display: none; font-family: Arial, sans-serif; font-size: 11px; font-weight: bold; border: 1px solid #545557; text-align: center; background: black; }
+	.talentcalc-cell .points .frame { position: absolute; left: -4px; top: -4px; width: 22px; height: 22px; background: url("../../images/tool/talent-calculator/points-frame.png") no-repeat; }
+	.talentcalc-cell.talent-partial .points { display: block; border-color: #17c815; color: #6fff5b; }
+	.talentcalc-cell.talent-partial .points .frame { }
+	.talentcalc-cell.talent-full .points { display: block; border-color: #c7a200; color: #ffd200; }
+	.talentcalc-cell.talent-full .points .frame { background-position: -22px top;  }
+	
+	/* arrow */
+	.talentcalc-cell .arrow { position: absolute; }
+	.talentcalc-cell .arrow ins { position: absolute; top: 0; width: 37px; height: 100%; background: url("../../images/tool/talent-calculator/arrow-down.png") no-repeat; }
+	.talentcalc-cell .arrow em { position: absolute; left: 0; top: -20px; width: 100%; height: 20px; background: url("../../images/tool/talent-calculator/arrow-corner.png") no-repeat; }
+	
+	.talentcalc-cell .arrow-down { background: url("../../images/tool/talent-calculator/arrow-down.png") 13px bottom no-repeat; }
+	.talentcalc-cell.talent-arrow .arrow-down { background-position: -37px bottom; }
+	
+	.talentcalc-cell .arrow-left { background: url("../../images/tool/talent-calculator/arrow-horiz.png") left 12px no-repeat; }
+	.talentcalc-cell.talent-arrow .arrow-left { background-position: left -38px; }
+	
+	.talentcalc-cell .arrow-right { background: url("../../images/tool/talent-calculator/arrow-horiz.png") right 12px no-repeat; }
+	.talentcalc-cell.talent-arrow .arrow-right { background-position: right -38px; }
+	
+	.talentcalc-cell .arrow-left-down ins { left: 0; background-position: 13px bottom; }
+	.talentcalc-cell.talent-arrow .arrow-left-down ins { background-position: -37px bottom; }
+	.talentcalc-cell .arrow-left-down em { background-position: left 12px; }
+	.talentcalc-cell.talent-arrow .arrow-left-down em { background-position: left -38px; }
+	
+	.talentcalc-cell .arrow-right-down ins { right: 0; background-position: 11px bottom; }
+	.talentcalc-cell.talent-arrow .arrow-right-down ins { background-position: -39px bottom; }
+	.talentcalc-cell .arrow-right-down em { background-position: right 12px; }
+	.talentcalc-cell.talent-arrow .arrow-right-down em { background-position: right -38px; }
+
+	/* interact area */
+	.talentcalc-cell a.interact { position: absolute; left: 7px; top: 7px; width: 40px; height: 40px; cursor: default; }
+	.talentcalc-cell a.interact .hover { display: block; width: 36px; height: 36px; margin: 2px 0 0 2px; }
+	.talentcalc-cell a.interact:hover .hover { background-color: rgba(255, 255, 255, 0.2); }
+	.talentcalc-cell.talent-partial a.interact,
+	.talentcalc-cell.talent-full a.interact { cursor: pointer; }
+	.talentcalc-locked .talentcalc-cell a.interact { cursor: default; }
+
+.talentcalc-bottom { padding-top: 8px; }
+	
+/* buttons */
+.talentcalc-buttons { float: left; padding-top: 2px; }
+
+/* info */
+.talentcalc-info { line-height: 30px; float: right; padding-right:1px; }
+.talentcalc-info div { float: right; margin-left: 20px; }
+.talentcalc-info .name { padding-right: 5px; }
+.talentcalc-info .value { color: white; font-family: Arial, sans-serif; font-weight: normal; }
+.talentcalc-info span ins { color: #808080; padding: 0 4px; font-weight: normal; text-decoration: none; }
+.talentcalc-info .export a,
+.talentcalc-info .calcmode a,
+.talentcalc-info .reset a { background: url("../../images/tool/talent-calculator/icons.gif") left center no-repeat; padding-left: 20px; }
+.talentcalc-info .calcmode a { background-position: -200px center; padding-left: 15px; }
+.talentcalc-info .reset a { background-position: -400px center; }
+.talentcalc-info .third-party { height: 21px; padding-top: 5px; }
+
+/* fansite */
+.talentcalc-tree-overview ul.spells li { position: relative; }
+.talentcalc-tree-overview ul.spells .fansite-link { position: absolute; right: 6px; top: 6px; display: none; }
+.talentcalc-tree-overview ul.spells li:hover .fansite-link { display: block; }
+.talentcalc-tree-overview ul.spells li.is-ability .fansite-link { top: 18px; }

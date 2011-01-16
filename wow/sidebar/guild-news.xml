@@ -1,0 +1,341 @@
+
+<div>
+	<div class="sidebar-title">
+		<h3 class="title-friends">
+			<a href="/wow/ru/guild/ревущии-фьорд/%d0%a1%d0%b8%d1%81%d1%82%d0%b5%d0%bc%d0%b0%20%d0%9f%d1%8b%d1%82%d0%be%d0%ba/news">Новости гильдии (25)</a>
+		</h3>
+	</div>
+
+		<div class="sidebar-content">
+
+			<div id="news-list">
+				<ul class="activity-feed activity-feed-wide">
+
+
+
+	<li data-id="238132" class="guild-levelup first">
+		<dl>
+			<dd>
+	<span class="icon"></span>
+	
+</dd>
+			<dt>34 мин назад</dt>
+		</dl>
+	</li>
+
+
+	<li data-id="236253" class="player-ach">
+		<dl>
+			<dd>
+	<a href="/wow/ru/character/ревущии-фьорд/%d0%9e%d1%84%d1%84%d0%bb%d0%b0%d0%b9%d0%bd/achievement#169:a4924" rel="np" onmouseover="Tooltip.show(this, '#news-tooltip-1');"> 
+
+
+
+
+
+		<span data-bla="inv_misc_note_01"  class="icon-frame frame-18" style='background-image: url("http://eu.battle.net/wow-assets/static/images/icons/18/inv_misc_note_01.jpg");'>
+		</span>
+</a>
+
+	Персонаж <a href="/wow/ru/character/ревущии-фьорд/%d0%9e%d1%84%d1%84%d0%bb%d0%b0%d0%b9%d0%bd/">Оффлайн</a> получил достижение «<a href="/wow/ru/character/ревущии-фьорд/%d0%9e%d1%84%d1%84%d0%bb%d0%b0%d0%b9%d0%bd/achievement#169:a4924" rel="np" onmouseover="Tooltip.show(this, '#news-tooltip-1');">Прославленный мастер</a>» стоимостью 10 очк.
+	<div id="news-tooltip-1" style="display: none">
+		<div class="item-tooltip">
+ 
+
+
+
+
+
+		<span data-bla="inv_misc_note_01"  class="icon-frame frame-56" style='background-image: url("http://eu.battle.net/wow-assets/static/images/icons/56/inv_misc_note_01.jpg");'>
+		</span>
+
+			<h3>Прославленный мастер</h3>
+			<div class="color-tooltip-yellow">Повысьте навык владения любой профессией до 525.</div>
+		</div>
+	</div>
+
+</dd>
+			<dt>5 ч назад</dt>
+		</dl>
+	</li>
+
+
+	<li data-id="228135" class="guild-ach">
+		<dl>
+			<dd>
+	<a href="/wow/ru/guild/ревущии-фьорд/%d0%a1%d0%b8%d1%81%d1%82%d0%b5%d0%bc%d0%b0%20%d0%9f%d1%8b%d1%82%d0%be%d0%ba/achievement#15079:15083:a5137" rel="np" onmouseover="Tooltip.show(this, '#news-tooltip-2');"> 
+
+
+
+
+
+		<span data-bla="achievement_dungeon_skywall"  class="icon-frame frame-18" style='background-image: url("http://eu.battle.net/wow-assets/static/images/icons/18/achievement_dungeon_skywall.jpg");'>
+		</span>
+</a>
+
+	Гильдия получила достижение «<a href="/wow/ru/guild/ревущии-фьорд/%d0%a1%d0%b8%d1%81%d1%82%d0%b5%d0%bc%d0%b0%20%d0%9f%d1%8b%d1%82%d0%be%d0%ba/achievement#15079:15083:a5137" rel="np" onmouseover="Tooltip.show(this, '#news-tooltip-2');">Гильдейский марш по Вершине смерча (героич.)</a>» стоимостью 10 очк.
+	<div id="news-tooltip-2" style="display: none">
+		<div class="item-tooltip">
+ 
+
+
+
+
+
+		<span data-bla="achievement_dungeon_skywall"  class="icon-frame frame-56" style='background-image: url("http://eu.battle.net/wow-assets/static/images/icons/56/achievement_dungeon_skywall.jpg");'>
+		</span>
+
+			<h3>Гильдейский марш по Вершине смерча (героич.)</h3>
+			<div class="color-tooltip-yellow">Убейте великого визиря Эртана на Вершине смерча в героическом режиме, находясь в составе группы гильдии.</div>
+		</div>
+	</div>
+
+</dd>
+			<dt>12 ч назад</dt>
+		</dl>
+	</li>
+
+
+	<li data-id="227549" class="player-ach">
+		<dl>
+			<dd>
+	<a href="/wow/ru/character/ревущии-фьорд/%d0%94%d0%b8%d0%bf%d1%82%d0%b0%d1%89%d0%b8/achievement#92:a4826" rel="np" onmouseover="Tooltip.show(this, '#news-tooltip-3');"> 
+
+
+
+
+
+		<span data-bla="achievement_level_85"  class="icon-frame frame-18" style='background-image: url("http://eu.battle.net/wow-assets/static/images/icons/18/achievement_level_85.jpg");'>
+		</span>
+</a>
+
+	Персонаж <a href="/wow/ru/character/ревущии-фьорд/%d0%94%d0%b8%d0%bf%d1%82%d0%b0%d1%89%d0%b8/">Диптащи</a> получил достижение «<a href="/wow/ru/character/ревущии-фьорд/%d0%94%d0%b8%d0%bf%d1%82%d0%b0%d1%89%d0%b8/achievement#92:a4826" rel="np" onmouseover="Tooltip.show(this, '#news-tooltip-3');">85-й уровень</a>» стоимостью 10 очк.
+	<div id="news-tooltip-3" style="display: none">
+		<div class="item-tooltip">
+ 
+
+
+
+
+
+		<span data-bla="achievement_level_85"  class="icon-frame frame-56" style='background-image: url("http://eu.battle.net/wow-assets/static/images/icons/56/achievement_level_85.jpg");'>
+		</span>
+
+			<h3>85-й уровень</h3>
+			<div class="color-tooltip-yellow">Достигните 85-го уровня.</div>
+		</div>
+	</div>
+
+</dd>
+			<dt>12 ч назад</dt>
+		</dl>
+	</li>
+
+
+	<li data-id="225734" class="player-ach">
+		<dl>
+			<dd>
+	<a href="/wow/ru/character/ревущии-фьорд/%d0%9c%d0%b0%d0%b2%d0%b5%d1%80%d0%ba%d0%b8/achievement#92:a4826" rel="np" onmouseover="Tooltip.show(this, '#news-tooltip-4');"> 
+
+
+
+
+
+		<span data-bla="achievement_level_85"  class="icon-frame frame-18" style='background-image: url("http://eu.battle.net/wow-assets/static/images/icons/18/achievement_level_85.jpg");'>
+		</span>
+</a>
+
+	Персонаж <a href="/wow/ru/character/ревущии-фьорд/%d0%9c%d0%b0%d0%b2%d0%b5%d1%80%d0%ba%d0%b8/">Маверки</a> получил достижение «<a href="/wow/ru/character/ревущии-фьорд/%d0%9c%d0%b0%d0%b2%d0%b5%d1%80%d0%ba%d0%b8/achievement#92:a4826" rel="np" onmouseover="Tooltip.show(this, '#news-tooltip-4');">85-й уровень</a>» стоимостью 10 очк.
+	<div id="news-tooltip-4" style="display: none">
+		<div class="item-tooltip">
+ 
+
+
+
+
+
+		<span data-bla="achievement_level_85"  class="icon-frame frame-56" style='background-image: url("http://eu.battle.net/wow-assets/static/images/icons/56/achievement_level_85.jpg");'>
+		</span>
+
+			<h3>85-й уровень</h3>
+			<div class="color-tooltip-yellow">Достигните 85-го уровня.</div>
+		</div>
+	</div>
+
+</dd>
+			<dt>13 ч назад</dt>
+		</dl>
+	</li>
+
+
+	<li data-id="222475" class="player-ach">
+		<dl>
+			<dd>
+	<a href="/wow/ru/character/ревущии-фьорд/%d0%a3%d1%87%d0%b8%d1%82%d0%b5%d0%bb/achievement#92:a4826" rel="np" onmouseover="Tooltip.show(this, '#news-tooltip-5');"> 
+
+
+
+
+
+		<span data-bla="achievement_level_85"  class="icon-frame frame-18" style='background-image: url("http://eu.battle.net/wow-assets/static/images/icons/18/achievement_level_85.jpg");'>
+		</span>
+</a>
+
+	Персонаж <a href="/wow/ru/character/ревущии-фьорд/%d0%a3%d1%87%d0%b8%d1%82%d0%b5%d0%bb/">Учител</a> получил достижение «<a href="/wow/ru/character/ревущии-фьорд/%d0%a3%d1%87%d0%b8%d1%82%d0%b5%d0%bb/achievement#92:a4826" rel="np" onmouseover="Tooltip.show(this, '#news-tooltip-5');">85-й уровень</a>» стоимостью 10 очк.
+	<div id="news-tooltip-5" style="display: none">
+		<div class="item-tooltip">
+ 
+
+
+
+
+
+		<span data-bla="achievement_level_85"  class="icon-frame frame-56" style='background-image: url("http://eu.battle.net/wow-assets/static/images/icons/56/achievement_level_85.jpg");'>
+		</span>
+
+			<h3>85-й уровень</h3>
+			<div class="color-tooltip-yellow">Достигните 85-го уровня.</div>
+		</div>
+	</div>
+
+</dd>
+			<dt>15 ч назад</dt>
+		</dl>
+	</li>
+
+
+	<li data-id="222107" class="item-looted">
+		<dl>
+			<dd>
+	<a href="/wow/ru/item/67141" class="color-q4"> 
+
+
+
+
+
+		<span data-bla="inv_pants_plate_raidwarrior_i_01"  class="icon-frame frame-18" style='background-image: url("http://eu.battle.net/wow-assets/static/images/icons/18/inv_pants_plate_raidwarrior_i_01.jpg");'>
+		</span>
+</a>
+
+	Персонаж <a href="/wow/ru/character/ревущии-фьорд/%d0%a2%d0%b8%d0%bc%d0%b0%d1%82%d1%83%d1%81/">Тиматус</a> получил предмет «<a href="/wow/ru/item/67141" class="color-q4">Ножные латы огненной сути</a>».
+
+</dd>
+			<dt>16 ч назад</dt>
+		</dl>
+	</li>
+
+
+	<li data-id="221199" class="player-ach">
+		<dl>
+			<dd>
+	<a href="/wow/ru/character/ревущии-фьорд/%d0%a2%d0%b5%d1%80%d0%b0%d0%bd%d0%b8%d0%b4/achievement#92:a4826" rel="np" onmouseover="Tooltip.show(this, '#news-tooltip-7');"> 
+
+
+
+
+
+		<span data-bla="achievement_level_85"  class="icon-frame frame-18" style='background-image: url("http://eu.battle.net/wow-assets/static/images/icons/18/achievement_level_85.jpg");'>
+		</span>
+</a>
+
+	Персонаж <a href="/wow/ru/character/ревущии-фьорд/%d0%a2%d0%b5%d1%80%d0%b0%d0%bd%d0%b8%d0%b4/">Теранид</a> получил достижение «<a href="/wow/ru/character/ревущии-фьорд/%d0%a2%d0%b5%d1%80%d0%b0%d0%bd%d0%b8%d0%b4/achievement#92:a4826" rel="np" onmouseover="Tooltip.show(this, '#news-tooltip-7');">85-й уровень</a>» стоимостью 10 очк.
+	<div id="news-tooltip-7" style="display: none">
+		<div class="item-tooltip">
+ 
+
+
+
+
+
+		<span data-bla="achievement_level_85"  class="icon-frame frame-56" style='background-image: url("http://eu.battle.net/wow-assets/static/images/icons/56/achievement_level_85.jpg");'>
+		</span>
+
+			<h3>85-й уровень</h3>
+			<div class="color-tooltip-yellow">Достигните 85-го уровня.</div>
+		</div>
+	</div>
+
+</dd>
+			<dt>16 ч назад</dt>
+		</dl>
+	</li>
+
+
+	<li data-id="220497" class="player-ach">
+		<dl>
+			<dd>
+	<a href="/wow/ru/character/ревущии-фьорд/%d0%90%d0%b9%d0%b1%d0%bb%d0%be%d0%bd%d0%b4%d0%b8%d0%ba%d0%be/achievement#92:a4826" rel="np" onmouseover="Tooltip.show(this, '#news-tooltip-8');"> 
+
+
+
+
+
+		<span data-bla="achievement_level_85"  class="icon-frame frame-18" style='background-image: url("http://eu.battle.net/wow-assets/static/images/icons/18/achievement_level_85.jpg");'>
+		</span>
+</a>
+
+	Персонаж <a href="/wow/ru/character/ревущии-фьорд/%d0%90%d0%b9%d0%b1%d0%bb%d0%be%d0%bd%d0%b4%d0%b8%d0%ba%d0%be/">Айблондико</a> получил достижение «<a href="/wow/ru/character/ревущии-фьорд/%d0%90%d0%b9%d0%b1%d0%bb%d0%be%d0%bd%d0%b4%d0%b8%d0%ba%d0%be/achievement#92:a4826" rel="np" onmouseover="Tooltip.show(this, '#news-tooltip-8');">85-й уровень</a>» стоимостью 10 очк.
+	<div id="news-tooltip-8" style="display: none">
+		<div class="item-tooltip">
+ 
+
+
+
+
+
+		<span data-bla="achievement_level_85"  class="icon-frame frame-56" style='background-image: url("http://eu.battle.net/wow-assets/static/images/icons/56/achievement_level_85.jpg");'>
+		</span>
+
+			<h3>85-й уровень</h3>
+			<div class="color-tooltip-yellow">Достигните 85-го уровня.</div>
+		</div>
+	</div>
+
+</dd>
+			<dt>17 ч назад</dt>
+		</dl>
+	</li>
+
+
+	<li data-id="219438" class="player-ach">
+		<dl>
+			<dd>
+	<a href="/wow/ru/character/ревущии-фьорд/%d0%91%d0%bb%d0%be%d1%85%d0%b0%d1%82%d1%8b%d0%b9/achievement#92:a4826" rel="np" onmouseover="Tooltip.show(this, '#news-tooltip-9');"> 
+
+
+
+
+
+		<span data-bla="achievement_level_85"  class="icon-frame frame-18" style='background-image: url("http://eu.battle.net/wow-assets/static/images/icons/18/achievement_level_85.jpg");'>
+		</span>
+</a>
+
+	Персонаж <a href="/wow/ru/character/ревущии-фьорд/%d0%91%d0%bb%d0%be%d1%85%d0%b0%d1%82%d1%8b%d0%b9/">Блохатый</a> получил достижение «<a href="/wow/ru/character/ревущии-фьорд/%d0%91%d0%bb%d0%be%d1%85%d0%b0%d1%82%d1%8b%d0%b9/achievement#92:a4826" rel="np" onmouseover="Tooltip.show(this, '#news-tooltip-9');">85-й уровень</a>» стоимостью 10 очк.
+	<div id="news-tooltip-9" style="display: none">
+		<div class="item-tooltip">
+ 
+
+
+
+
+
+		<span data-bla="achievement_level_85"  class="icon-frame frame-56" style='background-image: url("http://eu.battle.net/wow-assets/static/images/icons/56/achievement_level_85.jpg");'>
+		</span>
+
+			<h3>85-й уровень</h3>
+			<div class="color-tooltip-yellow">Достигните 85-го уровня.</div>
+		</div>
+	</div>
+
+</dd>
+			<dt>17 ч назад</dt>
+		</dl>
+	</li>
+	
+				</ul>
+			</div>
+
+
+
+		</div>
+</div>

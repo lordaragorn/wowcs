@@ -1,0 +1,8 @@
+@charset "utf-8";
+
+.summary-middle-inner { background: #150c06; }
+
+.summary-inventory-advanced .audit-warning { zoom: 1; vertical-align: middle; background-image: url("../../images/icons/warning-small.gif"); }
+
+.summary-stats-profs-bgs { background: #25140b; }
+.summary-stats-profs-bgs, .summary-bottom .profile-recentactivity { zoom: 1; }

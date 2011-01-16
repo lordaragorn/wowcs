@@ -1,0 +1,86 @@
+
+<div>
+	<div class="sidebar-title">
+		<h3 class="title-auctions">
+			<a href="/wow/ru/vault/character/auction/horde/">Аукцион</a>
+		</h3>
+	</div>
+
+		<div class="sidebar-content">
+		
+		<div class="sidebar-cell">
+			<a href="/wow/ru/vault/character/auction/horde/auctions">Мои лоты</a>
+
+			<ul>
+				<li>
+					Продано
+					<a href="/wow/ru/vault/character/auction/horde/auctions">
+						<span>0</span>
+					</a>
+				</li>
+				<li>
+					Продажа
+					<a href="/wow/ru/vault/character/auction/horde/auctions">
+						<span>0</span>
+					</a>
+				</li>		
+				<li>
+					Завершено
+					<a href="/wow/ru/vault/character/auction/horde/auctions">
+		
+							<span>0</span>
+					</a>
+				</li>
+			</ul>
+		</div>		
+		
+		<div class="sidebar-cell">
+			<a href="/wow/ru/vault/character/auction/horde/bids">Ставки</a>
+			
+			<ul>
+				<li>
+					Выиграно
+					<a href="/wow/ru/vault/character/auction/horde/bids">
+						<span>0</span>
+					</a>
+				</li>
+				<li>
+					Более высокая ставка
+					<a href="/wow/ru/vault/character/auction/horde/bids">
+		
+							<span>0</span>
+					</a>
+				</li>	
+				<li>
+					Проиграно
+					<a href="/wow/ru/vault/character/auction/horde/bids">
+							<span>0</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+		
+		
+
+	<span class="clear"><!-- --></span>
+
+		<ul class="sidebar-list">
+			<li>
+				<span class="float-right">
+		<span class="icon-gold">--</span>
+		<span class="icon-silver">--</span>
+		<span class="icon-copper">--</span>
+</span>
+				Заработано
+			</li>
+			<li>
+				<span class="float-right">
+					1/50
+					(2%)
+				</span>
+				Почтовый ящик
+			</li>
+		</ul>
+		</div>
+	
+</div>

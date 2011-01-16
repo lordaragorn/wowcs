@@ -1,0 +1,11 @@
+@charset "utf-8";
+
+/* header */
+#header { z-index: 76; }
+#header #navigation, #intro-bar { zoom: 1; }
+
+/* search */
+#search-form #search-field { margin-top: 5px; }
+
+/* homepage */
+#intro-bar { height: 35px; overflow: hidden; }

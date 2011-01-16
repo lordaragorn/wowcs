@@ -1,0 +1,343 @@
+
+<div>
+	<div class="sidebar-title">
+		<h3 class="title-events sidebar-events">
+			<a href="/wow/ru/vault/character/event">События</a>
+		</h3>
+	</div>
+
+		<div class="sidebar-content sidebar-events">
+			<h4>Сегодня</h4>
+			<ul class="sidebar-list today">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		<li data-id="1292076000000" class="event-summary sidebar-tile system-event">
+
+			<a href="/wow/ru/vault/character/event#eventId=1292076000000" rel="np">
+
+
+	
+
+ 
+
+
+
+
+
+		<span class="icon-frame">
+			<img src="http://eu.battle.net/wow-assets/static/images/calendar/calendar_fishingextravaganza.png" alt="" width="27" height="27" />
+				<span class="frame"></span>
+		</span>
+
+				<span  class="info-wrapper clear-after">
+	<span class="date date-status">
+		02:00
+	</span>
+					<span class="title">Калуакское рыбоборье</span>
+
+
+					<span class="date">
+							Начинается через 4 ч 23 мин
+					</span>
+				</span>
+	<span class="clear"><!-- --></span>
+			</a>
+
+
+		</li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			</ul>
+				<h4>Ожидаются</h4>
+				<ul class="sidebar-list upcoming">
+
+
+
+
+
+
+
+
+
+		<li data-id="1291680000000" class="event-summary sidebar-tile system-event">
+
+			<a href="/wow/ru/vault/character/event#eventId=1291680000000" rel="np">
+
+
+	
+
+ 
+
+
+
+
+
+		<span class="icon-frame">
+			<img src="http://eu.battle.net/wow-assets/static/images/calendar/ui-calendar-event-pvp01.png" alt="" width="27" height="27" />
+				<span class="frame"></span>
+		</span>
+
+				<span  class="info-wrapper clear-after">
+	<span class="date date-status">
+		12:00
+	</span>
+					<span class="title">Рейтинговое ПБ: 10 на 10</span>
+
+
+					<span class="date">
+							вт (12/07) - пн (12/13)
+					</span>
+				</span>
+	<span class="clear"><!-- --></span>
+			</a>
+
+
+		</li>
+
+
+
+
+
+
+
+
+		<li data-id="1291939200000" class="event-summary sidebar-tile system-event">
+
+			<a href="/wow/ru/vault/character/event#eventId=1291939200000" rel="np">
+
+
+	
+
+ 
+
+
+
+
+
+		<span class="icon-frame">
+			<img src="http://eu.battle.net/wow-assets/static/images/calendar/ui-calendar-event-pvp01.png" alt="" width="27" height="27" />
+				<span class="frame"></span>
+		</span>
+
+				<span  class="info-wrapper clear-after">
+	<span class="date date-status">
+		12:00
+	</span>
+					<span class="title">К оружию! Остров Завоеваний</span>
+
+
+					<span class="date">
+							пт (12/10) - пн (12/13)
+					</span>
+				</span>
+	<span class="clear"><!-- --></span>
+			</a>
+
+
+		</li>
+
+
+
+
+
+
+
+
+
+
+
+		<li data-id="1292162400000" class="event-summary sidebar-tile system-event">
+
+			<a href="/wow/ru/vault/character/event#eventId=1292162400000" rel="np">
+
+
+	
+
+ 
+
+
+
+
+
+		<span class="icon-frame">
+			<img src="http://eu.battle.net/wow-assets/static/images/calendar/calendar_fishingextravaganza.png" alt="" width="27" height="27" />
+				<span class="frame"></span>
+		</span>
+
+				<span  class="info-wrapper clear-after">
+	<span class="date date-status">
+		02:00
+	</span>
+					<span class="title">Рыбомания Тернистой долины</span>
+
+
+					<span class="date">
+							вс (12/12)
+					</span>
+				</span>
+	<span class="clear"><!-- --></span>
+			</a>
+
+
+		</li>
+
+
+
+
+
+
+
+
+		<li data-id="1292284800000" class="event-summary sidebar-tile system-event">
+
+			<a href="/wow/ru/vault/character/event#eventId=1292284800000" rel="np">
+
+
+	
+
+ 
+
+
+
+
+
+		<span class="icon-frame">
+			<img src="http://eu.battle.net/wow-assets/static/images/calendar/ui-calendar-event-pvp01.png" alt="" width="27" height="27" />
+				<span class="frame"></span>
+		</span>
+
+				<span  class="info-wrapper clear-after">
+	<span class="date date-status">
+		12:00
+	</span>
+					<span class="title">Рейтинговое ПБ: 15 на 15</span>
+
+
+					<span class="date">
+							вт (12/14) - пн (12/20)
+					</span>
+				</span>
+	<span class="clear"><!-- --></span>
+			</a>
+
+
+		</li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				</ul>
+		</div>
+
+</div>
