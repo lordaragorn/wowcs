@@ -1,0 +1,11 @@
+UPDATE `wow_professions` SET `icon` = 'trade_blacksmithing' WHERE  `id` = 164;
+UPDATE `wow_professions` SET `icon` = 'trade_leatherworking' WHERE  `id` = 165;
+UPDATE `wow_professions` SET `icon` = 'trade_alchemy' WHERE  `id` = 171;
+UPDATE `wow_professions` SET `icon` = 'trade_herbalism' WHERE  `id` = 182;
+UPDATE `wow_professions` SET `icon` = 'trade_mining' WHERE  `id` = 186;
+UPDATE `wow_professions` SET `icon` = 'trade_tailoring' WHERE  `id` = 197;
+UPDATE `wow_professions` SET `icon` = 'trade_engineering' WHERE  `id` = 202;
+UPDATE `wow_professions` SET `icon` = 'trade_engraving' WHERE  `id` = 333;
+UPDATE `wow_professions` SET `icon` = 'inv_misc_pelt_wolf_01' WHERE  `id` = 393;
+UPDATE `wow_professions` SET `icon` = 'inv_misc_gem_01' WHERE  `id` = 755;
+UPDATE `wow_professions` SET `icon` = 'inv_inscription_tradeskill01' WHERE  `id` = 773;
