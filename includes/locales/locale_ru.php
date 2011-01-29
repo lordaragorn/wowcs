@@ -333,6 +333,8 @@ $WoW_Locale = array(
     'stat_resistance_fire' => 'Магия огня',
     'stat_resistance_frost' => 'Магия льда',
     'stat_resistance_nature' => 'Силы природы',
-    'stat_resistance_shadow' => 'Темная магия'
+    'stat_resistance_shadow' => 'Темная магия',
+    
+    'template_profile_no_professions' => 'Нет профессий',
 );
 ?>

@@ -385,6 +385,45 @@ Class WoW_Template {
                     )
                 );
                 break;
+            case 'guild_page':
+                $css_data_page = array(
+                    array(
+                        'path' => '/wow/static/css/profile.css',
+                        'version' => 4,
+                        'browser' => false
+                    ),
+                    array(
+                        'path' => '/wow/static/css/profile-ie.css',
+                        'version' => 4,
+                        'browser' => 'IE'
+                    ),
+                    array(
+                        'path' => '/wow/static/css/profile-ie6.css',
+                        'version' => 4,
+                        'browser' => 'IE 6'
+                    ),
+                    array(
+                        'path' => '/wow/static/css/profile-ie6.css',
+                        'version' => 4,
+                        'browser' => 'IE 6'
+                    ),
+                    array(
+                        'path' => '/wow/static/css/guild/guild.css',
+                        'version' => 6,
+                        'browser' => ''
+                    ),
+                    array(
+                        'path' => '/wow/static/css/guild/summary.css',
+                        'version' => 6,
+                        'browser' => ''
+                    ),
+                    array(
+                        'path' => '/wow/static/css/guild/summary-ie6.css',
+                        'version' => 6,
+                        'browser' => 'IE 6'
+                    )
+                );
+                break;
         }
         $cssList = array_merge($css_data, $css_data_page);
         $cssList[] = array(
@@ -449,6 +488,9 @@ Class WoW_Template {
                 break;
             case 'item':
                 return sprintf('%s - ', self::GetPageData('itemName'));
+                break;
+            case 'guild':
+                return sprintf('%s @ %s - ', self::GetPageData('guildName'), self::GetPageData('realmName'));
                 break;
         }
     }

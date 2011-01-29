@@ -40,9 +40,7 @@ World of Warcraft
                     <div class="guild">
 							<a href="%s?character=%s">%s</a>
 						</div>', WoW_Characters::GetTitleInfo('title'), WoW_Characters::GetGuildURL(), urlencode(WoW_Characters::GetName()), WoW_Characters::GetGuildName());
-                    ?>
-					
-						
+                    ?>						
 				</div>
 	<span class="clear"><!-- --></span>
 				<div class="under-name color-c<?php echo WoW_Characters::GetClassID(); ?>">
@@ -353,22 +351,16 @@ World of Warcraft
     ?>
 	</ul>
 					</div>
-
 					<div class="summary-health-resource">
 	<ul>
 		<li class="health" id="summary-health" data-id="health"><span class="name"><?php echo WoW_Locale::GetString('stat_health'); ?></span><span class="value"><?php echo WoW_Characters::GetHealth(); ?></span></li>
 		<li class="resource-<?php echo WoW_Characters::GetPowerType(); ?>" id="summary-power" data-id="power-<?php echo WoW_Characters::GetPowerType(); ?>"><span class="name"><?php echo WoW_Locale::GetString('stat_power' . WoW_Characters::GetPowerType()); ?></span><span class="value"><?php echo WoW_Characters::GetPowerValue(); ?></span></li>
 	</ul>
 					</div>
-
 					<div class="summary-stats-profs-bgs">
-
-
 	<div class="summary-stats" id="summary-stats">
-
 		<div id="summary-stats-simple" class="summary-stats-simple">
 			<div class="summary-stats-simple-base">
-
 
 	<div class="summary-stats-column">
 		<h4><?php echo WoW_Locale::GetString('template_profile_stats'); ?></h4>
@@ -385,68 +377,32 @@ World of Warcraft
         $defense = WoW_Characters::GetDefenseStats();
         $resistances = WoW_Characters::GetResistanceStats();
         ?>
-
-	 
 	<li data-id="strength" class="">
 		<span class="name"><?php echo WoW_Locale::GetString('stat_strength'); ?></span>
 		<span class="value"><?php echo $strength['effective']; ?></span>
 	<span class="clear"><!-- --></span>
 	</li>
 
-	 
-
-
-
-
-
 	<li data-id="agility" class="">
 		<span class="name"><?php echo WoW_Locale::GetString('stat_agility'); ?></span>
 		<span class="value"><?php echo $agility['effective']; ?></span>
 	<span class="clear"><!-- --></span>
 	</li>
-
-	 
-
-
-
-
-
 	<li data-id="stamina" class="">
 		<span class="name"><?php echo WoW_Locale::GetString('stat_stamina'); ?></span>
 		<span class="value color-q2"><?php echo $stamina['effective']; ?></span>
 	<span class="clear"><!-- --></span>
 	</li>
-
-	 
-
-
-
-
-
 	<li data-id="intellect" class="">
 		<span class="name"><?php echo WoW_Locale::GetString('stat_intellect'); ?></span>
 		<span class="value color-q2"><?php echo $intellect['effective']; ?></span>
 	<span class="clear"><!-- --></span>
 	</li>
-
-	 
-
-
-
-
-
 	<li data-id="spirit" class="">
 		<span class="name"><?php echo WoW_Locale::GetString('stat_spirit'); ?></span>
 		<span class="value color-q2"><?php echo $spirit['effective']; ?></span>
 	<span class="clear"><!-- --></span>
 	</li>
-
-	 
-
-
-
-
-
 	<li data-id="mastery" class="">
 		<span class="name"><?php echo WoW_Locale::GetString('stat_mastery'); ?></span>
 		<span class="value">0,0</span>
@@ -457,93 +413,44 @@ World of Warcraft
 			</div>
 			<div class="summary-stats-simple-other">
 				<a id="summary-stats-simple-arrow" class="summary-stats-simple-arrow" href="javascript:;"></a>
-
-
 	<div class="summary-stats-column" style="<?php echo WoW_Characters::GetRole() != ROLE_MELEE ? 'display: none;' : null; ?>">
 		<h4><?php echo WoW_Locale::GetString('template_profile_melee_stats'); ?></h4>
 		<ul>
-
-	 
-
-	
-
 	<li data-id="meleedamage" class="">
 		<span class="name"><?php echo WoW_Locale::GetString('stat_damage'); ?></span>
 		<span class="value"><?php echo sprintf('%d - %d', $melee_stats['damage']['min'], $melee_stats['damage']['max']); ?></span>
 	<span class="clear"><!-- --></span>
 	</li>
-
-	 
-
-	
-
 	<li data-id="meleedps" class="">
 		<span class="name"><?php echo WoW_Locale::GetString('stat_dps'); ?></span>
 		<span class="value"><?php echo $melee_stats['damage']['dps']; ?></span>
 	<span class="clear"><!-- --></span>
 	</li>
-
-	 
-
-
-
-
 	<li data-id="meleeattackpower" class="">
 		<span class="name"><?php echo WoW_Locale::GetString('stat_attack_power'); ?></span>
 		<span class="value"><?php echo $melee_stats['attack_power']['effective']; ?></span>
 	<span class="clear"><!-- --></span>
 	</li>
-
-	 
-
-	
-
 	<li data-id="meleespeed" class="">
 		<span class="name"><?php echo WoW_Locale::GetString('stat_haste'); ?></span>
 		<span class="value"><?php echo $melee_stats['haste_rating']['value']; ?></span>
 	<span class="clear"><!-- --></span>
 	</li>
-
-	 
-
-
-
-
-
 	<li data-id="meleehaste" class="">
 		<span class="name"><?php echo WoW_Locale::GetString('stat_haste_rating'); ?></span>
 		<span class="value"><?php echo $melee_stats['haste_rating']['hastePercent']; ?>%</span>
 	<span class="clear"><!-- --></span>
 	</li>
-
-	 
-
-
-
-
-
 	<li data-id="meleehit" class="">
 		<span class="name"><?php echo WoW_Locale::GetString('stat_hit'); ?></span>
 		<span class="value">+<?php echo $melee_stats['hit_rating']['increasedHitPercent']; ?>%</span>
 	<span class="clear"><!-- --></span>
 	</li>
-
-	 
-
-
-
-
-
 	<li data-id="meleecrit" class="">
 		<span class="name"><?php echo WoW_Locale::GetString('stat_crit'); ?></span>
 		<span class="value"><?php echo $melee_stats['crit_rating']['percent']; ?>%</span>
 	<span class="clear"><!-- --></span>
 	</li>
-
-	 
-
-	
-
 	<li data-id="expertise" class="">
 		<span class="name"><?php echo WoW_Locale::GetString('stat_expertise'); ?></span>
 		<span class="value"><?php echo $melee_stats['expertise_rating']['value']; ?></span>
@@ -551,87 +458,39 @@ World of Warcraft
 	</li>
 		</ul>
 	</div>
-
-
 	<div class="summary-stats-column" style="<?php echo WoW_Characters::GetRole() != ROLE_RANGED ? 'display: none;' : null; ?>">
 		<h4><?php echo WoW_Locale::GetString('template_profile_ranged_stats'); ?></h4>
 		<ul>
-
-	 
-
-	
-
 	<li data-id="rangeddamage" class="">
 		<span class="name"><?php echo WoW_Locale::GetString('stat_damage'); ?></span>
 		<span class="value"><?php echo sprintf('%s - %d', $ranged_stats['damage']['min'], $ranged_stats['damage']['max']); ?></span>
 	<span class="clear"><!-- --></span>
 	</li>
-
-	 
-
-
-
-
-
 	<li data-id="rangeddps" class="">
 		<span class="name"><?php echo WoW_Locale::GetString('stat_dps'); ?></span>
 		<span class="value"><?php echo $ranged_stats['damage']['dps']; ?></span>
 	<span class="clear"><!-- --></span>
 	</li>
-
-	 
-
-
-
-
 	<li data-id="rangedattackpower" class="">
 		<span class="name"><?php echo WoW_Locale::GetString('stat_attack_power'); ?></span>
 		<span class="value"><?php echo $ranged_stats['attack_power']['effective']; ?></span>
 	<span class="clear"><!-- --></span>
 	</li>
-
-	 
-
-
-
-
-
 	<li data-id="rangedspeed" class="">
 		<span class="name"><?php echo WoW_Locale::GetString('stat_haste'); ?></span>
 		<span class="value"><?php echo $ranged_stats['haste_rating']['value']; ?></span>
 	<span class="clear"><!-- --></span>
 	</li>
-
-	 
-
-
-
-
-
 	<li data-id="rangedhaste" class="">
 		<span class="name"><?php echo WoW_Locale::GetString('stat_haste_rating'); ?></span>
 		<span class="value"><?php echo $ranged_stats['haste_rating']['hastePercent']; ?>%</span>
 	<span class="clear"><!-- --></span>
 	</li>
-
-	 
-
-
-
-
-
 	<li data-id="rangedhit" class="">
 		<span class="name"><?php echo WoW_Locale::GetString('stat_hit'); ?></span>
 		<span class="value">+<?php echo $melee_stats['hit_rating']['increasedHitPercent']; ?>%</span>
 	<span class="clear"><!-- --></span>
 	</li>
-
-	 
-
-
-
-
-
 	<li data-id="rangedcrit" class="">
 		<span class="name"><?php echo WoW_Locale::GetString('stat_crit'); ?></span>
 		<span class="value"><?php echo $melee_stats['crit_rating']['percent']; ?>%</span>
@@ -639,90 +498,39 @@ World of Warcraft
 	</li>
 		</ul>
 	</div>
-
-
 	<div class="summary-stats-column" style="<?php echo WoW_Characters::GetRole() != ROLE_CASTER ? 'display: none;' : null; ?>">
 		<h4><?php echo WoW_Locale::GetString('template_profile_spell_stats'); ?></h4>
 		<ul>
-
-	 
-
-
-
-
-
 	<li data-id="spellpower" class="">
 		<span class="name"><?php echo WoW_Locale::GetString('stat_spell_power'); ?></span>
 		<span class="value"><?php echo $spell['power']['value']; ?></span>
 	<span class="clear"><!-- --></span>
 	</li>
-
-	 
-
-
-
-
-
 	<li data-id="spellhaste" class="">
 		<span class="name"><?php echo WoW_Locale::GetString('stat_spell_haste'); ?></span>
 		<span class="value"><?php echo $spell['haste_rating']['hastePercent']; ?>%</span>
 	<span class="clear"><!-- --></span>
 	</li>
-
-	 
-
-
-
-
-
 	<li data-id="spellhit" class="">
 		<span class="name"><?php echo WoW_Locale::GetString('stat_hit'); ?></span>
 		<span class="value">+<?php echo $spell['hit_rating']['increasedHitPercent']; ?>%</span>
 	<span class="clear"><!-- --></span>
 	</li>
-
-	 
-
-
-
-
-
 	<li data-id="spellcrit" class="">
 		<span class="name"><?php echo WoW_Locale::GetString('stat_crit'); ?></span>
 		<span class="value"><?php echo $spell['crit_rating']['value']; ?>%</span>
 	<span class="clear"><!-- --></span>
 	</li>
-
-	 
-
-
-
-
-
 	<li data-id="spellpenetration" class="">
 		<span class="name"><?php echo WoW_Locale::GetString('stat_spell_penetration'); ?></span>
 		<span class="value"><?php echo $spell['hit_rating']['penetration']; ?></span>
 	<span class="clear"><!-- --></span>
 	</li>
-
-	 
-
-
-
-
-
 	<li data-id="manaregen" class="">
 		<span class="name"><?php echo WoW_Locale::GetString('stat_mana_regen'); ?></span>
 		<span class="value"><?php echo $spell['mana_regen']['notCasting']; ?></span>
 	<span class="clear"><!-- --></span>
 	</li>
-
-	 
-
-
-
-
-
 	<li data-id="combatregen" class="">
 		<span class="name"><?php echo WoW_Locale::GetString('stat_combat_regen'); ?></span>
 		<span class="value"><?php echo $spell['mana_regen']['casting']; ?></span>
@@ -730,66 +538,29 @@ World of Warcraft
 	</li>
 		</ul>
 	</div>
-
-
 	<div class="summary-stats-column" style="display: none">
 		<h4><?php echo WoW_Locale::GetString('template_profile_defense_stats'); ?></h4>
 		<ul>
-
-	 
-
-
-
-
-
 	<li data-id="armor" class="">
 		<span class="name"><?php echo WoW_Locale::GetString('stat_armor'); ?></span>
 		<span class="value"><?php echo $defense['armor']['effective']; ?></span>
 	<span class="clear"><!-- --></span>
 	</li>
-
-	 
-
-
-
-
-
 	<li data-id="dodge" class="">
 		<span class="name"><?php echo WoW_Locale::GetString('stat_dodge'); ?></span>
 		<span class="value"><?php echo $defense['dodge']['percent']; ?>%</span>
 	<span class="clear"><!-- --></span>
 	</li>
-
-	 
-
-
-
-
-
 	<li data-id="parry" class="">
 		<span class="name"><?php echo WoW_Locale::GetString('stat_parry'); ?></span>
 		<span class="value"><?php echo $defense['parry']['percent']; ?>%</span>
 	<span class="clear"><!-- --></span>
 	</li>
-
-	 
-
-
-
-
-
 	<li data-id="block" class="">
 		<span class="name"><?php echo WoW_Locale::GetString('stat_block'); ?></span>
 		<span class="value"><?php echo $defense['block']['percent']; ?>%</span>
 	<span class="clear"><!-- --></span>
 	</li>
-
-	 
-
-
-
-
-
 	<li data-id="resilience" class="">
 		<span class="name"><?php echo WoW_Locale::GetString('stat_resilience'); ?></span>
 		<span class="value"><?php echo $defense['resilience']['value']; ?></span>
@@ -797,24 +568,11 @@ World of Warcraft
 	</li>
 		</ul>
 	</div>
-
-
 	<div class="summary-stats-column" style="display: none">
 		<h4><?php echo WoW_Locale::GetString('template_profile_resistances_stats'); ?></h4>
 		<ul>
-
-	 
-
-
-
-
-
 	<li data-id="arcaneres" class=" has-icon">
 			<span class="icon"> 
-
-
-
-
 		<span class="icon-frame frame-12">
 			<img src="http://eu.battle.net/wow-assets/static/images/icons/18/resist_arcane.jpg" alt="" width="12" height="12" />
 		</span>
@@ -823,19 +581,8 @@ World of Warcraft
 		<span class="value"><?php echo $resistances['resistance']['arcane']; ?></span>
 	<span class="clear"><!-- --></span>
 	</li>
-
-	 
-
-
-
-
-
 	<li data-id="fireres" class=" has-icon">
 			<span class="icon"> 
-
-
-
-
 		<span class="icon-frame frame-12">
 			<img src="http://eu.battle.net/wow-assets/static/images/icons/18/resist_fire.jpg" alt="" width="12" height="12" />
 		</span>
@@ -844,19 +591,8 @@ World of Warcraft
 		<span class="value"><?php echo $resistances['resistance']['fire']; ?></span>
 	<span class="clear"><!-- --></span>
 	</li>
-
-	 
-
-
-
-
-
 	<li data-id="frostres" class=" has-icon">
 			<span class="icon"> 
-
-
-
-
 		<span class="icon-frame frame-12">
 			<img src="http://eu.battle.net/wow-assets/static/images/icons/18/resist_frost.jpg" alt="" width="12" height="12" />
 		</span>
@@ -865,19 +601,8 @@ World of Warcraft
 		<span class="value"><?php echo $resistances['resistance']['frost']; ?></span>
 	<span class="clear"><!-- --></span>
 	</li>
-
-	 
-
-
-
-
-
 	<li data-id="natureres" class=" has-icon">
-			<span class="icon"> 
-
-
-
-
+			<span class="icon">
 		<span class="icon-frame frame-12">
 			<img src="http://eu.battle.net/wow-assets/static/images/icons/18/resist_nature.jpg" alt="" width="12" height="12" />
 		</span>
@@ -886,19 +611,8 @@ World of Warcraft
 		<span class="value"><?php echo $resistances['resistance']['nature']; ?></span>
 	<span class="clear"><!-- --></span>
 	</li>
-
-	 
-
-
-
-
-
 	<li data-id="shadowres" class=" has-icon">
-			<span class="icon"> 
-
-
-
-
+			<span class="icon">
 		<span class="icon-frame frame-12">
 			<img src="http://eu.battle.net/wow-assets/static/images/icons/18/resist_shadow.jpg" alt="" width="12" height="12" />
 		</span>
@@ -1074,54 +788,47 @@ World of Warcraft
 
 							<div class="summary-professions">
 	<ul>
-				<li>
+				
 	    
 	
-    
-	<div class="profile-progress border-3" >
-		<div class="bar border-3" style="width: 94%"></div>
-			<div class="bar-contents">						<span class="profession-details">
-							<span class="icon"> 
-
-
-
-
+    <?php
+    // Professions
+    $professions = WoW_Characters::GetProfessions();
+    if(is_array($professions)) {
+        for($i = 0; $i < 2; $i++) {
+            if(!isset($professions[$i])) {
+                echo sprintf('<li class="empty">
+					<span class="profession-details">
+						<span class="icon"> 
 		<span class="icon-frame frame-12">
-			<img src="http://eu.battle.net/wow-assets/static/images/icons/18/trade_tailoring.jpg" alt="" width="12" height="12" />
+			<img src="http://eu.battle.net/wow-assets/static/images/icons/18/inv_misc_questionmark.jpg" alt="" width="12" height="12" />
 		</span>
 </span>
-							<span class="name">Портняжное дело</span>
-							<span class="value">496</span>
-						</span>
-
-	<a href="javascript:;" data-fansite="skill|197|Портняжное дело" class="fansite-link fansite-small"> </a>
-</div>
-	</div>
-				</li>
-				<li>
-	    
-	
-    
-	<div class="profile-progress border-3" >
-		<div class="bar border-3" style="width: 92%"></div>
-			<div class="bar-contents">						<span class="profession-details">
+						<span class="name">%s</span>
+					</span>
+				</li>', WoW_Locale::GetString('template_profile_no_professions'));
+            }
+            else {
+                echo sprintf('<li><div class="profile-progress border-3" >
+		<div class="bar border-3" style="width: %d%%"></div>
+			<div class="bar-contents"><span class="profession-details">
 							<span class="icon"> 
-
-
-
-
 		<span class="icon-frame frame-12">
-			<img src="http://eu.battle.net/wow-assets/static/images/icons/18/trade_engraving.jpg" alt="" width="12" height="12" />
+			<img src="http://eu.battle.net/wow-assets/static/images/icons/18/%s.jpg" alt="" width="12" height="12" />
 		</span>
 </span>
-							<span class="name">Наложение чар</span>
-							<span class="value">488</span>
+							<span class="name">%s</span>
+							<span class="value">%d</span>
 						</span>
 
-	<a href="javascript:;" data-fansite="skill|333|Наложение чар" class="fansite-link fansite-small"> </a>
+	<a href="javascript:;" data-fansite="skill|%d|%s" class="fansite-link fansite-small"> </a>
 </div>
-	</div>
-				</li>
+	</div></li>', WoW_Utils::GetPercent($professions[$i]['max'], $professions[$i]['value']), $professions[$i]['icon'], $professions[$i]['name'], $professions[$i]['value'], $professions[$i]['id'], $professions[$i]['name']);
+            }
+        }
+    }
+    ?>
+				
 	</ul>
 							</div>
 
@@ -1145,330 +852,7 @@ World of Warcraft
 
 	<span class="clear"><!-- --></span>
 	</div>
-
-	<script type="text/javascript">
-	//<![CDATA[
-		var MsgProfile = {
-			tooltip: {
-				feature: {
-					notYetAvailable: "Эта функция пока не доступна."
-				},
-				vault: {
-					character: "Этот раздел доступен только для авторизованных пользователей.",
-					guild: "Этот раздел доступен, только если вы авторизовались с персонажа — члена данной гильдии."
-				}
-			}
-		};
-	//]]>
-	</script>
-
-	<script type="text/javascript">
-	//<![CDATA[
-		var MsgSummary = {
-			viewOptions: {
-				threed: {
-					title: "Модель в 3D"
-				}
-			},
-			inventory: {
-				slots: {
-					1: "Голова",
-					2: "Шея",
-					3: "Плечи",
-					4: "Рубашка",
-					5: "Грудь",
-					6: "Пояс",
-					7: "Ноги",
-					8: "Ступни",
-					9: "Запястья",
-					10: "Руки",
-					11: "Палец",
-					12: "Аксессуар",
-					15: "Дальний бой",
-					16: "Спина",
-					19: "Гербовая накидка",
-					21: "Правая рука",
-					22: "Левая рука",
-					28: "Реликвия",
-					empty: "Эта ячейка пуста"
-				}
-			},
-			audit: {
-				whatIsThis: "С помощью этой функции вы можете узнать, как улучшить характеристики своего персонажа. Функция ищет:<br /\><br /\>- пустые ячейки символов;<br /\>- неиспользованные очки талантов;<br /\>- незачарованные предметы;<br /\>- пустые гнезда для самоцветов;<br /\>- неподходящую броню;<br /\>- отсутствующую пряжку в поясе;<br /\>- отсутствующие бонусы за профессии.",
-				missing: "Не хватает: {0}",
-				enchants: {
-					tooltip: "Не зачаровано"
-				},
-				sockets: {
-					singular: "пустое гнездо",
-					plural: "пустые гнезда"
-				},
-				armor: {
-					tooltip: "Не{0}",
-					1: "Ткань",
-					2: "Кожа",
-					3: "Кольчуга",
-					4: "Латы"
-				},
-				lowLevel: {
-					tooltip: "Низкий уровень"	
-				},
-				blacksmithing: {
-					name: "Кузнечное дело",
-					tooltip: "Отсутствует гнездо"
-				},
-				enchanting: {
-					name: "Наложение чар",
-					tooltip: "Не зачаровано"
-				},
-				engineering: {
-					name: "Инженерное дело",
-					tooltip: "Нет улучшения"
-				},
-				inscription: {
-					name: "Начертание",
-					tooltip: "Не зачаровано"
-				},
-				leatherworking: {
-					name: "Кожевенное дело",
-					tooltip: "Не зачаровано"
-				}
-			},
-			talents: {
-				specTooltip: {
-					title: "Специализация",
-					primary: "Основная:",
-					secondary: "Второстепенная:",
-					active: "Активная"
-				}
-			},
-			stats: {
-				toggle: {
-					all: "Показать все характеристики",
-					core: "Показать только основные характеристики"
-				},
-				increases: {
-					attackPower: "Увеличивает силу атаки на {0}.",
-					critChance: "Увеличивает шанс критического удара {0}%.",
-					spellCritChance: "Увеличивает шанс нанесения критического урона магией на {0}%.",
-					health: "Увеличивает здоровье на {0}.",
-					mana: "Увеличивает количество маны на {0}.",
-					manaRegen: "Увеличивает восполнение маны на {0} ед. каждые 5 сек., пока не произносятся заклинания.",
-					meleeDps: "Увеличивает урон, наносимый в ближнем бою, на {0} ед. в секунду.",
-					rangedDps: "Увеличивает урон, наносимый в дальнем бою, на {0} ед. в секунду.",
-					petArmor: "Увеличивает броню питомца на {0} ед.",
-					petAttackPower: "Увеличивает силу атаки питомца на {0} ед.",
-					petSpellDamage: "Увеличивает урон от заклинаний питомца на {0} ед.",
-					petAttackPowerSpellDamage: "Увеличивает силу атаки питомца на {0} ед. и урон от его заклинаний на {1} ед."
-				},
-				decreases: {
-					damageTaken: "Снижает получаемый физический урон на {0}%.",
-					enemyRes: "Снижает сопротивляемость противника на {0} ед.",
-					dodgeParry: "Снижает вероятность того, что ваш удар будет парирован или от вашего удара уклонятся, на {0}%."
-				},
-				noBenefits: "Не предоставляет бонусов вашему классу.",
-				beforeReturns: "(До снижения действенности повторяющихся эффектов)",
-				damage: {
-					speed: "Скорость атаки (сек.):",
-					damage: "Урон:",
-					dps: "Урон в сек.:"
-				},
-				averageItemLevel: {
-					title: "Уровень предмета {0}",
-					description: "Средний уровень вашего лучшего снаряжения. С его повышением вы сможете вставать в очередь в более сложные для прохождения подземелья."
-				},
-				health: {
-					title: "Здоровье {0}",
-					description: "Максимальный запас здоровья. Когда запас здоровья падает до нуля, вы погибаете."
-				},
-				mana: {
-					title: "Мана {0}",
-					description: "Максимальный запас маны. Мана расходуется на произнесение заклинаний."
-				},
-				rage: {
-					title: "Ярость {0}",
-					description: "Максимальный запас ярости. Ярость расходуется при применении способностей и накапливается, когда персонаж атакует врагов или получает урон."
-				},
-				focus: {
-					title: "Концентрация {0}",
-					description: "Максимальный уровень концентрации. Концентрация понижается при применении способностей и повышается со временем."
-				},
-				energy: {
-					title: "Энергия {0}",
-					description: "Максимальный запас энергии. Энергия расходуется при применении способностей и восстанавливается со временем."
-				},
-				runic: {
-					title: "Сила рун {0}",
-					description: "Максимальный запас силы рун."
-				},
-				strength: {
-					title: "Сила{0}"
-				},
-				agility: {
-					title: "Ловкость {0}"
-				},
-				stamina: {
-					title: "Выносливость {0}"
-				},
-				intellect: {
-					title: "Интеллект {0}"
-				},
-				spirit: {
-					title: "Дух {0}"
-				},
-				mastery: {
-					title: "Искусность {0}",
-					description: "Рейтинг искусности {0} увеличивает значение искусности на {1} ед.",
-					unknown: "Вы должны сперва изучить искусность у учителя.",
-					unspecced: "Выберите специализацию, чтобы активировать бонус рейтинга искусности. "
-				},
-				meleeDps: {
-					title: "Урон в секунду"
-				},
-				meleeAttackPower: {
-					title: "Сила атаки в ближнем бою {0}"
-				},
-				meleeSpeed: {
-					title: "Скорость атаки в ближнем бою {0}"
-				},
-				meleeHaste: {
-					title: "Рейтинг скорости в ближнем бою {0}%",
-					description: "Рейтинг скорости {0} увеличивает скорость атаки на {1}%.",
-					description2: "Увеличивает скорость атаки в ближнем бою."
-				},
-				meleeHit: {
-					title: "Рейтинг меткости в ближнем бою {0}%",
-					description: "Рейтинг меткости {0} увеличивает шанс попадания на {1}%."
-				},
-				meleeCrit: {
-					title: "Рейтинг критического удара в ближнем бою {0}%",
-					description: "Рейтинг критического удара {0} увеличивает шанс нанести критический удар {1}%.",
-					description2: "Шанс нанести дополнительный урон в ближнем бою."
-				},
-				expertise: {
-					title: "Мастерство {0}",
-					description: "Рейтинг мастерства {0} увеличивает значение мастерства на {1} ед."
-				},
-				rangedDps: {
-					title: "Урон в секунду"
-				},
-				rangedAttackPower: {
-					title: "Сила атаки в дальнем бою {0}"
-				},
-				rangedSpeed: {
-					title: "Скорость атаки в дальнем бою {0}"
-				},
-				rangedHaste: {
-					title: "Рейтинг скорости в дальнем бою {0}%",
-					description: "Рейтинг скорости {0} увеличивает скорость атаки на {1}%.",
-					description2: "Увеличивает скорость атаки в дальнем бою."
-				},
-				rangedHit: {
-					title: "Рейтинг меткости в дальнем бою {0}%",
-					description: "Рейтинг меткости {0} увеличивает шанс попадания на {1}%."
-				},
-				rangedCrit: {
-					title: "Рейтинг критического удара в дальнем бою {0}%",
-					description: "Рейтинг критического удара {0} увеличивает шанс нанести критический удар {1}%.",
-					description2: "Шанс нанести дополнительный урон в дальнем бою."
-				},
-				spellPower: {
-					title: "Сила заклинаний {0}",
-					description: "Увеличивает урон и исцеляющую силу заклинаний."
-				},
-				spellHaste: {
-					title: "Рейтинг скорости произнесения заклинаний {0}%",
-					description: "Рейтинг скорости {0} увеличивает скорость произнесения заклинаний на {1}%.",
-					description2: "Увеличивает скорость произнесения заклинаний."
-				},
-				spellHit: {
-					title: "Вероятность попадания заклинанием {0}%",
-					description: "Рейтинг меткости {0} увеличивает шанс попадания на {1}%."
-				},
-				spellCrit: {
-					title: "Вероятность критического эффекта заклинания {0}%",
-					description: "Рейтинг критического удара {0} увеличивает шанс нанести критический удар {1}%.",
-					description2: "Шанс нанести заклинанием дополнительный урон или исцеление."
-				},
-				spellPenetration: {
-					title: "Проникающая способность заклинаний {0}"
-				},
-				manaRegen: {
-					title: "Восполнение маны",
-					description: "{0} ед. маны восполняется раз в 5 сек. вне боя."
-				},
-				combatRegen: {
-					title: "Восполнение в бою",
-					description: "{0} ед. маны восполняется раз в 5 сек. в бою."
-				},
-				armor: {
-					title: "Броня {0}"
-				},
-				dodge: {
-					title: "Шанс уклонения {0}%",
-					description: "Рейтинг уклонения{0} увеличивает шанс уклониться от удара на {1}%."
-				},
-				parry: {
-					title: "Шанс парировать удар {0}%",
-					description: "Рейтинг парирования {0} увеличивает шанс парировать удар на {1}%."
-				},
-				block: {
-					title: "Шанс блокирования {0}%",
-					description: "Рейтинг блокирования {0} увеличивает шанс блокировать удар на {1}%.",
-					description2: "Блокирование останавливает {0}% наносимого вам урона."
-				},
-				resilience: {
-					title: "Устойчивость {0}",
-					description: "Снижает {0}% урона, наносимого вам другими игроками и их питомцами или прислужниками."
-				},
-				arcaneRes: {
-					title: "Сопротивление тайной магии {0}",
-					description: "Снижает урон от тайной магии в среднем на {0}%."
-				},
-				fireRes: {
-					title: "Сопротивление магии огня {0}",
-					description: "Снижает урон от магии огня в среднем на {0}%."
-				},
-				frostRes: {
-					title: "Сопротивление магии льдя {0}",
-					description: "Снижает урон от магии льдя в среднем на {0}%."
-				},
-				natureRes: {
-					title: "Сопротивление силам природы {0}",
-					description: "Снижает урон от сил природы в среднем на {0}%."
-				},
-				shadowRes: {
-					title: "Сопротивление темной магии {0}",
-					description: "Снижает урон от темной магии в среднем на {0}%."
-				}
-			},
-			recentActivity: {
-				subscribe: "Подписаться на эту ленту новостей"
-			},
-			raid: {
-				tooltip: {
-					normal: "(норм.)",
-					heroic: "(героич.)",
-					players: "{0} игроков",
-					complete: "{0}% завершено ({1}/{2})",
-					optional: "(на выбор)",
-					expansions: {
-							0: "Классика",
-							1: "The Burning Crusade",
-							2: "Wrath of the Lich King",
-							3: "Cataclysm"
-					}
-				},
-				expansions: {
-						0: "Классика",  	
-						1: "The Burning Crusade",  	
-						2: "Wrath of the Lich King",  	
-						3: "Cataclysm"  	
-				}
-			}
-		};
-	//]]>
-	</script>
+	<script type="text/javascript" src="/wow/static/js/locales/summary_<?php echo WoW_Locale::GetLocale(); ?>.js"></script>
 
 </div>
 </div>

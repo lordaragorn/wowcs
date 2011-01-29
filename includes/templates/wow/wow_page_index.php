@@ -44,6 +44,12 @@ switch(WoW_Template::GetPageIndex()) {
     case '404':
         WoW_Template::LoadTemplate('content_404');
         break;
+    case 'guild_page':
+        WoW_Template::LoadTemplate('content_guild_page');
+        break;
+    case 'guild_roster':
+        WoW_Template::LoadTemplate('content_guild_roster');
+        break;
 }
 WoW_Template::LoadTemplate('block_footer', true);
 WoW_Template::LoadTemplate('block_service', true);

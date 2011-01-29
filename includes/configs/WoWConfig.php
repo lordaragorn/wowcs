@@ -20,17 +20,18 @@
 
 Class WoWConfig {
     public static $DefaultBGName     = 'Massive Network';
-    public static $UseCache          = false;
-    public static $CacheLifeTime     = 86400;
+    public static $UseCache          = false; // NYI
+    public static $CacheLifeTime     = 86400; // NYI
     public static $MinLevelToDisplay = 10;
     public static $MinLevelToSearch  = 0;
-    public static $EnableMaintenance = false;
+    public static $EnableMaintenance = false; // NYI
     public static $UseLog            = true;
     public static $LogLevel          = 2;
     public static $ConfigVersion     = '0101201101';
     public static $CheckVersionType  = 'show';
     public static $DefaultLocale     = 'ru';
     public static $DefaultLocaleID   = 8;
+    public static $SkipBanned        = false;
     
     public static $Realms            = array(
         1 => array(

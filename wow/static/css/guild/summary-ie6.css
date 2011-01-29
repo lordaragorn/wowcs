@@ -1,0 +1,7 @@
+.summary-right { position:relative;}
+
+.summary-rewards li {clear: both;}
+.summary-rewards li .clear { display: none; }
+
+.summary-motd { background-color: #25140b; }
+.summary-motd .description .icon { background: none; padding-left: 0; }

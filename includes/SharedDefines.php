@@ -894,4 +894,7 @@ define('IN_MONTHS', 30 * IN_DAYS);
 define('ROLE_MELEE', 1);
 define('ROLE_RANGED', 2);
 define('ROLE_CASTER', 3);
+
+/** Professions **/
+define('MAX_PROFESSION_SKILL_VALUE', 450); // Wrath: 450 (+10 Racial Bonus), Cata: 525 (+10 Racial Bonus)
 ?>

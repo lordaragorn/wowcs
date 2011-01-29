@@ -71,6 +71,33 @@ Class WoW_Characters /*implements Interface_Characters*/ {
     private static $info_stats     = array();
     private static $fullTalentData = array();
     private static $role           = 0;
+    private static $professions    = array();
+    
+    private static function IsCharacterFitsRequirements() {
+        if(self::$level < WoWConfig::$MinLevelToDisplay) {
+            WoW_Log::WriteLog('%s : unable to display character %s (GUID: %d) because of level restriction.', __METHOD__, self::$name, self::$guid);
+            return false;
+        }
+        if(self::$class >= MAX_CLASSES) {
+            WoW_Log::WriteError('%s : character %s (GUID: %d) has wrong classID: %d.', __METHOD__, self::$name, self::$guid, self::$class);
+            return false;
+        }
+        if(self::$race >= MAX_RACES) {
+            Wow_Log::WriteError('%s : character %s (GUID: %d) has wrong raceID: %d.', __METHOD__, self::$name, self::$guid, self::$race);
+            return false;
+        }
+        self::$factionID = WoW_Utils::GetFactionId(self::$race);
+        if(!in_array(self::$factionID, array(FACTION_ALLIANCE, FACTION_HORDE))) {
+            Wow_Log::WriteError('%s : character %s (GUID: %d) has wrong factionID: %d.', __METHOD__, self::$name, self::$guid, self::$factionID);
+            return false;
+        }
+        $isBanned = DB::Realm()->selectCell("SELECT 1 FROM `account_banned` WHERE `id` = %d AND `active` = 1", self::$account);
+        if($isBanned && WoWConfig::$SkipBanned) {
+            WoW_Log::WriteError('%s : unable to load character %s (GUID: %d) from banned account %d.', __METHOD__, self::$name, self::$guid, self::$account);
+            return false;
+        }
+        return true;
+    }
     
     /**
      * Loads character data
@@ -108,22 +135,8 @@ Class WoW_Characters /*implements Interface_Characters*/ {
             return false;
         }
         // Some checks before script will load `data` field.
-        if(self::$level < WoWConfig::$MinLevelToDisplay) {
-            WoW_Log::WriteLog('%s : unable to display character %s (GUID: %d) because of level restriction.', __METHOD__, self::$name, self::$guid);
+        if(!self::IsCharacterFitsRequirements()) {
             return 2;
-        }
-        if(self::$class >= MAX_CLASSES) {
-            WoW_Log::WriteError('%s : character %s (GUID: %d) has wrong classID: %d.', __METHOD__, self::$name, self::$guid, self::$class);
-            return false;
-        }
-        if(self::$race >= MAX_RACES) {
-            Wow_Log::WriteError('%s : character %s (GUID: %d) has wrong raceID: %d.', __METHOD__, self::$name, self::$guid, self::$race);
-            return false;
-        }
-        self::$factionID = WoW_Utils::GetFactionId(self::$race);
-        if(!in_array(self::$factionID, array(FACTION_ALLIANCE, FACTION_HORDE))) {
-            Wow_Log::WriteError('%s : character %s (GUID: %d) has wrong factionID: %d.', __METHOD__, self::$name, self::$guid, self::$factionID);
-            return false;
         }
         // Set Realm's variables
         self::$realmID = $realm_id;
@@ -138,6 +151,7 @@ Class WoW_Characters /*implements Interface_Characters*/ {
             }
             // Data exists, load it.
             self::$data = DB::Characters()->selectCell("SELECT `data` FROM `armory_character_stats` WHERE `guid`=%d LIMIT 1", self::$guid);
+            // Convert string to array
             self::HandleDataField();
             // Class/race names/keys
             $class_name = WoW_Locale::GetString('character_class_' . self::$class);
@@ -158,8 +172,11 @@ Class WoW_Characters /*implements Interface_Characters*/ {
             }
             self::$class_key = Data_Classes::$classes[self::$class]['key'];
             self::$race_key = Data_Races::$races[self::$race]['key'];
+            // Load Inventory
             self::LoadInventory(true);
             self::CalculateAverageItemLevel();
+            // Load Professions
+            self::LoadProfessions();
         }
         // Load title data
         if(self::$chosenTitle > 0) {
@@ -596,6 +613,14 @@ Class WoW_Characters /*implements Interface_Characters*/ {
                 return 0;
                 break;
         }
+    }
+    
+    public static function GetAllItems() {
+        return self::$m_items;
+    }
+    
+    public static function GetLoadedTalents() {
+        return self::$talents;
     }
     
     public static function GetItem($slot) {
@@ -1827,6 +1852,57 @@ Class WoW_Characters /*implements Interface_Characters*/ {
                 return ROLE_RANGED;
                 break;
         }
+    }
+    
+    private static function LoadProfessions() {
+        if(!self::IsCorrect()) {
+            WoW_Log::WriteError('%s : character was not found.', __METHOD__);
+            return false;
+        }
+        $skills_professions = array(164, 165, 171, 182, 186, 197, 202, 333, 393, 755, 773);
+        $character_professions = DB::Characters()->select("SELECT * FROM `character_skills` WHERE `guid` = %d AND `skill` IN (%s) LIMIT 2", self::GetGUID(), $skills_professions);
+        if(!is_array($character_professions)) {
+            WoW_Log::WriteLog('%s : professions for character %s (GUID: %d) were not found.', __METHOD__, self::GetName(), self::GetGUID());
+            return false;
+        }
+        self::$professions = $character_professions;
+        return self::HandleProfessions();
+    }
+    
+    private static function HandleProfessions() {
+        if(!self::IsCorrect()) {
+            WoW_Log::WriteError('%s : character was not found.', __METHOD__);
+            return false;
+        }
+        if(!self::$professions) {
+            return false;
+        }
+        $professions = array();
+        $i = 0;
+        foreach(self::$professions as $prof) {
+            $professions[$i] = DB::WoW()->selectRow("SELECT `id`, `name_%s` AS `name`, `icon` FROM `DBPREFIX_professions` WHERE `id` = %d LIMIT 1", WoW_Locale::GetLocale(), $prof['skill']);
+            if(!$professions[$i]) {
+                WoW_Log::WriteError('%s : wrong skill ID: %d', __METHOD__, $prof['id']);
+                continue;
+            }
+            $professions[$i]['value'] = $prof['value'];
+            $professions[$i]['max'] = MAX_PROFESSION_SKILL_VALUE;
+            $i++;
+        }
+        self::$professions = $professions;
+        return true;
+    }
+    
+    public static function GetProfessions() {
+        if(!self::IsCorrect()) {
+            WoW_Log::WriteError('%s : character was not found.', __METHOD__);
+            return false;
+        }
+        if(!self::$professions) {
+            // Reload professions
+            self::LoadProfessions();
+        }
+        return self::$professions;
     }
 }
 ?>
