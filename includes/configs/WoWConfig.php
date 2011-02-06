@@ -29,8 +29,8 @@ Class WoWConfig {
     public static $LogLevel          = 2;
     public static $ConfigVersion     = '0101201101';
     public static $CheckVersionType  = 'show';
-    public static $DefaultLocale     = 'ru';
-    public static $DefaultLocaleID   = 8;
+    public static $DefaultLocale     = 'en';
+    public static $DefaultLocaleID   = 0;
     public static $SkipBanned        = false;
     
     public static $Realms            = array(

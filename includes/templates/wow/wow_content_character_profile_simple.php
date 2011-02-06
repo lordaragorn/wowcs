@@ -195,7 +195,12 @@ World of Warcraft
             switch($event['type']) {
                 case TYPE_ACHIEVEMENT_FEED:
                     $ach_link = sprintf('<a href="%sachievement#%d:a%d" rel="np" onmouseover="Tooltip.show(this, \'#achv-tooltip-%d\');">%s</a>', WoW_Characters::GetURL(), $event['category'], $event['id'], $i, $event['name']);
-                    
+                    if($event['category'] == ACHIEVEMENTS_CATEGORY_FEATS) {
+                        $locale_text = sprintf(WoW_Locale::GetString('template_feed_fos'), $ach_link);
+                    }
+                    else {
+                        $locale_text = sprintf(WoW_Locale::GetString('template_feed_achievement'), $ach_link, $event['points']);
+                    }
                     echo sprintf('<li class="ach">
                     <dl><dd><a href="%sachievement#%d:a%d" rel="np" onmouseover="Tooltip.show(this, \'#achv-tooltip-%d\');">
                     <span  class="icon-frame frame-18" style=\'background-image: url("http://eu.battle.net/wow-assets/static/images/icons/18/%s.jpg");\'></span></a>
@@ -203,7 +208,7 @@ World of Warcraft
                     <div id="achv-tooltip-%d" style="display: none"><div class="item-tooltip"><span class="icon-frame frame-56" style=\'background-image: url("http://eu.battle.net/wow-assets/static/images/icons/56/%s.jpg");\'></span>
                     <h3>%s</h3><div class="color-tooltip-yellow">%s</div>
                     </div></div></dd><dt>%s</dt></dl>
-                    </li>', WoW_Characters::GetURL(), $event['category'], $event['id'], $i, $event['icon'], sprintf(WoW_Locale::GetString('template_feed_achievement'), $ach_link, $event['points']),
+                    </li>', WoW_Characters::GetURL(), $event['category'], $event['id'], $i, $event['icon'], $locale_text,
                     $i, $event['icon'], $event['name'], $event['desc'], $event['date']);
                     break;
                 case TYPE_ITEM_FEED:
@@ -685,9 +690,9 @@ World of Warcraft
 
 							<div class="summary-battlegrounds">
 	<ul>
-		<li class="rating"><span class="name">Рейтинг на полях боя</span><span class="value">0</span>	<span class="clear"><!-- --></span>
+		<li class="rating"><span class="name"><?php echo WoW_Locale::GetString('template_rated_bg_rating'); ?></span><span class="value">0</span>	<span class="clear"><!-- --></span>
 </li>
-		<li class="kills"><span class="name">Почетные победы</span><span class="value"><?php echo WoW_Characters::GetTotalKills(); ?></span>	<span class="clear"><!-- --></span>
+		<li class="kills"><span class="name"><?php echo WoW_Locale::GetString('template_honorable_kills'); ?></span><span class="value"><?php echo WoW_Characters::GetTotalKills(); ?></span>	<span class="clear"><!-- --></span>
 </li>
 	</ul>
 							</div>

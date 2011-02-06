@@ -54,7 +54,9 @@ Class WoW_Locale {
         if(self::$locale_name == null || self::$locale_id == -1) {
             return false;
         }
-        include(WOW_DIRECTORY . '/includes/locales/locale_' . self::$locale_name . '.php');
+        if(!@include(WOW_DIRECTORY . '/includes/locales/locale_' . self::$locale_name . '.php')) {
+            @include(WOW_DIRECTORY . '/includes/locales/locale_' . WoWConfig::$DefaultLocale . '.php');
+        }
         self::$locale_holder = $WoW_Locale;
         return true;
     }
@@ -62,6 +64,37 @@ Class WoW_Locale {
     public static function GetString($index) {
         return (isset(self::$locale_holder[$index])) ? self::$locale_holder[$index] : $index;
     }
+    
+    public static function IsLocale($locale_str, $locale_id) {
+        switch($locale_str) {
+            case 'de':
+                return $locale_id == LOCALE_DE;
+            case 'en':
+                return $locale_id == LOCALE_EN;
+            case 'es':
+                return $locale_id == LOCALE_ES;
+            case 'fr':
+                return $locale_id == LOCALE_FR;
+            case 'ru':
+                return $locale_id == LOCALE_RU;
+        }
+        return false;
+    }
+    
+    public static function GetLocaleIDForLocale($locale_str) {
+        switch($locale_str) {
+            case 'de':
+                return LOCALE_DE;
+            case 'en':
+                return LOCALE_EN;
+            case 'es':
+                return LOCALE_ES;
+            case 'fr':
+                return LOCALE_FR;
+            case 'ru':
+                return LOCALE_RU;
+        }
+        return false;
+    }
 }
-
 ?>

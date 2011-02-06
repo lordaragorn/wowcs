@@ -1,17 +1,17 @@
 
 <div xmlns="http://www.w3.org/1999/xhtml" id="international">
 		<div class="column">
-			<h3>США</h3>
+			<h3>Americas</h3>
 
 			<ul>
 						<li>
-							<a href="http://us.battle.net/wow"
+							<a href="?locale=en"
 								tabindex="100" onclick="Locale.trackEvent('Change Language', 'ru-ru to en-us'); return true;">
 							   English (US)
 							</a>
 						</li>
 						<li>
-							<a href="http://us.battle.net/wow"
+							<a href="?locale=en"
 								tabindex="100" onclick="Locale.trackEvent('Change Language', 'ru-ru to es-mx'); return true;">
 							   Español (AL)
 							</a>
@@ -19,35 +19,35 @@
 			</ul>
 		</div>
 		<div class="column">
-			<h3>Европа</h3>
+			<h3>Europe</h3>
 
 			<ul>
 						<li>
-							<a href="http://eu.battle.net/wow"
+							<a href="?locale=de"
 								tabindex="100" onclick="Locale.trackEvent('Change Language', 'ru-ru to de-de'); return true;">
 							   Deutsch
 							</a>
 						</li>
 						<li>
-							<a href="http://eu.battle.net/wow"
+							<a href="?locale=en"
 								tabindex="100" onclick="Locale.trackEvent('Change Language', 'ru-ru to en-gb'); return true;">
 							   English (EU)
 							</a>
 						</li>
 						<li>
-							<a href="http://eu.battle.net/wow"
+							<a href="?locale=es"
 								tabindex="100" onclick="Locale.trackEvent('Change Language', 'ru-ru to es-es'); return true;">
 							   Español (EU)
 							</a>
 						</li>
 						<li>
-							<a href="http://eu.battle.net/wow"
+							<a href="?locale=fr"
 								tabindex="100" onclick="Locale.trackEvent('Change Language', 'ru-ru to fr-fr'); return true;">
 							   Français
 							</a>
 						</li>
 						<li>
-							<a href="http://eu.battle.net/wow" class="selected"
+							<a href="?locale=ru"
 								tabindex="100" onclick="Locale.trackEvent('Change Language', 'ru-ru to ru-ru'); return true;">
 							   Русский
 							</a>
@@ -55,7 +55,7 @@
 			</ul>
 		</div>
 		<div class="column">
-			<h3>Корея</h3>
+			<h3>Korea</h3>
 
 			<ul>
 						<li>
@@ -67,7 +67,7 @@
 			</ul>
 		</div>
 		<div class="column">
-			<h3>Тайвань</h3>
+			<h3>Taiwan</h3>
 
 			<ul>
 						<li>
@@ -79,7 +79,7 @@
 			</ul>
 		</div>
 		<div class="column">
-			<h3>Китай</h3>
+			<h3>China</h3>
 
 			<ul>
 						<li>
@@ -91,7 +91,7 @@
 			</ul>
 		</div>
 		<div class="column">
-			<h3>Юго-восточная Азия</h3>
+			<h3>Southeast Asia</h3>
 
 			<ul>
 						<li>

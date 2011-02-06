@@ -31,6 +31,7 @@ if(!defined('WOW_DIRECTORY') || !WOW_DIRECTORY) {
 // Perform log in (if required)
 if(isset($_GET['login']) || preg_match('/\?login/', $_SERVER['REQUEST_URI'])) {
     header('Location: /login/');
+    exit;
 }
 // Load defines
 include(WOW_DIRECTORY . '/includes/revision_nr.php');
@@ -57,20 +58,42 @@ include(WOW_DIRECTORY . '/includes/classes/class.achievements.php');
 include(WOW_DIRECTORY . '/includes/classes/class.item.php');
 include(WOW_DIRECTORY . '/includes/classes/class.items.php');
 include(WOW_DIRECTORY . '/includes/classes/class.itemprototype.php');
+include(WOW_DIRECTORY . '/includes/classes/class.guild.php');
 // Load data
 include(WOW_DIRECTORY . '/includes/data/data.classes.php');
 include(WOW_DIRECTORY . '/includes/data/data.races.php');
-
-// Initialize account (if user already logged in we need to re-build his info from session data)
-WoW_Account::Initialize();
+// Locale
+if(isset($_GET['locale'])) {
+    $_SESSION['wow_locale'] = $_GET['locale'];
+    $_SESSION['wow_locale_id'] = WoW_Locale::GetLocaleIDForLocale($_SESSION['wow_locale']);
+    if(WoW_Locale::IsLocale($_SESSION['wow_locale'], $_SESSION['wow_locale_id'])) {
+        WoW_Locale::SetLocale($_SESSION['wow_locale'], $_SESSION['wow_locale_id']);
+        if(isset($_SERVER['HTTP_REFERER'])) {
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
+            exit;
+        }
+        else {
+            header('Location: /');
+            exit; 
+        }
+    }
+}
 // Perform logout
 if(isset($_GET['logout']) || preg_match('/\?logout/', $_SERVER['REQUEST_URI'])) {
     // $_SERVER['REQUEST_URI'] check is required for mod_rewrited URL cases.
     WoW_Account::PerformLogout();
     header('Location: /');
+    exit;
 }
+// Initialize account (if user already logged in we need to re-build his info from session data)
+WoW_Account::Initialize();
 // Load locale
-WoW_Locale::SetLocale(WoWConfig::$DefaultLocale, WoWConfig::$DefaultLocaleID);
+if(isset($_SESSION['wow_locale']) && WoW_Locale::IsLocale($_SESSION['wow_locale'], $_SESSION['wow_locale_id'])) {
+    WoW_Locale::SetLocale($_SESSION['wow_locale'], $_SESSION['wow_locale_id']);
+}
+else {
+    WoW_Locale::SetLocale(WoWConfig::$DefaultLocale, WoWConfig::$DefaultLocaleID);
+}
 // Initialize debug log
 WoW_Log::Initialize(WoWConfig::$UseLog, WoWConfig::$LogLevel);
 // Load databases configs

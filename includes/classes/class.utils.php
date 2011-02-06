@@ -424,11 +424,11 @@ Class WoW_Utils {
                 'дней', 'часов', 'мин', 'сек'
             )
         );
-        if(WoW_Locale::GetLocale() == 'en_gb' || WoW_Locale::GetLocale() == 'ru') {
+        if(WoW_Locale::GetLocale() == 'en' || WoW_Locale::GetLocale() == 'ru') {
             $preferLocale = $strings_array[WoW_Locale::GetLocale()];
         }
         else {
-            $preferLocale = $strings_array['en_gb'];
+            $preferLocale = $strings_array['en'];
         }
         $text = null;
         if($seconds >=24*3600) {

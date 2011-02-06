@@ -36,6 +36,7 @@ if(isset($_POST['accountName'])) {
     }
     if(WoW_Account::PerformLogin($username, $password)) {
         header('Location: /login/login.frag');
+        exit;
     }
     // Other error messages will appear automaticaly.
 }

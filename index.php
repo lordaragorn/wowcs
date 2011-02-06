@@ -20,7 +20,8 @@
 
 // Redirect user to WoW Site
 // header('Location: /wow/');
-// Placeholder
+// exit;
+// [PH]
 include('includes/WoW_Loader.php');
 WoW_Template::SetTemplateTheme('bn');
 WoW_Template::SetMenuIndex('index');

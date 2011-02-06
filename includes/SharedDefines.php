@@ -897,4 +897,11 @@ define('ROLE_CASTER', 3);
 
 /** Professions **/
 define('MAX_PROFESSION_SKILL_VALUE', 450); // Wrath: 450 (+10 Racial Bonus), Cata: 525 (+10 Racial Bonus)
+
+/** Locale defines **/
+define('LOCALE_DE', 3);
+define('LOCALE_EN', 0);
+define('LOCALE_ES', 6);
+define('LOCALE_FR', 2);
+define('LOCALE_RU', 8);
 ?>

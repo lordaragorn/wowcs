@@ -339,6 +339,8 @@ $WoW_Locale = array(
     'stat_resistance_shadow' => 'Темная магия',
     
     'template_profile_no_professions' => 'Нет профессий',
+    'template_rated_bg_rating' => 'Рейтинг на полях боя',
+    'template_honorable_kills' => 'Почетные победы',
     
     'template_feed_obtained_item' => 'Получено %s.',
     'template_feed_achievement' => 'Заработано достижение %s за %d очков.',
@@ -351,6 +353,5 @@ $WoW_Locale = array(
     
     'template_guild' => 'Гильдия',
     'template_guild_members_count' => 'Членов гильдии: %d',
-    
 );
 ?>

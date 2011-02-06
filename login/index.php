@@ -22,6 +22,7 @@ include('../includes/WoW_Loader.php');
 WoW_Template::SetPageIndex('login');
 if(WoW_Account::IsLoggedIn()) {
     header('Location: /');
+    exit;
 }
 if(isset($_POST['accountName'])) {
     $username = $_POST['accountName'];
@@ -38,6 +39,7 @@ if(isset($_POST['accountName'])) {
     }
     if(WoW_Account::PerformLogin($username, $password)) {
         header('Location: /');
+        exit
     }
     // Other error messages will appear automaticaly.
 }
