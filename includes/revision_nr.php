@@ -1,4 +1,4 @@
 <?php
-define('WOW_REVISION', 5);
+define('WOW_REVISION', 6);
 define('DB_VERSION', '1');
 ?>

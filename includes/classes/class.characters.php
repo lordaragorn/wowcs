@@ -53,25 +53,30 @@ Class WoW_Characters /*implements Interface_Characters*/ {
     private static $guildId        = 0;
     private static $guildName      = null;
     private static $factionID      = -1;
-    private static $data           = null;
     private static $title_info     = array();
     private static $class_name     = null;
     private static $class_key      = null;
     private static $race_name      = null;
     private static $race_key       = null;
     private static $power_type     = 0;
-    private static $m_items        = array();
     private static $item_level     = array();
+    private static $role           = 0;
+    
+    // Storages
+    private static $professions    = array();
+    private static $info_stats     = array();
+    private static $fullTalentData = array();
     private static $cache_item     = array();
+    private static $m_items        = array();
     private static $talents        = array(); // Character talents
     private static $talent_build   = array(); // Talent Build
     private static $talent_points  = array(); // Talent Points (e.g., 51/15/5)
     private static $stats_holder   = array();
     private static $rating         = array();
-    private static $info_stats     = array();
-    private static $fullTalentData = array();
-    private static $role           = 0;
-    private static $professions    = array();
+    private static $data           = null;
+    private static $feed_data      = array(); // Character feed (DB data)
+    private static $feeds          = array(); // Character feed (handled)
+    
     
     private static function IsCharacterFitsRequirements() {
         if(self::$level < WoWConfig::$MinLevelToDisplay) {
@@ -172,11 +177,15 @@ Class WoW_Characters /*implements Interface_Characters*/ {
             }
             self::$class_key = Data_Classes::$classes[self::$class]['key'];
             self::$race_key = Data_Races::$races[self::$race]['key'];
+            WoW_Achievements::Initialize();
             // Load Inventory
             self::LoadInventory(true);
             self::CalculateAverageItemLevel();
             // Load Professions
             self::LoadProfessions();
+            // Load Feeds
+            self::LoadFeed();
+            self::HandleFeed();
         }
         // Load title data
         if(self::$chosenTitle > 0) {
@@ -263,37 +272,156 @@ Class WoW_Characters /*implements Interface_Characters*/ {
         return true;
     }
     
-    private static function LoadInventory($reload = false) {
+    private static function HandleProfessions() {
         if(!self::IsCorrect()) {
             WoW_Log::WriteError('%s : character was not found.', __METHOD__);
             return false;
         }
-        if(self::IsInventoryLoaded() && !$reload) {
-            return true;
-        }
-        switch(self::$m_server) {
-            case SERVER_MANGOS:
-                $inv = DB::Characters()->select("SELECT `item`, `slot`, `item_template`, `bag` FROM `character_inventory` WHERE `bag` = 0 AND `slot` < %d AND `guid` = %d", INV_MAX, self::$guid);
-                break;
-            case SERVER_TRINITY:
-                $inv = DB::Characters()->select("SELECT `item`, `slot`, `bag` FROM `character_inventory` WHERE `bag` = 0 AND `slot` < %d AND `guid` = %d", INV_MAX, self::$guid);
-                break;
-        }
-        if(!$inv) {
-            WoW_Log::WriteError('%s : unable to find any item for character %s (GUID: %d)!', __METHOD__, self::$name, self::$guid);
+        if(!self::$professions) {
             return false;
         }
-        foreach($inv as $item) {
-            $item['enchants'] = self::GetCharacterEnchant($item['slot']);
-            self::$m_items[$item['slot']] = new WoW_Item(self::$m_server);
-            self::$m_items[$item['slot']]->LoadFromDB($item, self::$guid);
-            // Do not load itemproto here!
+        $professions = array();
+        $i = 0;
+        foreach(self::$professions as $prof) {
+            $professions[$i] = DB::WoW()->selectRow("SELECT `id`, `name_%s` AS `name`, `icon` FROM `DBPREFIX_professions` WHERE `id` = %d LIMIT 1", WoW_Locale::GetLocale(), $prof['skill']);
+            if(!$professions[$i]) {
+                WoW_Log::WriteError('%s : wrong skill ID: %d', __METHOD__, $prof['id']);
+                continue;
+            }
+            $professions[$i]['value'] = $prof['value'];
+            $professions[$i]['max'] = MAX_PROFESSION_SKILL_VALUE;
+            $i++;
         }
+        self::$professions = $professions;
         return true;
     }
     
-    private static function IsInventoryLoaded() {
-        return is_array(self::$m_items);
+    private static function HandleTalents($reload = false) {
+        if(!self::IsTalentsLoaded() || $reload) {
+            if(!self::LoadTalents()) {
+                WoW_Log::WriteError('%s : unable to handle talents without any data.', __METHOD__);
+                return false;
+            }
+        }
+        self::CalculateTalentsBuild();
+        self::CalculateTalents();
+        return true;
+    }
+    
+    private static function HandleFeed() {
+        if(!self::IsFeedsLoaded()) {
+            if(!self::LoadFeed()) {
+                WoW_Log::WriteError('%s : unable to handle feeds without any data.', __METHOD__);
+                return false;
+            }
+        }
+        $feeds_data = array();
+        $periods = array(WoW_Locale::GetString('template_feed_sec'), WoW_Locale::GetString('template_feed_min'), WoW_Locale::GetString('template_feed_hour'));
+        $today = date('d.m.Y');
+        $lengths = array(60, 60, 24);
+        $feed_count = 0;
+        foreach(self::$feed_data as $event) {
+            if($feed_count >= 50) {
+                break;
+            }
+            $date_string = date('d.m.Y', $event['date']);
+            if($date_string == $today) {
+                $diff = time() - $event['date'];
+                for($i = 0; $diff >= $lengths[$i]; $i++) {
+                    $diff /= $lengths[$i];
+                }
+                $diff = round($diff);
+                $date_string = sprintf('%s %s %s', $diff, $periods[$i], WoW_Locale::GetString('template_feed_ago'));
+            }
+            $feed = array();
+            switch($event['type']) {
+                case TYPE_ACHIEVEMENT_FEED:
+                    $achievement = WoW_Achievements::GetAchievementInfo($event['data']);
+                    if(!$achievement) {
+                        WoW_Log::WriteLog('%s : wrong feed data (TYPE_ACHIEVEMENT_FEED, achievement ID: %d), ignore.', __METHOD__, $event['data']);
+                        continue;
+                    }
+                    $feed = array(
+                        'type' => TYPE_ACHIEVEMENT_FEED,
+                        'date' => $date_string,
+                        'id'   => $event['data'],
+                        'points' => $achievement['points'],
+                        'name' => $achievement['name'],
+                        'desc' => $achievement['desc'],
+                        'icon' => $achievement['iconname'],
+                        'category' => $achievement['categoryId']
+                    );
+                    break;
+                case TYPE_ITEM_FEED:
+                    $item = WoW_Items::GetItemInfo($event['data']);
+                    if(!$item) {
+                        WoW_Log::WriteLog('%s : wrong feed data (TYPE_ITEM_FEED, item ID: %d), ignore.', __METHOD__, $event['data']);
+                        continue;
+                    }
+                    $item_icon = WoW_Items::GetItemIcon($item['entry'], $item['displayid']);
+                    $data_item = null;
+                    $slot = self::IsItemEquipped($item['entry']);
+                    if($slot > 0) {
+                        $equipped_info = self::GetEquippedItemInfo($slot);
+                        if($equipped_info) {
+                            $data_item = $equipped_info['data-item'];
+                        }
+                    }
+                    $feed = array(
+                        'type' => TYPE_ITEM_FEED,
+                        'date' => $date_string,
+                        'id'   => $event['data'],
+                        'name' => WoW_Locale::GetLocale() == 'en' ? $item['name'] : WoW_Items::GetItemName($item['entry']),
+                        'data-item' => $data_item,
+                        'quality' => $item['Quality'],
+                        'icon' => $item_icon
+                    );
+                    break;
+                case TYPE_BOSS_FEED:
+                    $difficultyEntry = 0;
+                    $achievement_ids = array();
+                    if($event['difficulty'] <= 0) {
+                        $difficultyEntry = $event['data'];
+                    }
+                    else {
+                        // Search for difficulty_entry_X
+                        $difficultyEntry = DB::World()->selectCell("SELECT `entry` FROM `creature_template` WHERE `difficulty_entry_%d` = %d", $event['difficulty'], $event['data']);
+                        if(!$difficultyEntry || $difficultyEntry == 0) {
+                            $difficultyEntry = $event['data'];
+                        }
+                    }
+                    $criterias = DB::WoW()->select("SELECT `referredAchievement` FROM `DBPREFIX_achievement_criteria` WHERE `data` = %d", $difficultyEntry);
+                    if(!$criterias) {
+                        continue;
+                    }
+                    foreach($criterias as $criteria) {
+                        $achievement_ids[] = $criteria['referredAchievement'];
+                    }
+                    if(!$achievement_ids) {
+                        continue;
+                    }
+                    $achievement = DB::WoW()->selectRow("SELECT `id`, `name_%s` AS `name` FROM `DBPREFIX_achievement` WHERE `id` IN (%s) AND `flags` = 1 AND `dungeonDifficulty` = %d", WoW_Locale::GetLocale(), $achievement_ids, $event['difficulty']);
+                    if(!$achievement) {
+                        continue;
+                    }
+                    $feed = array(
+                        'type'  => TYPE_BOSS_FEED,
+                        'date'  => $date_string,
+                        'id'    => $event['data'],
+                        'name'  => $achievement['name'],
+                        'count' => $event['counter']
+                    );
+                    break;
+                default:
+                    WoW_Log::WriteError('%s : unknown feed type (%d)!', __METHOD__, $event['type']);
+                    continue;
+                    break;
+            }
+            $feeds_data[] = $feed;
+            $feed_count++;
+        }
+        self::$feeds = $feeds_data;
+        return true;
     }
     
     private static function CalculateAverageItemLevel() {
@@ -330,6 +458,10 @@ Class WoW_Characters /*implements Interface_Characters*/ {
         self::$item_level['avg'] = round($total_iLvl / $i);
         return true;
     }
+    
+    //--------------
+    //   Loaders
+    //--------------
     
     private static function LoadCharacterFieldsFromDB() {
         if(!self::$name) {
@@ -374,6 +506,101 @@ Class WoW_Characters /*implements Interface_Characters*/ {
         }
         return true;
     }
+    
+    private static function LoadFeed() {
+        if(!self::IsCorrect()) {
+            WoW_Log::WriteError('%s : character was not found.', __METHOD__);
+            return false;
+        }
+        self::$feed_data = DB::Characters()->select("SELECT * FROM `character_feed_log` WHERE `guid` = %d AND `date` > 0 ORDER BY `date` DESC", self::GetGUID());
+        if(!self::IsFeedsLoaded()) {
+            WoW_Log::WriteLog('%s : feed data for character %s (GUID: %d) was not found!', __METHOD__, self::GetName(), self::GetGUID());
+            return false;
+        }
+        $feed_count = count(self::$feed_data);
+        for($i = 0; $i < $feed_count; $i++) {
+            if(self::$feed_data[$i]['type'] == TYPE_ACHIEVEMENT_FEED) {
+                self::$feed_data[$i]['date'] = WoW_Achievements::GetAchievementDate(self::$feed_data[$i]['data']);
+            }
+        }
+        return true;
+    }
+    
+    private static function LoadInventory($reload = false) {
+        if(!self::IsCorrect()) {
+            WoW_Log::WriteError('%s : character was not found.', __METHOD__);
+            return false;
+        }
+        if(self::IsInventoryLoaded() && !$reload) {
+            return true;
+        }
+        switch(self::$m_server) {
+            case SERVER_MANGOS:
+                $inv = DB::Characters()->select("SELECT `item`, `slot`, `item_template`, `bag` FROM `character_inventory` WHERE `bag` = 0 AND `slot` < %d AND `guid` = %d", INV_MAX, self::$guid);
+                break;
+            case SERVER_TRINITY:
+                $inv = DB::Characters()->select("SELECT `item`, `slot`, `bag` FROM `character_inventory` WHERE `bag` = 0 AND `slot` < %d AND `guid` = %d", INV_MAX, self::$guid);
+                break;
+        }
+        if(!$inv) {
+            WoW_Log::WriteError('%s : unable to find any item for character %s (GUID: %d)!', __METHOD__, self::$name, self::$guid);
+            return false;
+        }
+        foreach($inv as $item) {
+            $item['enchants'] = self::GetCharacterEnchant($item['slot']);
+            self::$m_items[$item['slot']] = new WoW_Item(self::$m_server);
+            self::$m_items[$item['slot']]->LoadFromDB($item, self::$guid);
+            // Do not load itemproto here!
+        }
+        return true;
+    }
+    
+    private static function LoadProfessions() {
+        if(!self::IsCorrect()) {
+            WoW_Log::WriteError('%s : character was not found.', __METHOD__);
+            return false;
+        }
+        $skills_professions = array(164, 165, 171, 182, 186, 197, 202, 333, 393, 755, 773);
+        $character_professions = DB::Characters()->select("SELECT * FROM `character_skills` WHERE `guid` = %d AND `skill` IN (%s) LIMIT 2", self::GetGUID(), $skills_professions);
+        if(!is_array($character_professions)) {
+            WoW_Log::WriteLog('%s : professions for character %s (GUID: %d) were not found.', __METHOD__, self::GetName(), self::GetGUID());
+            return false;
+        }
+        self::$professions = $character_professions;
+        return self::HandleProfessions();
+    }
+    
+    private static function LoadTalents() {
+        if(!self::IsCorrect()) {
+            WoW_Log::WriteError('%s : character was not found.', __METHOD__);
+            return false;
+        }
+        self::$talents = DB::Characters()->select("SELECT * FROM `character_talent` WHERE `guid` = %d", self::GetGUID());
+        if(!self::$talents) {
+            WoW_Log::WriteError('%s : unable to load talents for character %s (GUID: %d)!', __METHOD__, self::GetName(), self::GetGUID());
+            return false;
+        }
+        return true;
+    }
+    
+    //------------------
+    // Storages checkers
+    //------------------
+    private static function IsTalentsLoaded() {
+        return is_array(self::$talents);
+    }
+    
+    private static function IsFeedsLoaded() {
+        return is_array(self::$feed_data);
+    }
+    
+    private static function IsInventoryLoaded() {
+        return is_array(self::$m_items);
+    }
+    
+    //-----------
+    //
+    //-----------
     
     private static function SetPowerType() {
         if(!self::IsCorrect()) {
@@ -531,6 +758,10 @@ Class WoW_Characters /*implements Interface_Characters*/ {
     
     public static function GetAVGEquippedItemLevel() {
         return self::$item_level['avgEquipped'];
+    }
+    
+    public static function GetFeed() {
+        return self::$feeds;
     }
     
     public static function HasFlag($flag) {
@@ -733,44 +964,15 @@ Class WoW_Characters /*implements Interface_Characters*/ {
         }
         foreach(self::$m_items as $item) {
             if($item->GetEntry() == $itemEntry) {
-                return true;
+                return $item->GetSlot();
             }
         }
-        return false;
+        return 0;
     }
     
     /************************
               Talents
     ************************/
-    
-    private static function HandleTalents($reload = false) {
-        if(!self::IsTalentsLoaded() || $reload) {
-            if(!self::LoadTalents()) {
-                WoW_Log::WriteError('%s : unable to handle talents without any data.', __METHOD__);
-                return false;
-            }
-        }
-        self::CalculateTalentsBuild();
-        self::CalculateTalents();
-        return true;
-    }
-    
-    private static function IsTalentsLoaded() {
-        return is_array(self::$talents);
-    }
-    
-    private static function LoadTalents() {
-        if(!self::IsCorrect()) {
-            WoW_Log::WriteError('%s : character was not found.', __METHOD__);
-            return false;
-        }
-        self::$talents = DB::Characters()->select("SELECT * FROM `character_talent` WHERE `guid` = %d", self::GetGUID());
-        if(!self::$talents) {
-            WoW_Log::WriteError('%s : unable to load talents for character %s (GUID: %d)!', __METHOD__, self::GetName(), self::GetGUID());
-            return false;
-        }
-        return true;
-    }
     
     private static function GetTalentTabForClass($tab_count = -1) {
         if(!self::IsCorrect()) {
@@ -1852,45 +2054,6 @@ Class WoW_Characters /*implements Interface_Characters*/ {
                 return ROLE_RANGED;
                 break;
         }
-    }
-    
-    private static function LoadProfessions() {
-        if(!self::IsCorrect()) {
-            WoW_Log::WriteError('%s : character was not found.', __METHOD__);
-            return false;
-        }
-        $skills_professions = array(164, 165, 171, 182, 186, 197, 202, 333, 393, 755, 773);
-        $character_professions = DB::Characters()->select("SELECT * FROM `character_skills` WHERE `guid` = %d AND `skill` IN (%s) LIMIT 2", self::GetGUID(), $skills_professions);
-        if(!is_array($character_professions)) {
-            WoW_Log::WriteLog('%s : professions for character %s (GUID: %d) were not found.', __METHOD__, self::GetName(), self::GetGUID());
-            return false;
-        }
-        self::$professions = $character_professions;
-        return self::HandleProfessions();
-    }
-    
-    private static function HandleProfessions() {
-        if(!self::IsCorrect()) {
-            WoW_Log::WriteError('%s : character was not found.', __METHOD__);
-            return false;
-        }
-        if(!self::$professions) {
-            return false;
-        }
-        $professions = array();
-        $i = 0;
-        foreach(self::$professions as $prof) {
-            $professions[$i] = DB::WoW()->selectRow("SELECT `id`, `name_%s` AS `name`, `icon` FROM `DBPREFIX_professions` WHERE `id` = %d LIMIT 1", WoW_Locale::GetLocale(), $prof['skill']);
-            if(!$professions[$i]) {
-                WoW_Log::WriteError('%s : wrong skill ID: %d', __METHOD__, $prof['id']);
-                continue;
-            }
-            $professions[$i]['value'] = $prof['value'];
-            $professions[$i]['max'] = MAX_PROFESSION_SKILL_VALUE;
-            $i++;
-        }
-        self::$professions = $professions;
-        return true;
     }
     
     public static function GetProfessions() {

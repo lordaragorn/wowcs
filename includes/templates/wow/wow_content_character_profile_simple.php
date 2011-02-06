@@ -184,141 +184,47 @@ World of Warcraft
 </h3>
 					<div class="profile-box-simple">
 	<ul class="activity-feed">
-
-
-
-	<li class="crit ">
-	<dl>
-		<dd>
-
-<a href="achievement#92:a5373" rel="np" class="icon" onmouseover="Tooltip.show(this, '#achv-tooltip-0');"></a>
-	Завершен шаг <strong>Голова</strong> для достижения <a href="achievement#92:a5373" rel="np" onmouseover="Tooltip.show(this, '#achv-tooltip-0');">Превосходный боец Катаклизма</a>.
-	<div id="achv-tooltip-0" style="display: none">
-		<div class="item-tooltip">
- 
-
-
-
-
-		<span  class="icon-frame frame-56" style='background-image: url("http://eu.battle.net/wow-assets/static/images/icons/56/spell_frost_wizardmark.jpg");'>
-		</span>
-
-			<h3>Превосходный боец Катаклизма</h3>
-			<div class="color-tooltip-yellow">Полностью снарядите персонажа превосходной экипировкой с минимальным уровнем предметов не ниже 333.</div>
-		</div>
-	</div>
-</dd>
-		<dt>4 дн. назад</dt>
-	</dl>
-	</li>
-
-
-
-	<li class="crit ">
-	<dl>
-		<dd>
-
-<a href="achievement#92:a5373" rel="np" class="icon" onmouseover="Tooltip.show(this, '#achv-tooltip-1');"></a>
-	Завершен шаг <strong>Шея</strong> для достижения <a href="achievement#92:a5373" rel="np" onmouseover="Tooltip.show(this, '#achv-tooltip-1');">Превосходный боец Катаклизма</a>.
-	<div id="achv-tooltip-1" style="display: none">
-		<div class="item-tooltip">
- 
-
-
-
-
-		<span  class="icon-frame frame-56" style='background-image: url("http://eu.battle.net/wow-assets/static/images/icons/56/spell_frost_wizardmark.jpg");'>
-		</span>
-
-			<h3>Превосходный боец Катаклизма</h3>
-			<div class="color-tooltip-yellow">Полностью снарядите персонажа превосходной экипировкой с минимальным уровнем предметов не ниже 333.</div>
-		</div>
-	</div>
-</dd>
-		<dt>4 дн. назад</dt>
-	</dl>
-	</li>
-
-
-
-	<li>
-	<dl>
-		<dd>
-
-		<a href="/wow/item/62356" class="color-q3" data-item="i=62356&amp;g0=1816&amp;g1=1751&amp;d=64"> 
-
-
-
-
-		<span  class="icon-frame frame-18" style='background-image: url("http://eu.battle.net/wow-assets/static/images/icons/18/inv_helm_robe_dungeonrobe_c_04.jpg");'>
-		</span>
-</a>
-
-	Получено <a href="/wow/item/62356" class="color-q3" data-item="i=62356&amp;g0=1816&amp;g1=1751&amp;d=64">Шлем умеренности</a>.
-</dd>
-		<dt>4 дн. назад</dt>
-	</dl>
-	</li>
-
-
-
-	<li>
-	<dl>
-		<dd>
-
-		<a href="/wow/item/62354" class="color-q3" data-item="i=62354"> 
-
-
-
-
-		<span  class="icon-frame frame-18" style='background-image: url("http://eu.battle.net/wow-assets/static/images/icons/18/inv_misc_necklacea11.jpg");'>
-		</span>
-</a>
-
-	Получено <a href="/wow/item/62354" class="color-q3" data-item="i=62354">Подвеска равновесия стихий</a>.
-</dd>
-		<dt>4 дн. назад</dt>
-	</dl>
-	</li>
-
-
-
-	<li class="ach ">
-	<dl>
-		<dd>
-
-		<a href="achievement#92:a1020" rel="np" onmouseover="Tooltip.show(this, '#achv-tooltip-4');">
- 
-
-
-
-
-		<span  class="icon-frame frame-18" style='background-image: url("http://eu.battle.net/wow-assets/static/images/icons/18/inv_shirt_guildtabard_01.jpg");'>
-		</span>
-		</a>
-
-	Заработано достижение <a href="achievement#92:a1020" rel="np" onmouseover="Tooltip.show(this, '#achv-tooltip-4');">10 гербовых накидок</a> за 10 очков.
-
-	<div id="achv-tooltip-4" style="display: none">
-		<div class="item-tooltip">
- 
-
-
-
-
-		<span  class="icon-frame frame-56" style='background-image: url("http://eu.battle.net/wow-assets/static/images/icons/56/inv_shirt_guildtabard_01.jpg");'>
-		</span>
-
-			<h3>10 гербовых накидок</h3>
-			<div class="color-tooltip-yellow">Наденьте 10 уникальных гербовых накидок.</div>
-		</div>
-	</div>
-</dd>
-		<dt>4 дн. назад</dt>
-	</dl>
-	</li>
+    <?php
+    $feed = WoW_Characters::GetFeed();
+    if($feed) {
+        $i = 0;
+        foreach($feed as $event) {
+            if($i >= 5) {
+                break;
+            }
+            switch($event['type']) {
+                case TYPE_ACHIEVEMENT_FEED:
+                    $ach_link = sprintf('<a href="%sachievement#%d:a%d" rel="np" onmouseover="Tooltip.show(this, \'#achv-tooltip-%d\');">%s</a>', WoW_Characters::GetURL(), $event['category'], $event['id'], $i, $event['name']);
+                    
+                    echo sprintf('<li class="ach">
+                    <dl><dd><a href="%sachievement#%d:a%d" rel="np" onmouseover="Tooltip.show(this, \'#achv-tooltip-%d\');">
+                    <span  class="icon-frame frame-18" style=\'background-image: url("http://eu.battle.net/wow-assets/static/images/icons/18/%s.jpg");\'></span></a>
+                    %s
+                    <div id="achv-tooltip-%d" style="display: none"><div class="item-tooltip"><span class="icon-frame frame-56" style=\'background-image: url("http://eu.battle.net/wow-assets/static/images/icons/56/%s.jpg");\'></span>
+                    <h3>%s</h3><div class="color-tooltip-yellow">%s</div>
+                    </div></div></dd><dt>%s</dt></dl>
+                    </li>', WoW_Characters::GetURL(), $event['category'], $event['id'], $i, $event['icon'], sprintf(WoW_Locale::GetString('template_feed_achievement'), $ach_link, $event['points']),
+                    $i, $event['icon'], $event['name'], $event['desc'], $event['date']);
+                    break;
+                case TYPE_ITEM_FEED:
+                    $item_link = sprintf('<a href="/wow/item/%d" class="color-q%d" data-item="%s">%s</a>', $event['id'], $event['quality'], $event['data-item'], $event['name']);
+                    echo sprintf('<li>
+                    <dl><dd><a href="/wow/item/%d" class="color-q%d" data-item="%s"> 
+                    <span  class="icon-frame frame-18" style=\'background-image: url("http://eu.battle.net/wow-assets/static/images/icons/18/%s.jpg");\'></span></a>
+                    %s
+                    </dd><dt>%s</dt></dl>
+                    </li>', $event['id'], $event['quality'], $event['data-item'], $event['icon'], sprintf(WoW_Locale::GetString('template_feed_obtained_item'), $item_link), $event['date']);
+                    break;
+                case TYPE_BOSS_FEED:
+                    echo sprintf('<li class="bosskill"><dl><dd><span class="icon"></span>%s: %d</dd><dt>%s</dt></dl></li>', $event['name'], $event['count'], $event['date']);
+                    break;
+            }
+            $i++;
+        }
+    }
+    ?>
 	</ul>
-	<a class="profile-linktomore" href="<?php echo WoW_Characters::GetURL(); ?>feed" rel="np"><?php WoW_Locale::GetString('template_profile_more_activity_feed'); ?></a>
+	<a class="profile-linktomore" href="<?php echo WoW_Characters::GetURL(); ?>feed" rel="np"><?php echo WoW_Locale::GetString('template_profile_more_activity_feed'); ?></a>
 
 	<span class="clear"><!-- --></span>
 					</div>

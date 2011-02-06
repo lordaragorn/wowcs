@@ -91,6 +91,10 @@ switch(WoW_Template::GetPageData('page')) {
 <script type="text/javascript" src="/wow/static/local-common/js/filter.js?v15"></script>
 <script type="text/javascript" src="/wow/static/js/item/item.js?v6"></script>';
         break;
+    case 'guild':
+        echo '<script type="text/javascript" src="/wow/static/js/profile.js?v6"></script>
+<script type="text/javascript" src="/wow/static/js/character/guild-tabard.js?v6"></script>';
+        break;
 }
 ?>
 

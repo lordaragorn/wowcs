@@ -59,6 +59,9 @@ $WoW_Locale = array(
     'reputation_rank_6' => 'Почтение',
     'reputation_rank_7' => 'Превознесение',
     
+    'faction_alliance' => 'Альянс',
+    'faction_horde' => 'Орда',
+    
     'template_menu_game' => 'Игра',
     'template_menu_items' => 'Предметы',
     
@@ -336,5 +339,18 @@ $WoW_Locale = array(
     'stat_resistance_shadow' => 'Темная магия',
     
     'template_profile_no_professions' => 'Нет профессий',
+    
+    'template_feed_obtained_item' => 'Получено %s.',
+    'template_feed_achievement' => 'Заработано достижение %s за %d очков.',
+    
+    'template_feed_day' => 'дн',
+    'template_feed_sec' => 'сек',
+    'template_feed_min' => 'мин',
+    'template_feed_hour' => 'ч',
+    'template_feed_ago' => 'назад',
+    
+    'template_guild' => 'Гильдия',
+    'template_guild_members_count' => 'Членов гильдии: %d',
+    
 );
 ?>

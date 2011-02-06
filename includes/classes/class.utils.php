@@ -55,11 +55,16 @@ Class WoW_Utils {
         if($realms = explode('/', $rName)) {
             $rName = $realms[0];
         }
-        return self::IsRealm($rName);
+        return self::FindRealm(urldecode($rName));
     }
     
-    public function IsRealm($rName) {
-        return DB::WoW()->selectCell("SELECT `realm_id` FROM `DBPREFIX_realm_data` WHERE `name` = '%s' LIMIT 1", $rName);
+    public function FindRealm($rName) {
+        foreach(WoWConfig::$Realms as $realm) {
+            if($realm['name'] == $rName) {
+                return $realm['id'];
+            }
+        }
+        return 0;
     }
     
     /**

@@ -672,5 +672,9 @@ Class WoW_Items {
         }
         return true;
     }
+    
+    public function GetItemInfo($entry) {
+        return DB::World()->selectRow("SELECT `entry`, `name`, `displayid`, `Quality`, `class`, `subclass`, `InventoryType`, `ItemLevel` FROM `item_template` WHERE `entry`=%d", $entry);
+    }
 }
 ?>

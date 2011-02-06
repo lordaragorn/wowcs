@@ -489,8 +489,8 @@ Class WoW_Template {
             case 'item':
                 return sprintf('%s - ', self::GetPageData('itemName'));
                 break;
-            case 'guild':
-                return sprintf('%s @ %s - ', self::GetPageData('guildName'), self::GetPageData('realmName'));
+            case 'guild_page':
+                return sprintf('%s @ %s - ', WoW_Guild::GetGuildName(), WoW_Guild::GetGuildRealmName());
                 break;
         }
     }

@@ -116,6 +116,34 @@ Class WoW_Achievements {
     public static function GetAchievementsCount() {
         return self::$achievements_count;
     }
+    
+    private static function FindAchievement($achievement_id) {
+        foreach(self::$sorted_storage as $category) {
+            foreach($category as $ach) {
+                if($ach['achievement'] == $achievement_id) {
+                    return $ach;
+                }
+            }
+        }
+        WoW_Log::WriteLog('%s : achievement %d was not found for character %s (GUID: %d).', __METHOD__, $achievement_id, WoW_Characters::GetName(), WoW_Characters::GetGUID());
+        return false;
+    }
+    
+    private static function FindAchievementInDB($achievement_id) {
+        return DB::WoW()->selectRow("SELECT `id`, `categoryId`, `name_%s` AS `name`, `description_%s` AS `desc`, `titleReward_%s` AS `titleReward`, `points`, `iconname` FROM `DBPREFIX_achievement` WHERE `id` = %d LIMIT 1", WoW_Locale::GetLocale(), WoW_Locale::GetLocale(), WoW_Locale::GetLocale(), $achievement_id);
+    }
+    
+    public static function GetAchievementDate($achievement_id) {
+        $achievement = self::FindAchievement($achievement_id);
+        if(!$achievement) {
+            return 0;
+        }
+        return $achievement['date'];
+    }
+    
+    public static function GetAchievementInfo($achievement_id) {
+        return self::FindAchievementInDB($achievement_id);
+    }
 }
 
 ?>
