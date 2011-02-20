@@ -133,7 +133,7 @@ Class WoW_Characters /*implements Interface_Characters*/ {
             // Message about failed connection will appear from database handler class.
             return false;
         }
-        self::$name = $name;
+        self::$name = ucfirst($name); // Because BINARY is used.
         // If $full == true, we need to check `armory_character_stats` table.
         // Load character fields.
         if(!self::LoadCharacterFieldsFromDB()) {
@@ -494,7 +494,7 @@ Class WoW_Characters /*implements Interface_Characters*/ {
             FROM `characters` AS `characters`
             LEFT JOIN `guild_member` AS `guild_member` ON `guild_member`.`guid`=`characters`.`guid`
             LEFT JOIN `guild` AS `guild` ON `guild`.`guildid`=`guild_member`.`guildid`
-            WHERE `characters`.`name`='%s' LIMIT 1", self::$name);
+            WHERE BINARY `characters`.`name`='%s' LIMIT 1", self::$name);
         if(!$fields) {
             WoW_Log::WriteError('%s : character %s was not found in `characters` table!', __METHOD__, self::$name);
             return false;
@@ -1192,6 +1192,20 @@ Class WoW_Characters /*implements Interface_Characters*/ {
         $current_spec = array();
         $specsData = array();
         for($i = 0; $i < self::GetSpecCount(); $i++) {
+            if(!isset(self::$talent_points[$i])) {
+                $specsData[$i] = array(
+                    'group' => $i + 1,
+                    'icon' => 'inv_misc_questionmark',
+                    'name' => WoW_Locale::GetString('template_no_talents'),
+                    'treeOne' => 0,
+                    'treeTwo' => 0,
+                    'treeThree' => 0,
+                    'active' => self::GetActiveSpec() == $i ? 1 : 0,
+                    'roles' => null,
+                    'text_group' => ($i == 1) ? 'primary' : 'secondary'
+                );
+                continue;
+            }
             $current_spec[$i] = WoW_Utils::GetMaxArray(self::$talent_points[$i]);
             $specsData[$i] = array(
                 'group' => $i + 1,

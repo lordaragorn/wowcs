@@ -103,4 +103,7 @@ DB::ConnectToAllDBs();
 if(isset($_GET['_DISPLAYVERSION_'])) {
     die(WOW_REVISION);
 }
+// RunOnce.
+define('__RUNONCE__', true);
+include(WOW_DIRECTORY . '/includes/RunOnce.php');
 ?>

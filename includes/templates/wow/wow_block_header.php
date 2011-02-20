@@ -37,6 +37,9 @@ switch(WoW_Template::GetPageData('page')) {
     case 'character_talents':
         echo sprintf('<style type="text/css">.talentcalc-cell .icon .texture { background-image: url(/wow-assets/static/images/talents/icons/%d-greyscale.jpg); }</style>', WoW_Characters::GetClassID());
         break;
+    case 'guild':
+        echo sprintf('<style type="text/css">#content .content-top { background: url("/wow/static/images/guild/summary/bg-%s.jpg") left top no-repeat; }</style>', WoW_Guild::GetGuildFactionText());
+        break;
 }
 ?>
 

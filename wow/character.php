@@ -30,6 +30,9 @@ if(!$url_data) {
 else {
     $load_result = WoW_Characters::LoadCharacter($url_data['name'], WoW_Utils::GetRealmIDByName($url_data['realmName']), true, true);
     if(!WoW_Characters::IsCorrect() || $load_result != 3) {
+        if($url_data['action0'] == 'tooltip') {
+            exit;
+        }
         if($load_result == 2) {
             WoW_Template::SetPageData('errorProfile', 'template_lowlevel');
         }
@@ -57,6 +60,10 @@ else {
                 }
                 break;
             */
+            case 'tooltip':
+                WoW_Template::LoadTemplate('page_character_tooltip');
+                exit;
+                break;
         }
         
     }

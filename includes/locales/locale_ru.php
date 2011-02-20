@@ -343,6 +343,7 @@ $WoW_Locale = array(
     'template_honorable_kills' => 'Почетные победы',
     
     'template_feed_obtained_item' => 'Получено %s.',
+    'template_feed_fos' => 'Заработано великое достижение %s',
     'template_feed_achievement' => 'Заработано достижение %s за %d очков.',
     
     'template_feed_day' => 'дн',
@@ -353,5 +354,10 @@ $WoW_Locale = array(
     
     'template_guild' => 'Гильдия',
     'template_guild_members_count' => 'Членов гильдии: %d',
+    
+    'template_guild_news' => 'Новости гильдии (%d)',
+    'template_guild_feed_achievement' => 'Персонаж %s $gполучил:получила; достижение «%s» стоимостью %d очк.',
+    'template_guild_feed_fos' => 'Персонаж %s $gполучил:получила; великое достижение «%s».',
+    'template_guild_feed_obtained_item' => 'Персонаж %s $gполучил:получила; предмет «%s».',
 );
 ?>

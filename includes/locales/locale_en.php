@@ -355,5 +355,10 @@ $WoW_Locale = array(
     
     'template_guild' => 'Guild',
     'template_guild_members_count' => '%d Members',
+    
+    'template_guild_news' => 'Guild news (%d)',
+    'template_guild_feed_achievement' => '%s earned the achievement «%s» for %d points.',
+    'template_guild_feed_fos' => '%s earned feat of strength «%s».',
+    'template_guild_feed_obtained_item' => '%s obtained item «%s».',
 );
 ?>
