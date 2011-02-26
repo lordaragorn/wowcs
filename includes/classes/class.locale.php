@@ -67,20 +67,19 @@ Class WoW_Locale {
         }
         $string = self::$locale_holder[$index];
         // Replace $gTEXT_MALE:TEXT_FEMALE; to correct one according with provided gender ID.
-        if($gender > -1) {
-            // AoWoW
-            if(preg_match('/\$g(.*?):(.*?);/iu', $string, $matches)) {
-                if(!is_array($matches) || !isset($matches[0]) || !isset($matches[1]) || !isset($matches[2])) {
-                    return $string;
-                }
-                switch($gender) {
-                    case GENDER_MALE:
-                        $string = str_replace($matches[0], $matches[1], $string);
-                        break;
-                    case GENDER_FEMALE:
-                        $string = str_replace($matches[0], $matches[2], $string);
-                        break;
-                }
+        // AoWoW
+        if(preg_match('/\$g(.*?):(.*?);/iu', $string, $matches)) {
+            if(!is_array($matches) || !isset($matches[0]) || !isset($matches[1]) || !isset($matches[2])) {
+                return $string;
+            }
+            switch($gender) {
+                default:
+                case GENDER_MALE:
+                    $string = str_replace($matches[0], $matches[1], $string);
+                    break;
+                case GENDER_FEMALE:
+                    $string = str_replace($matches[0], $matches[2], $string);
+                    break;
             }
         }
         return $string;
