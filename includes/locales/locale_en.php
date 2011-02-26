@@ -360,5 +360,8 @@ $WoW_Locale = array(
     'template_guild_feed_achievement' => '%s earned the achievement «%s» for %d points.',
     'template_guild_feed_fos' => '%s earned feat of strength «%s».',
     'template_guild_feed_obtained_item' => '%s obtained item «%s».',
+    
+    'template_character_friends_caption' => 'Character friends (%d)',
+    'template_character_friends_character' => '%d %s %s',
 );
 ?>

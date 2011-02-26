@@ -646,27 +646,30 @@ Class WoW_Account {
             }
         }
         DB::ConnectToDB(DB_CHARACTERS, self::GetActiveCharacterInfo('realmId'));
-        self::$friends_data = DB::Characters()->select("SELECT * FROM `character_social` WHERE `guid` = %d", self::GetActiveCharacterInfo('guid'));
+        self::$friends_data = DB::Characters()->select("
+        SELECT
+        `character_social`.`friend`,
+        `characters`.`guid`,
+        `characters`.`name`,
+        `characters`.`race` AS `race_id`,
+        `characters`.`class` AS `class_id`,
+        `characters`.`gender`,
+        `characters`.`level`
+         FROM `character_social`
+         JOIN `characters` ON `characters`.`guid` = `character_social`.`friend`
+         WHERE `character_social`.`guid` = %d", self::GetActiveCharacterInfo('guid'));
+        return true;
     }
     
     public static function GetFriendsListForPrimaryCharacter() {
-        self::LoadFriendsListForPrimaryCharacter();
-        $count = count(self::$friends_data);
-        for($i = 0; $i < $count; $i++) {
-            $newFriend = new WoW_Characters;
-            $newFriend->BuildCharacterFromGUID(self::$friends_data[$i]['friend'], self::GetActiveCharacterInfo('realmId'), true, true);
-            if(!$newFriend->IsCorrect()) {
-                WoW_Log::WriteError('%s : unable to load character with GUID %d', __METHOD__, self::$friends_data[$i]['guid']);
-                continue;
+        if(!self::$friends_data) {
+            self::LoadFriendsListForPrimaryCharacter();
+            $count = count(self::$friends_data);
+            for($i = 0; $i < $count; $i++) {
+                self::$friends_data[$i]['class_string'] = WoW_Locale::GetString('character_class_' . self::$friends_data[$i]['class_id'], self::$friends_data[$i]['gender']);
+                self::$friends_data[$i]['race_string'] = WoW_Locale::GetString('character_race_' . self::$friends_data[$i]['race_id'], self::$friends_data[$i]['gender']);
+                self::$friends_data[$i]['url'] = sprintf('/wow/character/%s/%s', self::GetActiveCharacterInfo('realmName'), self::$friends_data[$i]['name']);
             }
-            self::$friends_data[$i]['class_string'] = $newFriend->GetClassString();
-            self::$friends_data[$i]['race_string'] = $newFriend->GetRaceString();
-            self::$friends_data[$i]['class_id'] = $newFriend->GetClassID();
-            self::$friends_data[$i]['race_id'] = $newFriend->GetRaceID();
-            self::$friends_data[$i]['gender'] = $newFriend->GetGender();
-            self::$friends_data[$i]['level'] = $newFriend->GetLevel();
-            self::$friends_data[$i]['name'] = $newFriend->GetName();
-            self::$friends_data[$i]['url'] = $newFriend->GetUrl();
         }
         return self::$friends_data;
     }

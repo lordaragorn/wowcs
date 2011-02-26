@@ -44,12 +44,12 @@ World of Warcraft
 				</div>
 	<span class="clear"><!-- --></span>
 				<div class="under-name color-c<?php echo WoW_Characters::GetClassID(); ?>">
-						<a href="/wow/game/race/<?php echo WoW_Characters::GetRaceKey(); ?>" class="race"><?php echo WoW_Characters::GetRaceName(); ?></a>-<a href="/wow/game/class/<?php echo WoW_Characters::GetClassKey(); ?>" class="class"><?php echo WoW_Characters::GetClassName(); ?></a> (<a id="profile-info-spec" href="javascript:void();" onclick="javascript:window.open('<?php echo WoW_Characters::GetURL(); ?>talent/')" class="spec tip"><?php echo $talents['specsData'][WoW_Characters::GetActiveSpec()]['name']; ?></a>) <span class="level"><strong><?php echo WoW_Characters::GetLevel(); ?></strong></span> <?php echo WoW_Locale::GetString('template_lvl'); ?><span class="comma">,</span>
+						<a href="/wow/game/race/<?php echo WoW_Characters::GetRaceKey(); ?>" class="race"><?php echo WoW_Characters::GetRaceName(); ?></a>-<a href="/wow/game/class/<?php echo WoW_Characters::GetClassKey(); ?>" class="class"><?php echo WoW_Characters::GetClassName(); ?></a> (<span id="profile-info-spec" class="spec tip"><?php echo $talents['specsData'][WoW_Characters::GetActiveSpec()]['name']; ?></span>) <span class="level"><strong><?php echo WoW_Characters::GetLevel(); ?></strong></span> <?php echo WoW_Locale::GetString('template_lvl'); ?><span class="comma">,</span>
 					<span class="realm tip" id="profile-info-realm" data-battlegroup="<?php echo WoWConfig::$DefaultBGName; ?>">
 						<?php echo WoW_Characters::GetRealmName(); ?>
 					</span>
 				</div>
-				<div class="achievements"><a href="javascript:void();" onclick="javascript:window.open('<?php echo WoW_Characters::GetURL(); ?>achievement');"><?php echo WoW_Achievements::GetAchievementsPoints(); ?></a></div>
+				<div class="achievements"><a href="<?php echo WoW_Characters::GetURL(); ?>achievement"><?php echo WoW_Achievements::GetAchievementsPoints(); ?></a></div>
 			</div>
 		</div>
 <?php WoW_Template::LoadTemplate('block_profile_menu'); ?>

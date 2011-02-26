@@ -30,25 +30,25 @@ $WoW_Locale = array(
     
     'character_class_1' => 'Воин',
     'character_class_2' => 'Паладин',
-    'character_class_3' => 'Охотник:Охотница',
-    'character_class_4' => 'Разбойник:Разбойница',
-    'character_class_5' => 'Жрец:Жрица',
+    'character_class_3' => '$gОхотник:Охотница;',
+    'character_class_4' => '$gРазбойник:Разбойница;',
+    'character_class_5' => '$gЖрец:Жрица;',
     'character_class_6' => 'Рыцарь Смерти',
-    'character_class_7' => 'Шаман:Шаманка',
+    'character_class_7' => '$gШаман:Шаманка;',
     'character_class_8' => 'Маг',
-    'character_class_9' => 'Чернокнижник:Чернокнижница',
+    'character_class_9' => '$gЧернокнижник:Чернокнижница;',
     'character_class_11' => 'Друид',
     
     'character_race_1' => 'Человек',
     'character_race_2' => 'Орк',
     'character_race_3' => 'Дворф',
-    'character_race_4' => 'Ночной эльф:Ночная эльфийка',
+    'character_race_4' => '$gНочной эльф:Ночная эльфийка;',
     'character_race_5' => 'Нежить',
     'character_race_6' => 'Таурен',
     'character_race_7' => 'Гном',
     'character_race_8' => 'Тролль',
     'character_race_9' => 'Гоблин',
-    'character_race_10' => 'Эльф крови:Эльфийка крови',
+    'character_race_10' => '$gЭльф крови:Эльфийка крови;',
     'character_race_11' => 'Дреней',
     'character_race_22' => 'Ворген',
     'reputation_rank_0' => 'Ненависть',
@@ -359,5 +359,9 @@ $WoW_Locale = array(
     'template_guild_feed_achievement' => 'Персонаж %s $gполучил:получила; достижение «%s» стоимостью %d очк.',
     'template_guild_feed_fos' => 'Персонаж %s $gполучил:получила; великое достижение «%s».',
     'template_guild_feed_obtained_item' => 'Персонаж %s $gполучил:получила; предмет «%s».',
+    
+    'template_character_friends_caption' => 'Друзья персонажа (%d)',
+    'template_character_friends_character' => 'Уровень %d %s %s',
+    
 );
 ?>

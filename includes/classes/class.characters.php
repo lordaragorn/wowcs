@@ -77,7 +77,6 @@ Class WoW_Characters /*implements Interface_Characters*/ {
     private static $feed_data      = array(); // Character feed (DB data)
     private static $feeds          = array(); // Character feed (handled)
     
-    
     private static function IsCharacterFitsRequirements() {
         if(self::$level < WoWConfig::$MinLevelToDisplay) {
             WoW_Log::WriteLog('%s : unable to display character %s (GUID: %d) because of level restriction.', __METHOD__, self::$name, self::$guid);
@@ -159,22 +158,8 @@ Class WoW_Characters /*implements Interface_Characters*/ {
             // Convert string to array
             self::HandleDataField();
             // Class/race names/keys
-            $class_name = WoW_Locale::GetString('character_class_' . self::$class);
-            $class_name_array = explode(':', $class_name);
-            if(is_array($class_name_array) && isset($class_name_array[1])) {
-                self::$class_name = $class_name_array[self::$gender];
-            }
-            else {
-                self::$class_name = $class_name;
-            }
-            $race_name = WoW_Locale::GetString('character_race_' . self::$race);
-            $race_name_array = explode(':', $race_name);
-            if(is_array($race_name_array) && isset($race_name_array[1])) {
-                self::$race_name = $race_name_array[self::$gender];
-            }
-            else {
-                self::$race_name = $race_name;
-            }
+            self::$class_name = WoW_Locale::GetString('character_class_' . self::$class, self::$gender);            
+            self::$race_name = WoW_Locale::GetString('character_race_' . self::$race, self::$gender);
             self::$class_key = Data_Classes::$classes[self::$class]['key'];
             self::$race_key = Data_Races::$races[self::$race]['key'];
             WoW_Achievements::Initialize();
