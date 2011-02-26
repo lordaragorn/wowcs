@@ -330,6 +330,45 @@ Class WoW_Template {
                     )
                 );
                 break;
+            case 'character_achievements':
+                $css_data_page = array(
+                    array(
+                        'path' => '/wow/static/css/profile.css',
+                        'version' => 4,
+                        'browser' => false
+                    ),
+                    array(
+                        'path' => '/wow/static/css/profile-ie.css',
+                        'version' => 4,
+                        'browser' => 'IE'
+                    ),
+                    array(
+                        'path' => '/wow/static/css/profile-ie6.css',
+                        'version' => 4,
+                        'browser' => 'IE 6'
+                    ),
+                    array(
+                        'path' => '/wow/static/css/profile-ie6.css',
+                        'version' => 4,
+                        'browser' => 'IE 6'
+                    ),
+                    array(
+                        'path' => '/wow/static/css/character/achievement.css',
+                        'version' => 7,
+                        'browser' => false
+                    ),
+                    array(
+                        'path' => '/wow/static/css/character/achievement-ie6.css',
+                        'version' => 7,
+                        'browser' => 'IE 6'
+                    ),
+                    array(
+                        'path' => '/wow/static/css/character/achievement-ie7.css',
+                        'version' => 7,
+                        'browser' => 'IE 7'
+                    ),
+                );
+                break;
             case 'blog':
                 $css_data_page = array(
                     array(

@@ -227,6 +227,13 @@ var DynamicMenu = {
 			 categoryExists = $("#cat-" + categoryId).length > 0,
 			 isOverview = (categoryId == 'summary');
 
+		// hacky way to only encode for IE, since other browsers do it by default
+		if (Core.isIE()) {
+			url = url.replace(new RegExp('/', 'ig'), '---');
+			url = encodeURIComponent(url);
+			url = url.replace(new RegExp('---', 'ig'), '/');
+		}
+
 		if (DynamicMenu.cache.filtering) {
 			if(dm.config.section == "statistic") {
 				sh.resetSearch(DynamicMenu.cache.filtering)

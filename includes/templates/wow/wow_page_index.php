@@ -50,6 +50,9 @@ switch(WoW_Template::GetPageIndex()) {
     case 'guild_roster':
         WoW_Template::LoadTemplate('content_guild_roster');
         break;
+    case 'character_achievements':
+        WoW_Template::LoadTemplate('content_character_achievements');
+        break;
 }
 WoW_Template::LoadTemplate('block_footer', true);
 WoW_Template::LoadTemplate('block_service', true);
@@ -85,6 +88,10 @@ switch(WoW_Template::GetPageData('page')) {
         echo '<script type="text/javascript" src="/wow/static/js/profile.js?v4"></script>
 <script type="text/javascript" src="/wow/static/js/character/talent.js?v6"></script>
 <script type="text/javascript" src="/wow/static/js/tool/talent-calculator.js?v6"></script>';
+        break;
+    case 'character_achievements':
+        echo '<script type="text/javascript" src="/wow/static/js/profile.js?v7"></script>
+<script type="text/javascript" src="/wow/static/js/character/achievement.js?v7"></script>';
         break;
     case 'item':
         echo '<script type="text/javascript" src="/wow/static/local-common/js/table.js?v15"></script>

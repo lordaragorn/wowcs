@@ -1,0 +1,10 @@
+@charset "utf-8";
+
+.achievements-list .points { background-color: #341807; }
+
+.achievements-list .locked .points { background-color: #2d1f18; }
+
+/* fansite */
+.achievement.locked .fansite-link { filter: alpha(opacity=50); }
+
+.profile-progress { background-color: #493228;}

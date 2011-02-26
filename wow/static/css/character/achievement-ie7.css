@@ -1,0 +1,9 @@
+@charset "utf-8";
+
+/* Summary */
+.achievements-recent li { margin-bottom: 8px; padding-bottom: 4px; }
+.achievements-recent a { padding: 0; height: 30px; line-height: 30px; padding-left: 5px; padding-right: 5px;}
+.sub-achievements li { display:block; float:left; height:60px; margin-bottom:5px; width:60px; padding-left: 0; position:relative;}
+
+.achievements-recent .icon-frame { left: 0; top: 4px; }
+.profile-progress .bar { float: left;}

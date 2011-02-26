@@ -64,6 +64,17 @@ else {
                 WoW_Template::LoadTemplate('page_character_tooltip');
                 exit;
                 break;
+            case 'achievement':
+                for($i = 2; $i > 0; $i--) {
+                    if(isset($url_data['action' . $i]) && $url_data['action' . $i] != null) {
+                        WoW_Achievements::SetCategoryForTemplate($url_data['action' . $i]);
+                        WoW_Template::LoadTemplate('page_character_achievements');
+                        exit;
+                    }
+                }
+                WoW_Template::SetPageIndex('character_achievements');
+                WoW_Template::SetPageData('page', 'character_achievements');
+                break;
         }
         
     }

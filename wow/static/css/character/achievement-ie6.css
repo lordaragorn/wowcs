@@ -1,0 +1,27 @@
+@charset "utf-8";
+
+/* Achievements list (in content part) */
+.achievements-list .icon-frame { top: 10px; }
+.achievements-list .meta-achievements .icon-frame { left: 22px; top:-2px; }
+.achievements-list .points strong { left: 0;}
+li.achievement, li.achievement .meta-achievements ul {position:relative;}
+.achievements-list .locked .points-big, .achievements-list .locked .frame-wrapper, .achievements-list .locked .icon-expandable, .achievements-list .locked .icon-frame, .achievements-list .locked .reward, .achievements-list .showing.locked .reward, .achievement.locked .progress { filter: alpha(opacity = 50); }
+.sub-achievements li { display:block; float:left; height:60px; margin-bottom:5px; width:60px; padding-left: 0; position:relative;}
+.sub-achievements .points { top: 30px; left: 35px; }
+.achievements-list .icon-expandable { margin-bottom: 0;}
+.achievement { height: 105px;}
+
+/* Progress bar */
+.profile-progress .bar-contents{ padding-top: 0; height: 1.5em;}
+
+/* Summary */
+.achievements-recent li { margin-bottom: 7px; padding-bottom: 4px;}
+.achievements-recent a { padding: 0; height: 26px; line-height: 26px; padding-left: 5px; padding-right: 5px;}
+.achievements-recent .icon-frame { left: 0; top: 2px;}
+
+/* Search */
+.search-container {  display: none;}
+.search-container #symbol-mag { background-image:url("../../images/icons/mag-glass-input.gif") }
+.search-container #symbol-cross { background-image:url("../../images/icons/cross.gif") }
+
+.achievement .fansite-link { display: block; }
