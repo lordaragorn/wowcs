@@ -5,7 +5,7 @@
 <link rel="shortcut icon" href="/wow/static/local-common/images/favicons/wow.ico" type="image/x-icon"/>
 <link rel="search" type="application/opensearchdescription+xml" href="http://eu.battle.net/<?php echo WoW_Locale::GetLocale(LOCALE_DOUBLE); ?>/data/opensearch" title="<?php echo WoW_Locale::GetString('template_bn_search'); ?>" />
 <?php WoW_Template::PrintCSSForPage(); ?>
-<script type="text/javascript" src="/wow/static/local-common/js/third-party/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="/wow/static/local-common/js/third-party/jquery-1.4.4-p1.min.js"></script>
 <script type="text/javascript" src="/wow/static/local-common/js/core.js?v15"></script>
 <script type="text/javascript" src="/wow/static/local-common/js/tooltip.js?v15"></script>
 <!--[if IE 6]> <script type="text/javascript">

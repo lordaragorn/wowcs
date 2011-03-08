@@ -235,13 +235,13 @@ Class WoW_Template {
             case 'search_results':
                 $css_data_page = array(
                     array(
-                        'path' => '/wow/static/local-common/css/search.css',
-                        'version' => 15,
+                        'path' => '/wow/static/local-common/css/cms/search.css',
+                        'version' => 16,
                         'browser' => false
                     ),
                     array(
                         'path' => '/wow/static/css/search.css',
-                        'version' => 15,
+                        'version' => 7,
                         'browser' => false
                     )
                 );

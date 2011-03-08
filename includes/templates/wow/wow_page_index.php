@@ -8,7 +8,7 @@ WoW_Template::LoadTemplate('block_header');
             <div id="search-bar">
                 <form action="/wow/search" method="get" id="search-form">
                     <div>
-                        <input type="submit" id="search-button" value="" tabindex="41" /> <input type="text" name="q" id="search-field" maxlength="200" tabindex="40" alt="<?php echo WoW_Locale::GetString('template_search_site');?>" value="<?php echo WoW_Locale::GetString('template_search_site'); ?>" />
+                        <input type="submit" id="search-button" value="" tabindex="41" /> <input type="text" name="q" id="search-field" maxlength="200" tabindex="40" alt="<?php echo WoW_Locale::GetString('template_search_site');?>" value="<?php echo WoW_Search::GetSearchQuery() != null ? WoW_Search::GetSearchQuery() : WoW_Locale::GetString('template_search_site'); ?>" />
                     </div>
                 </form>
             </div>
@@ -53,6 +53,9 @@ switch(WoW_Template::GetPageIndex()) {
     case 'character_achievements':
         WoW_Template::LoadTemplate('content_character_achievements');
         break;
+    case 'search':
+        WoW_Template::LoadTemplate('content_search');
+        break;
 }
 WoW_Template::LoadTemplate('block_footer', true);
 WoW_Template::LoadTemplate('block_service', true);
@@ -64,20 +67,18 @@ WoW_Template::LoadTemplate('block_js_messages', true);
 <script type="text/javascript" src="/wow/static/local-common/js/menu.js?v15"></script>
 <script type="text/javascript" src="/wow/static/js/wow.js?v4"></script>
 <script type="text/javascript">
-//<![CDATA[
-    friendData = [
-    ];
-    $(function(){
-        //
-        Menu.initialize('/data/menu.json');
-        Search.init('/ta/lookup');
-    });
-//]]>
+friendData = [
+];
+$(function(){
+    //
+    Menu.initialize('/data/menu.json');
+    Search.init('/ta/lookup');
+});
 </script>
 <!--[if lt IE 8]> <script type="text/javascript" src="/wow/static/local-common/js/third-party/jquery.pngFix.pack.js?v15"></script>
 <script type="text/javascript">$('.png-fix').pngFix();</script>
 <![endif]-->
-<script type="text/javascript" src="/wow/static/local-common/js/cms.js?v15?v4"></script>
+<script type="text/javascript" src="/wow/static/local-common/js/cms.js?v4"></script>
 <?php
 switch(WoW_Template::GetPageData('page')) {
     case 'character_profile':
@@ -102,14 +103,18 @@ switch(WoW_Template::GetPageData('page')) {
         echo '<script type="text/javascript" src="/wow/static/js/profile.js?v6"></script>
 <script type="text/javascript" src="/wow/static/js/character/guild-tabard.js?v6"></script>';
         break;
+    case 'search':
+        echo '<script type="text/javascript" src="/wow/static/local-common/js/table.js?v16"></script>
+<script type="text/javascript" src="/wow/static/js/character/guild-tabard.js?v7"></script>';
+        break;
 }
 ?>
 
 <script type="text/javascript">
 //<![CDATA[
-    Core.load("/wow/static/local-common/js/third-party/jquery-ui-1.8.6.custom.min.js?v15");
     Core.load("/wow/static/local-common/js/overlay.js?v15");
-    Core.load("/wow/static/local-common/js/search.js?v15");
+    Core.load("/wow/static/local-common/js/search.js?v16");
+    Core.load("/wow/static/local-common/js/third-party/jquery-ui-1.8.6.custom.min.js?v15");
     Core.load("/wow/static/local-common/js/third-party/jquery.mousewheel.min.js?v15");
     Core.load("/wow/static/local-common/js/third-party/jquery.tinyscrollbar.min.js?v15");
     Core.load("/wow/static/local-common/js/login.js?v15", false, function() {

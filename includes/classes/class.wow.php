@@ -118,8 +118,8 @@ Class WoW {
                 for($i = 0; $i < $count; $i++) {
                     switch($url_array[$i]) {
                         case 'character':
-                            $urldata['realmName'] = (isset($url_array[$i + 2])) ? urldecode($url_array[$i + 1]) : null;
-                            $urldata['name'] = (isset($url_array[$i + 1])) ? urldecode($url_array[$i + 2]) : null;
+                            $urldata['realmName'] = (isset($url_array[$i + 1])) ? urldecode($url_array[$i + 1]) : null;
+                            $urldata['name'] = (isset($url_array[$i + 2])) ? urldecode($url_array[$i + 2]) : null;
                             for($j = 0; $j < 10; $j++) {
                                 if(isset($url_array[ $i + ($j + 3) ]) && $url_array[ $i + ($j + 3) ] != null) {
                                     $urldata['action' . $j] = $url_array[$i + ($j + 3)];

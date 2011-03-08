@@ -65,7 +65,7 @@ $WoW_Locale = array(
     'template_menu_game' => 'Игра',
     'template_menu_items' => 'Предметы',
     
-    
+    'template_search' => 'Поиск',
     'template_bn_search' => 'Поиск по Battle.net',
     'template_search_site' => 'Поиск в Оружейной, на форуме и т.д.',
     'template_bn_description' => 'Заводите друзей, соревнуйтесь и побеждайте',
@@ -172,6 +172,7 @@ $WoW_Locale = array(
     'template_change_character' => 'Сменить персонажа',
     'template_no_talents' => 'Нет талантов',
     'template_lvl' => 'ур.',
+    'tempalte_lvl_fmt' => '%d-го ур-ня',
     'template_primary_talents' => 'Основные',
     'template_secondary_talents' => 'Вспомогательные',
     
@@ -363,5 +364,19 @@ $WoW_Locale = array(
     'template_character_friends_caption' => 'Друзья персонажа (%d)',
     'template_character_friends_character' => 'Уровень %d %s %s',
     
+    'template_search_results_search' => 'Результаты поиска по запросу: <span>«%s»</span>',
+    'template_search_results_wowcharacter' => 'Персонажи по запросу «<span>%s</span>»',
+    'template_search_results_wowitem' => 'Предметы по запросу «<span>%s</span>»',
+    'template_search_filter' => 'Фильтр:',
+    'template_search_filter_score' => 'Точность соответствия',
+    'template_search_filter_time' => 'Дата',
+    'template_search_filter_popularity' => 'Популярность',
+    'template_search_results_all' => 'Все (%d)',
+    'template_search_results_arenateams' => 'Команды Арены (%d)',
+    'template_search_results_articles' => 'Статьи (%d)',
+    'template_search_results_characters' => 'Персонаж (%d)',
+    'template_search_results_items' => 'Предмет (%d)',
+    'template_search_results_forums' => 'Форумы (%d)',
+    'template_search_results_guilds' => 'Гильдии (%d)',
 );
 ?>

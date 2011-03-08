@@ -43,7 +43,7 @@ var Search = {
 						var suggestions = [],
 							searchChunks = new RegExp('('+req.term.trim().split(' ').join('|')+')','gi')
 						
-						for (x in friendData){
+						for (var x in friendData){
 							if (friendData.hasOwnProperty(x))
 								if (friendData[x].term.toLowerCase().indexOf(req.term.toLowerCase().trim()) > -1)
 									data.results.push(friendData[x]);
@@ -61,14 +61,16 @@ var Search = {
 									result.value = val.term;
 									break;
 								case "url":
-									var url = val.url.replace(/https?:\/\//g,'')
-									result.label = val.title.replace(searchChunks,'<b>$1</b>') + '<span> - ' + url.substring(url.indexOf('/'), url.length) + '</span>';
+									var url = val.url.replace(/https?:\/\//g,''),
+										escapedUrl = $('<div/>').text(val.url).text();
+									result.label = val.title.replace(searchChunks,'<b>$1</b>') + '<span> - ' + escapedUrl.slice(escapedUrl.indexOf('/')) + '</span>';
 									result.value = val.url;
 									result.url = val.url;
 									break;
 								case "friend":
-									var url = val.url.replace(/https?:\/\//g,'')
-									result.label = val.title.replace(searchChunks,'<b>$1</b>') + '<span> - ' + url.substring(url.indexOf('/'), url.length) + '</span>';
+									var url = val.url.replace(/https?:\/\//g,''),
+										escapedUrl = $('<div/>').text(val.url).text();
+									result.label = val.title.replace(searchChunks,'<b>$1</b>') + '<span> - ' + escapedUrl.slice(escapedUrl.indexOf('/')) + '</span>';
 									result.value = val.url;
 									result.url = val.url;
 									break;
@@ -106,19 +108,23 @@ var Search = {
 						add(suggestions);
 					},
 					error: function(e,r){ }
-
 				});
 			},
-			select: function(event, ui) {
+			select: function(e, ui) {
+				var code = e.which || e.keyCode;
+
+				if (code === $.ui.keyCode.TAB)
+					return;
+
 				if (ui.item) {
 					if (ui.item.url) {
 						window.location = ui.item.url;
 					} else {
 						if (ui.item.filter) $("#search-form").append('<input type="hidden" name="f" value="'+ui.item.filter+'"/>');
-						if (ui.item.keyword) $("#search-form").append('<input type="hidden" name="k" value="'+result.keyword+'"/>');
+						if (ui.item.keyword) $("#search-form").append('<input type="hidden" name="k" value="'+ui.item.keyword+'"/>');
+
 						$('#search-field').val(ui.item.value)
 						$("#search-form").submit();
-
 					}
 				}
 			}

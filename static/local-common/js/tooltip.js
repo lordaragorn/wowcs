@@ -117,16 +117,25 @@ var Tooltip = {
 	 *
 	 * @param query
 	 * @param options
+	 * @param callback
 	 */
-	bind: function(query, options) {
-		query = $(query);
-		query.unbind('mouseover.tooltip');
-		query.bind('mouseover.tooltip', function(e) {
-			var title = $(this).data('tooltip') || this.title;
+	bind: function(query, options, callback) {
+		var doc = $(document);
 
-			if (title)
-				Tooltip.show(this, title, options);
-		});
+		if (!Core.isCallback(callback)) {
+			callback = function(e) {
+				var title = $(this).data('tooltip') || this.title;
+
+				if (!options)
+					options = $(this).data('tooltip-options') || {};
+
+				if (title)
+					Tooltip.show(this, title, options);
+			};
+		}
+
+		doc.undelegate(query, 'mouseover.tooltip', callback);
+		doc.delegate(query, 'mouseover.tooltip', callback);
 	},
 
     /**
@@ -186,9 +195,8 @@ var Tooltip = {
 						beforeSend: function() {
 							// Show "Loading..." tooltip when request is being slow
 							setTimeout(function() {
-								if(!Tooltip.visible) {
+								if (!Tooltip.visible)
 									Tooltip.position(node, Msg.ui.loading, options.location);
-								}
 							}, 200);
 						},
 						success: function(data) {
@@ -198,9 +206,8 @@ var Tooltip = {
 							}
 						},
 						error: function(xhr) {
-							if (xhr.status != 200) {
+							if (xhr.status != 200)
 								Tooltip.hide();
-							}
 						}
 					});
 				}
@@ -223,14 +230,16 @@ var Tooltip = {
 		if (!Tooltip.wrapper)
 			return;
 
+		if (Core.isIE(6)) {
+			$('.tooltip-frame').hide();
+			Tooltip.wrapper.removeAttr('style');
+		}
+
 		Tooltip.wrapper.hide();
 		Tooltip.wrapper.unbind('mousemove.tooltip');
 
-		if (Core.isIE(6))
-			$('.tooltip-frame').hide();
-
 		Tooltip.currentNode = null;
-		Tooltip.visible = true;
+		Tooltip.visible = false;
 	},
 
     /**
@@ -250,8 +259,12 @@ var Tooltip = {
 			Tooltip.contentCell.empty().append(content);
 
         var width = Tooltip.wrapper.outerWidth(),
-			height = Tooltip.wrapper.outerHeight(),
-			coords = Tooltip['_'+ location](width, height, node);
+			height = Tooltip.wrapper.outerHeight();
+
+		if (Core.isIE(6) && width >= 200)
+			width = 200;
+
+		var coords = Tooltip['_'+ location](width, height, node);
 
 		if (coords)
 			Tooltip.move(coords.x, coords.y, width, height);
@@ -280,6 +293,9 @@ var Tooltip = {
 				left: (x - 60) +"px",
 				top: y +"px"
 			}).fadeTo(0, 0).show();
+
+			if (w >= 200)
+				Tooltip.wrapper.css('width', 200);
 		}
 	},
 
@@ -372,7 +388,7 @@ var Tooltip = {
 	 * @return object
 	 */
 	_middleRight: function(width, height, node) {
-		var offset = node.offset(), 
+		var offset = node.offset(),
 			nodeWidth = node.outerWidth(),
 			nodeHeight = node.outerHeight(),
 			x = offset.left + nodeWidth,
@@ -407,7 +423,7 @@ var Tooltip = {
 	 * @return object
 	 */
 	_bottomCenter: function(width, height, node) {
-		var offset = node.offset(), 
+		var offset = node.offset(),
 			nodeWidth = node.outerWidth(),
 			nodeHeight = node.outerHeight(),
 			x = offset.left + ((nodeWidth / 2) - (width / 2)),
@@ -425,7 +441,7 @@ var Tooltip = {
 	 * @return object
 	 */
 	_bottomRight: function(width, height, node) {
-		var offset = node.offset(), 
+		var offset = node.offset(),
 			nodeWidth = node.outerWidth(),
 			nodeHeight = node.outerHeight(),
 			x = offset.left + nodeWidth,
@@ -478,3 +494,8 @@ var Tooltip = {
 	}
 
 };
+
+// Set data-tooltip binds globally
+$(function() {
+	Tooltip.bind('[data-tooltip]');
+});

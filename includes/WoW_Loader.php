@@ -59,11 +59,12 @@ include(WOW_DIRECTORY . '/includes/classes/class.item.php');
 include(WOW_DIRECTORY . '/includes/classes/class.items.php');
 include(WOW_DIRECTORY . '/includes/classes/class.itemprototype.php');
 include(WOW_DIRECTORY . '/includes/classes/class.guild.php');
+include(WOW_DIRECTORY . '/includes/classes/class.search.php');
 // Load data
 include(WOW_DIRECTORY . '/includes/data/data.classes.php');
 include(WOW_DIRECTORY . '/includes/data/data.races.php');
 // Locale
-if(isset($_GET['locale'])) {
+if(isset($_GET['locale']) && !preg_match('/lookup/', $_SERVER['REQUEST_URI'])) {
     $_SESSION['wow_locale'] = $_GET['locale'];
     $_SESSION['wow_locale_id'] = WoW_Locale::GetLocaleIDForLocale($_SESSION['wow_locale']);
     if(WoW_Locale::IsLocale($_SESSION['wow_locale'], $_SESSION['wow_locale_id'])) {

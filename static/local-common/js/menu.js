@@ -130,6 +130,7 @@ var Menu = {
 
 		$.ajax({
 			url: Core.baseUrl + url,
+			dataType: 'json',
 			success: function(data) {
 				Menu.data[set] = data;
 				Menu.dataIndex[set] = {};

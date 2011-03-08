@@ -66,7 +66,7 @@ $WoW_Locale = array(
     'template_menu_game' => 'Game',
     'template_menu_items' => 'Items',
     
-    
+    'template_search' => 'Search',
     'template_bn_search' => 'Search Battle.net',
     'template_search_site' => 'Search the Armory, forums and more...',
     'template_bn_description' => 'Connect, compete and achieve',
@@ -173,6 +173,7 @@ $WoW_Locale = array(
     'template_change_character' => 'Change character',
     'template_no_talents' => 'Talents',
     'template_lvl' => '',
+    'tempalte_lvl_fmt' => 'Level %d',
     'template_primary_talents' => 'Primary',
     'template_secondary_talents' => 'Secondary',
     
@@ -363,5 +364,20 @@ $WoW_Locale = array(
     
     'template_character_friends_caption' => 'Character friends (%d)',
     'template_character_friends_character' => '%d %s %s',
+    
+    'template_search_results_search' => 'Search results for<span>%s</span>',
+    'template_search_results_wowcharacter' => 'Character results for<span>%s</span>',
+    'template_search_results_wowitem' => 'Item results for <span>%s</span>',
+    'template_search_filter' => 'Sort by:',
+    'template_search_filter_score' => 'Relevance',
+    'template_search_filter_time' => 'Date',
+    'template_search_filter_popularity' => 'Popularity',
+    'template_search_results_all' => 'Popularity (%d)',
+    'template_search_results_arenateams' => 'Arena Teams (%d)',
+    'template_search_results_articles' => 'Articles (%d)',
+    'template_search_results_characters' => 'Characters (%d)',
+    'template_search_results_items' => 'Items (%d)',
+    'template_search_results_forums' => 'Forums (%d)',
+    'template_search_results_guilds' => 'Guilds (%d)',
 );
 ?>

@@ -519,5 +519,26 @@ Class WoW_Utils {
         }
         return $radius[0] . ' - ' . $radius[2];
     }
+    
+    public function AnalyzeLocales($loc1, $loc2) {
+        if(!file_exists(WOW_DIRECTORY . '/includes/locales/locale_' . $loc1 . '.php') || !file_exists(WOW_DIRECTORY . '/includes/locales/locale_' . $loc2 . '.php')) {
+            return false;
+        }
+        include(WOW_DIRECTORY . '/includes/locales/locale_' . $loc1 . '.php');
+        $locale1 = $WoW_Locale;
+        include(WOW_DIRECTORY . '/includes/locales/locale_' . $loc2 . '.php');
+        $locale2 = $WoW_Locale;
+        foreach($locale1 as $index => $value) {
+            if(!isset($locale2[$index])) {
+                WoW_Log::WriteError('%s : locale %s does not have "%s" index (%s value: "%s").', __METHOD__, $loc2, $index, $loc1, $value);
+            }
+        }
+        foreach($locale2 as $index => $value) {
+            if(!isset($locale1[$index])) {
+                WoW_Log::WriteError('%s : locale %s does not have "%s" index (%s value: "%s").', __METHOD__, $loc1, $index, $loc2, $value);
+            }
+        }
+        return true;
+    }
 }
 ?>

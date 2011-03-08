@@ -23,10 +23,12 @@ Class WoW_Locale {
     private static $locale_id = -1;
     private static $locale_holder = null;
     
-    public static function SetLocale($locale_name, $locale_id) {
-        self::$locale_name = $locale_name;
+    public static function SetLocale($locale_name, $locale_id, $load_locale = true) {
+        self::$locale_name = self::GetAppropriateLocaleNameForLocale($locale_name);
         self::$locale_id = $locale_id;
-        self::LoadLocale();
+        if($load_locale) {
+            self::LoadLocale();
+        }
     }
     
     public static function GetLocale($type = LOCALE_SINGLE) {
@@ -86,35 +88,128 @@ Class WoW_Locale {
     }
     
     public static function IsLocale($locale_str, $locale_id) {
-        switch($locale_str) {
+        switch(strtolower($locale_str)) {
             case 'de':
+            case 'dede':
+            case 'de-de':
+            case 'de_de';
                 return $locale_id == LOCALE_DE;
+                break;
             case 'en':
+            case 'enen':
+            case 'enus':
+            case 'engb':
+            case 'en-en':
+            case 'en-us':
+            case 'en-gb':
+            case 'en_en':
+            case 'en_us':
+            case 'en_gb':
                 return $locale_id == LOCALE_EN;
+                break;
             case 'es':
+            case 'eses':
+            case 'es-es':
+            case 'es_es':
                 return $locale_id == LOCALE_ES;
+                break;
             case 'fr':
+            case 'frfr':
+            case 'fr-fr':
+            case 'fr_fr':
                 return $locale_id == LOCALE_FR;
+                break;
             case 'ru':
+            case 'ruru':
+            case 'ru-ru':
+            case 'ru_ru':
                 return $locale_id == LOCALE_RU;
+                break;
         }
         return false;
     }
     
     public static function GetLocaleIDForLocale($locale_str) {
-        switch($locale_str) {
+        switch(strtolower($locale_str)) {
             case 'de':
+            case 'dede':
+            case 'de-de':
+            case 'de_de';
                 return LOCALE_DE;
+                break;
             case 'en':
+            case 'enen':
+            case 'enus':
+            case 'engb':
+            case 'en-en':
+            case 'en-us':
+            case 'en-gb':
+            case 'en_en':
+            case 'en_us':
+            case 'en_gb':
                 return LOCALE_EN;
+                break;
             case 'es':
+            case 'eses':
+            case 'es-es':
+            case 'es_es':
                 return LOCALE_ES;
+                break;
             case 'fr':
+            case 'frfr':
+            case 'fr-fr':
+            case 'fr_fr':
                 return LOCALE_FR;
+                break;
             case 'ru':
+            case 'ruru':
+            case 'ru-ru':
+            case 'ru_ru':
                 return LOCALE_RU;
+                break;
         }
         return false;
+    }
+    
+    private static function GetAppropriateLocaleNameForLocale($locale_str) {
+        switch(strtolower($locale_str)) {
+            case 'de':
+            case 'dede':
+            case 'de-de':
+            case 'de_de';
+                return 'de';
+                break;
+            case 'en':
+            case 'enen':
+            case 'enus':
+            case 'engb':
+            case 'en-en':
+            case 'en-us':
+            case 'en-gb':
+            case 'en_en':
+            case 'en_us':
+            case 'en_gb':
+                return 'en';
+                break;
+            case 'es':
+            case 'eses':
+            case 'es-es':
+            case 'es_es':
+                return 'es';
+                break;
+            case 'fr':
+            case 'frfr':
+            case 'fr-fr':
+            case 'fr_fr':
+                return 'fr';
+                break;
+            case 'ru':
+            case 'ruru':
+            case 'ru-ru':
+            case 'ru_ru':
+                return 'ru';
+                break;
+        }
     }
 }
 ?>

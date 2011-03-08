@@ -6,3 +6,4 @@ RewriteRule ^forum/(.*) /wow/forum.php?%{QUERY_STRING}
 RewriteRule ^character/(.*) /wow/character.php?%{QUERY_STRING}
 RewriteRule ^guild/(.*) /wow/guild.php?%{QUERY_STRING}
 RewriteRule ^vault/(.*) /wow/vault.php?%{QUERY_STRING}
+RewriteRule ^search search.php?%{QUERY_STRING}
