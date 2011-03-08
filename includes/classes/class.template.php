@@ -531,6 +531,9 @@ Class WoW_Template {
             case 'guild_page':
                 return sprintf('%s @ %s - ', WoW_Guild::GetGuildName(), WoW_Guild::GetGuildRealmName());
                 break;
+            case 'search':
+                return WoW_Search::GetSearchQuery() != null ? sprintf('%s - %s - ', WoW_Search::GetSearchQuery(), WoW_Locale::GetString('template_search')) : sprintf('%s - ', WoW_Locale::GetString('template_search'));
+                break;
         }
     }
 }

@@ -167,7 +167,7 @@ Class WoW_Search {
                 OR
                 `locales_item`.`description_loc%d` LIKE '%s'
             )
-            ORDER BY `item_template`.`Quality` DESC
+            ORDER BY `item_template`.`Quality` DESC, `item_template`.`ItemLevel` DESC
             %s", WoW_Locale::GetLocaleID(), WoW_Locale::GetLocaleID(), WoW_Locale::GetLocaleID(), $ph, WoW_Locale::GetLocaleID(), $ph, $limit > 0 ? ' LIMIT ' . $limit : null);
         }
         else {
@@ -179,7 +179,7 @@ Class WoW_Search {
                 OR
                 `description` LIKE '%%%s%%'
             )
-            ORDER BY `Quality` DESC";
+            ORDER BY `Quality` DESC, `ItemLevel` DESC";
             if($limit > 0) {
                 $sql_query .= ' LIMIT ' . $limit;
             }
@@ -258,7 +258,9 @@ Class WoW_Search {
             `desc_%s` LIKE '%%%s%%'
             OR
             `text_%s` LIKE '%%%s%%'
-        )%s", WoW_Locale::GetLocale(), WoW_Locale::GetLocale(), WoW_Locale::GetLocale(), WoW_Locale::GetLocale(), self::GetSearchQuery(), WoW_Locale::GetLocale(), self::GetSearchQuery(), WoW_Locale::GetLocale(), self::GetSearchQuery(), $limit > 0 ? ' LIMIT ' . $limit : null);
+            OR
+            `author` LIKE '%%%s%%'
+        )%s", WoW_Locale::GetLocale(), WoW_Locale::GetLocale(), WoW_Locale::GetLocale(), WoW_Locale::GetLocale(), self::GetSearchQuery(), WoW_Locale::GetLocale(), self::GetSearchQuery(), WoW_Locale::GetLocale(), self::GetSearchQuery(), self::GetSearchQuery(), $limit > 0 ? ' LIMIT ' . $limit : null);
         return self::SetSearchResults('article', $results);
     }
     

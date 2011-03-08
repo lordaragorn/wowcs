@@ -21,11 +21,13 @@
 if(!defined('__RUNONCE__')) {
     exit;
 }
-$is_allowed = file_get_contents(WOW_DIRECTORY . '/_debug/runonce');
-if($is_allowed == '1') {
-    include(WOW_DIRECTORY . '/includes/RunOnce_Commands.php');
-    if(ExecuteRunOnce()) {
-        file_put_contents(WOW_DIRECTORY . '/_debug/runonce', '0');
+if(RUNONCE_REVISION >= WOW_REVISION) {
+    $is_allowed = file_get_contents(WOW_DIRECTORY . '/_debug/runonce');
+    if($is_allowed == '1') {
+        include(WOW_DIRECTORY . '/includes/RunOnce_Commands.php');
+        if(ExecuteRunOnce()) {
+            file_put_contents(WOW_DIRECTORY . '/_debug/runonce', '0');
+        }
     }
 }
 ?>

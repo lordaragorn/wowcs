@@ -21,32 +21,23 @@ echo WoW_Search::GetPostsSearchResultsCount()      == 0 ? null : sprintf('<a cla
 echo WoW_Search::GetGuildsSearchResultsCount()     == 0 ? null : sprintf('<a class="type-wowguild%s" href="search?q=%s&amp;f=wowguild">%s</a>',         WoW_Search::GetCurrentPage() == 'wowguild'     ? ' selected' : null, WoW_Template::GetPageData('searchQuery'), sprintf(WoW_Locale::GetString('template_search_results_guilds'),     WoW_Search::GetGuildsSearchResultsCount()));
 ?>
 </div>
-<div id="left-results">
-    <div class="search-result">
-        <div class="multi-type">
-            <div class="result-title">
-                <div class="type-icon type-wowitem border-q1" style="background-image:url(http://eu.battle.net/wow-assets/static/images/icons/36/spell_shadow_shadowward.jpg)">
-                <a href="/wow/item/30754" rel="item:30754"><img width="32" height="32" src="http://eu.battle.net/wow-assets/static/images/icons/36/spell_shadow_shadowward.jpg" alt=""/></a>
-                </div>
-                <a href="/wow/item/30754" class="search-title color-q1">Древняя костяная палица</a>
-            </div>
-            <div class="search-content">
-            Одноручное (Дробящее) / Уровень предмета 71 / Требуется уровень 60
-            <br /><br />
-            Цена продажи:
-            <span class="price">
-                <span class="icon-gold">2</span>
-                <span class="icon-silver">74</span>
-                <span class="icon-copper">83</span>
-            </span>
-            </div>
-            <div class="search-results-url">/wow/item/30754</div>
-        </div>
-        <div class="clear"></div>
-    </div>
-</div>
 <?php
-if(WoW_Search::GetCharactersSearchResultsCount() > 0 || WoW_Search::GetItemsSearchResultsCount() > 0) {
+switch(WoW_Search::GetCurrentPage()) {
+    case 'wowcharacter':
+        WoW_Template::LoadTemplate('block_search_table_characters');
+        break;
+    case 'wowitem':
+        WoW_Template::LoadTemplate('block_search_table_items');
+        break;
+    case 'article':
+        WoW_Template::LoadTemplate('block_search_table_articles');
+        break;
+    case 'search':
+    default:
+        WoW_Template::LoadTemplate('block_search_results_left');
+        break;
+}
+if((WoW_Search::GetCharactersSearchResultsCount() > 0 || WoW_Search::GetItemsSearchResultsCount() > 0) && WoW_Search::GetCurrentPage() == 'search') {
     WoW_Template::LoadTemplate('block_search_results_right');
 }
 ?>
