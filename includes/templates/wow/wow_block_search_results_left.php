@@ -10,6 +10,16 @@
                 }
                 $itemIcon = WoW_Items::GetItemIcon($item['entry'], $item['displayid']);
                 $sellPrice = WoW_Utils::GetMoneyFormat($item['SellPrice']);
+                $classSubClassString = null;
+                switch($item['class']) {
+                    case ITEM_CLASS_ARMOR:
+                    case ITEM_CLASS_WEAPON:
+                        $classSubClassName = DB::WoW()->selectRow("SELECT `class_name_%s` AS `className`, `subclass_name_%s` AS `subclassName` FROM `DBPREFIX_itemsubclass` WHERE `class` = %d AND `subclass` = %d LIMIT 1", WoW_Locale::GetLocale(), WoW_Locale::GetLocale(), $item['class'], $item['subclass']);
+                        if(is_array($classSubClassName)) {
+                            $classSubClassString = sprintf('%s (%s)', $classSubClassName['subclassName'], WoW_Locale::GetString('template_item_invtype_' . $item['InventoryType']));
+                        }
+                        break;
+                }
                 echo sprintf('<div class="multi-type">
             <div class="result-title">
                 <div class="type-icon type-wowitem border-q%d" style="background-image:url(http://eu.battle.net/wow-assets/static/images/icons/36/%s.jpg)">
@@ -18,7 +28,7 @@
                 <a href="/wow/item/%d" class="search-title color-q%d">%s</a>
             </div>
             <div class="search-content">
-            Одноручное (Дробящее) / Уровень предмета %d / Требуется уровень %d
+            %s / %s / %s
             <br /><br />
             Цена продажи:
             <span class="price">
@@ -28,7 +38,7 @@
             </span>
             </div>
             <div class="search-results-url">/wow/item/%d</div>
-        </div>', $item['Quality'], $itemIcon, $item['entry'], $item['entry'], $itemIcon, $item['entry'], $item['Quality'], $item['name'], $item['ItemLevel'], $item['RequiredLevel'], $sellPrice['gold'], $sellPrice['silver'], $sellPrice['copper'], $item['entry']);
+        </div>', $item['Quality'], $itemIcon, $item['entry'], $item['entry'], $itemIcon, $item['entry'], $item['Quality'], $item['name'], $classSubClassString, sprintf(WoW_Locale::GetString('template_item_itemlevel'), $item['ItemLevel']), sprintf(WoW_Locale::GetString('template_item_required_level'), $item['RequiredLevel']), $sellPrice['gold'], $sellPrice['silver'], $sellPrice['copper'], $item['entry']);
                 $totalCount++;
             }
         }

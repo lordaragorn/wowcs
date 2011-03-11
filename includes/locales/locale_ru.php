@@ -378,5 +378,15 @@ $WoW_Locale = array(
     'template_search_results_items' => 'Предмет (%d)',
     'template_search_results_forums' => 'Форумы (%d)',
     'template_search_results_guilds' => 'Гильдии (%d)',
+    
+    'template_search_table_charname' => 'Имя',
+    'template_search_table_level' => 'Уровень',
+    'template_search_table_race' => 'Раса',
+    'template_search_table_class' => 'Класс',
+    'template_search_table_faction' => 'Фракция',
+    'template_search_table_guild' => 'Гильдия',
+    'template_search_table_realm' => 'Игровой мир',
+    'template_search_table_battlegroup' => 'Боевая группа',
+    
 );
 ?>

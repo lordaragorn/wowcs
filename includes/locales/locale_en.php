@@ -379,5 +379,14 @@ $WoW_Locale = array(
     'template_search_results_items' => 'Items (%d)',
     'template_search_results_forums' => 'Forums (%d)',
     'template_search_results_guilds' => 'Guilds (%d)',
+    
+    'template_search_table_charname' => 'Name',
+    'template_search_table_level' => 'Level',
+    'template_search_table_race' => 'Race',
+    'template_search_table_class' => 'Class',
+    'template_search_table_faction' => 'Faction',
+    'template_search_table_guild' => 'Guild',
+    'template_search_table_realm' => 'Realm',
+    'template_search_table_battlegroup' => 'Battlegroup',
 );
 ?>

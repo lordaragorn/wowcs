@@ -49,6 +49,16 @@
             foreach($items as $item) {
                 $itemIcon = WoW_Items::GetItemIcon($item['entry'], $item['displayid']);
                 $sellPrice = WoW_Utils::GetMoneyFormat($item['SellPrice']);
+                $classSubClassString = null;
+                switch($item['class']) {
+                    case ITEM_CLASS_ARMOR:
+                    case ITEM_CLASS_WEAPON:
+                        $classSubClassName = DB::WoW()->selectRow("SELECT `class_name_%s` AS `className`, `subclass_name_%s` AS `subclassName` FROM `DBPREFIX_itemsubclass` WHERE `class` = %d AND `subclass` = %d LIMIT 1", WoW_Locale::GetLocale(), WoW_Locale::GetLocale(), $item['class'], $item['subclass']);
+                        if(is_array($classSubClassName)) {
+                            $classSubClassString = sprintf('%s (%s)', $classSubClassName['subclassName'], WoW_Locale::GetString('template_item_invtype_' . $item['InventoryType']));
+                        }
+                        break;
+                }
                 echo sprintf('<div class="search-result">
         <div class="multi-type">
         <div class="result-title">
@@ -60,7 +70,7 @@
         <a href="/wow/item/%d" class="search-title color-q%d">%s</a>
         </div>
         <div>%s</div>
-        Одноручное (Дробящее) / Уровень предмета %d / %s<br />
+        %s / %s / %s<br />
         <a href="javascript:;" data-fansite="npc|41378|Малориак" class="fansite-link float-right"> </a>
         Создание: Малориак<br />%s
 		<span class="price">
@@ -73,7 +83,7 @@
         $item['entry'], $item['entry'],
         $itemIcon, $item['entry'], $item['Quality'], $item['name'],
         $item['bonding'] > 0 ? WoW_Locale::GetString('template_item_bonding_' . $item['bonding']) : null,
-        $item['ItemLevel'], $item['RequiredLevel'] > 0 ? sprintf(WoW_Locale::GetString('template_item_required_level'), $item['RequiredLevel']) : null, WoW_Locale::GetString('template_item_sell_price'), $sellPrice['gold'], $sellPrice['silver'], $sellPrice['copper']
+        $classSubClassString, sprintf(WoW_Locale::GetString('template_item_itemlevel'), $item['ItemLevel']), $item['RequiredLevel'] > 0 ? sprintf(WoW_Locale::GetString('template_item_required_level'), $item['RequiredLevel']) : null, WoW_Locale::GetString('template_item_sell_price'), $sellPrice['gold'], $sellPrice['silver'], $sellPrice['copper']
         );
             }
             echo sprintf('

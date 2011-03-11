@@ -1,14 +1,14 @@
 <table class="table">
 						<thead>
 							<tr>
-								<th><a href="javascript:;" class="sort-link"><span class="arrow">Имя</span></a></th>
-								<th class="iconCol"><a href="javascript:;" class="sort-link numeric"><span class="arrow">Уровень</span></a></th>
-								<th class="iconCol"><a href="javascript:;" class="sort-link numeric"><span class="arrow">Раса</span></a></th>
-								<th class="iconCol"><a href="javascript:;" class="sort-link numeric"><span class="arrow">Класс</span></a></th>
-								<th class="iconCol"><a href="javascript:;" class="sort-link numeric"><span class="arrow">Фракция</span></a></th>
-								<th><a href="javascript:;" class="sort-link"><span class="arrow">Гильдия</span></a></th>
-								<th><a href="javascript:;" class="sort-link"><span class="arrow">Игровой мир</span></a></th>
-								<th><a href="javascript:;" class="sort-link"><span class="arrow">Боевая группа</span></a></th>
+								<th><a href="javascript:;" class="sort-link"><span class="arrow"><?php echo WoW_Locale::GetString('template_search_table_charname'); ?></span></a></th>
+								<th class="iconCol"><a href="javascript:;" class="sort-link numeric"><span class="arrow"><?php echo WoW_Locale::GetString('template_search_table_level'); ?></span></a></th>
+								<th class="iconCol"><a href="javascript:;" class="sort-link numeric"><span class="arrow"><?php echo WoW_Locale::GetString('template_search_table_race'); ?></span></a></th>
+								<th class="iconCol"><a href="javascript:;" class="sort-link numeric"><span class="arrow"><?php echo WoW_Locale::GetString('template_search_table_class'); ?></span></a></th>
+								<th class="iconCol"><a href="javascript:;" class="sort-link numeric"><span class="arrow"><?php echo WoW_Locale::GetString('template_search_table_faction'); ?></span></a></th>
+								<th><a href="javascript:;" class="sort-link"><span class="arrow"><?php echo WoW_Locale::GetString('template_search_table_guild'); ?></span></a></th>
+								<th><a href="javascript:;" class="sort-link"><span class="arrow"><?php echo WoW_Locale::GetString('template_search_table_realm'); ?></span></a></th>
+								<th><a href="javascript:;" class="sort-link"><span class="arrow"><?php echo WoW_Locale::GetString('template_search_table_battlegroup'); ?></span></a></th>
 							</tr>
 						</thead>
 						<tbody>
