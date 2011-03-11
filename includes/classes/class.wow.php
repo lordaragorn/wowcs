@@ -155,6 +155,56 @@ Class WoW {
         }
         return $urldata;
     }
+    
+    public static function GetRealmStatus() {
+        $realmList = DB::Realm()->select("SELECT `id`, `name`, `address`, `port`, `icon`, `realmflags`, `timezone`, `allowedSecurityLevel`, `population` FROM `realmlist`");
+        if(!$realmList) {
+            return false;
+        }
+        $size = count($realmList);
+        for($i = 0; $i < $size; ++$i) {
+            $errNo = 0;
+            $errStr = 0;
+            $realmList[$i]['status'] = @fsockopen($realmList[$i]['address'], $realmList[$i]['port'], $errNo, $errStr, 1) ? 'up' : 'down';
+            switch($realmList[$i]['icon']) {
+                default:
+                case 0:
+                case 4:
+                    $realmList[$i]['type'] = 'PvE';
+                    break;
+                case 1:
+                    $realmList[$i]['type'] = 'PvP';
+                    break;
+                case 6:
+                    $realmList[$i]['type'] = WoW_Locale::GetString('template_realm_status_type_roleplay');
+                    break;
+                case 8:
+                    $realmList[$i]['type'] = WoW_Locale::GetString('template_realm_status_type_rppvp');
+                    break;
+            }
+            switch($realmList[$i]['timezone']) {
+                default:
+                    $realmList[$i]['language'] = 'Development Realm';
+                    break;
+                case 8:
+                    $realmList[$i]['language'] = WoW_Locale::GetString('template_locale_en');
+                    break;
+                case 9:
+                    $realmList[$i]['language'] = WoW_Locale::GetString('template_locale_de');
+                    break;
+                case 10:
+                    $realmList[$i]['language'] = WoW_Locale::GetString('template_locale_fr');
+                    break;
+                case 11:
+                    $realmList[$i]['language'] = WoW_Locale::GetString('template_locale_es');
+                    break;
+                case 12:
+                    $realmList[$i]['language'] = WoW_Locale::GetString('template_locale_ru');
+                    break;
+            }
+        }
+        return $realmList;
+    }
 }
 
 ?>

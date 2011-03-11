@@ -28,8 +28,8 @@ else {
 <?php
 // <div id="content"> starts here!
 switch(WoW_Template::GetPageIndex()) {
-    case 'index':
     default:
+    case 'index':
         WoW_Template::LoadTemplate('content_index');
         break;
     case 'item':
@@ -55,6 +55,9 @@ switch(WoW_Template::GetPageIndex()) {
         break;
     case 'search':
         WoW_Template::LoadTemplate('content_search');
+        break;
+    case 'realm_status':
+        WoW_Template::LoadTemplate('content_realm_status');
         break;
 }
 WoW_Template::LoadTemplate('block_footer', true);
@@ -106,6 +109,11 @@ switch(WoW_Template::GetPageData('page')) {
     case 'search':
         echo '<script type="text/javascript" src="/wow/static/local-common/js/table.js?v16"></script>
 <script type="text/javascript" src="/wow/static/js/character/guild-tabard.js?v7"></script>';
+        break;
+    case 'realm_status':
+        echo '<script type="text/javascript" src="/wow/static/local-common/js/table.js?v16"></script>
+<script type="text/javascript" src="/wow/static/local-common/js/filter.js?v16"></script>
+<script type="text/javascript" src="/wow/static/js/services/realm-status.js?v7"></script>';
         break;
 }
 ?>

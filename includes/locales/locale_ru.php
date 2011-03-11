@@ -65,6 +65,12 @@ $WoW_Locale = array(
     'template_menu_game' => 'Игра',
     'template_menu_items' => 'Предметы',
     
+    'template_locale_de' => 'Немецкий',
+    'template_locale_en' => 'Английский',
+    'template_locale_es' => 'Испанский',
+    'template_locale_fr' => 'Французский',
+    'template_locale_ru' => 'Русский',
+    
     'template_search' => 'Поиск',
     'template_bn_search' => 'Поиск по Battle.net',
     'template_search_site' => 'Поиск в Оружейной, на форуме и т.д.',
@@ -387,6 +393,30 @@ $WoW_Locale = array(
     'template_search_table_guild' => 'Гильдия',
     'template_search_table_realm' => 'Игровой мир',
     'template_search_table_battlegroup' => 'Боевая группа',
+    
+    'template_realm_status' => 'Состояние игровых миров',
+    'template_realm_status_all_realms' => 'Все игровые миры',
+    'template_realm_status_display_filters' => 'Показать фильтры',
+    'template_realm_status_hide_filters' => 'Скрыть фильтры',
+    'template_realm_status_all' => 'Все',
+    'template_realm_status_status' => 'Статус',
+    'template_realm_status_up' => 'Работает',
+    'template_realm_status_down' => 'Отключен',
+    'template_realm_status_realm_name' => 'Имя игрового мира',
+    'template_realm_status_realm_type' => 'Тип',
+    'template_realm_status_type_rppvp' => 'Ролевой PvP',
+    'template_realm_status_type_roleplay' => 'Ролевой',
+    'template_realm_status_population' => 'Заселенность',
+    'template_realm_status_popul_high' => 'Высокая',
+    'template_realm_status_popul_medium' => 'Средняя',
+    'template_realm_status_popul_low' => 'Низкая',
+    'template_realm_status_language' => 'Язык',
+    'template_realm_status_queue' => 'Очередь',
+    'template_realm_status_reset_filters' => 'Сброс',
+    'template_realm_status_desc' => 'На этой странице отображается состояние игровых миров. Для каждого игрового мира указано, «открыт» он или «закрыт». Особые сообщения о состоянии того или иного мира, о проведении технического обслуживания и т.п. размещаются на форуме <a href="http://eu.battle.net/wow/forum/1028284/" target="_blank">«Состояние игровых миров»</a>. Заранее приносим вам свои извинения за неудобство, если ваш игровой мир в какой-то момент будет отмечен как «закрытый». Мы постараемся вернуть его в строй как можно скорее.',
+    'template_realm_status_available' => 'Доступен',
+    'template_realm_status_not_available' => 'Недоступен',
+    'template_realm_status_filters_not_found' => 'Поиск с помощью фильров не дал результата.',
     
 );
 ?>

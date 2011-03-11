@@ -463,6 +463,15 @@ Class WoW_Template {
                     )
                 );
                 break;
+            case 'realm_status':
+                $css_data_page = array(
+                    array(
+                        'path' => '/wow/static/css/game/realmstatus.css',
+                        'version' => 7,
+                        'browser' => ''
+                    )
+                );
+                break;
         }
         $cssList = array_merge($css_data, $css_data_page);
         $cssList[] = array(
@@ -533,6 +542,9 @@ Class WoW_Template {
                 break;
             case 'search':
                 return WoW_Search::GetSearchQuery() != null ? sprintf('%s - %s - ', WoW_Search::GetSearchQuery(), WoW_Locale::GetString('template_search')) : sprintf('%s - ', WoW_Locale::GetString('template_search'));
+                break;
+            case 'realm_status':
+                return sprintf('%s - %s - ', WoW_Locale::GetString('template_realm_status'), WoW_Locale::GetString('template_menu_game'));
                 break;
         }
     }
