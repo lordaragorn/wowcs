@@ -26,6 +26,13 @@ $searchQuery = isset($_GET['q']) ? $_GET['q'] : null;
 if($searchQuery != null && mb_strlen($searchQuery) < 3) {
     $searchQuery = null;
 }
+if(preg_match('/\@/', $searchQuery)) {
+    $fast_access = explode('@', $searchQuery);
+    if(isset($fast_access[0], $fast_access[1])) {
+        header('Location: /wow/character/' . trim($fast_access[1]) . '/' . trim($fast_access[0]) . '/simple');
+        exit;
+    }
+}
 WoW_Search::SetSearchQuery($searchQuery);
 // Perform Search
 WoW_Search::PerformSearch();

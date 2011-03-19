@@ -132,7 +132,17 @@ Class WoW_Characters /*implements Interface_Characters*/ {
             // Message about failed connection will appear from database handler class.
             return false;
         }
-        self::$name = ucfirst($name); // Because BINARY is used.
+        // BINARY.
+        if($name === ucfirst($name)) {
+            // Cyrillic cases
+            $name = iconv('UTF-8', 'Windows-1251', $name);
+            $name = ucfirst($name);
+            $name = iconv('Windows-1251', 'UTF-8', $name);
+        }
+        else {
+            $name = ucfirst($name);
+        }
+        self::$name = $name;
         // If $full == true, we need to check `armory_character_stats` table.
         // Load character fields.
         if(!self::LoadCharacterFieldsFromDB()) {

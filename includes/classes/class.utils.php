@@ -60,7 +60,7 @@ Class WoW_Utils {
     
     public function FindRealm($rName) {
         foreach(WoWConfig::$Realms as $realm) {
-            if($realm['name'] == $rName) {
+            if(strtolower($realm['name']) == strtolower($rName)) {
                 return $realm['id'];
             }
         }
