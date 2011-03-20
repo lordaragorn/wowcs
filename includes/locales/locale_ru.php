@@ -418,5 +418,12 @@ $WoW_Locale = array(
     'template_realm_status_not_available' => 'Недоступен',
     'template_realm_status_filters_not_found' => 'Поиск с помощью фильров не дал результата.',
     
+    'template_menu_character_info' => 'Данные о персонаже',
+    'template_achievements_search' => 'Поиск…',
+    'template_achievements_progress' => 'Прогресс',
+    'template_achievements_total_completed' => 'Всего завершено',
+    'template_achievements_points_tooltip' => 'Tooltip.show(this, &#39;%d / %d очков&#39;, { location: &#39;middleRight&#39; });',
+    'template_achievements_progress_bar_data' => '%d / %d (%d%%)',
+    'template_achievements_latest_achievements' => 'Недавно заслужено'
 );
 ?>

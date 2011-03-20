@@ -378,7 +378,7 @@ $WoW_Locale = array(
     'template_search_filter_score' => 'Relevance',
     'template_search_filter_time' => 'Date',
     'template_search_filter_popularity' => 'Popularity',
-    'template_search_results_all' => 'Popularity (%d)',
+    'template_search_results_all' => 'All (%d)',
     'template_search_results_arenateams' => 'Arena Teams (%d)',
     'template_search_results_articles' => 'Articles (%d)',
     'template_search_results_characters' => 'Characters (%d)',
@@ -418,5 +418,13 @@ $WoW_Locale = array(
     'template_realm_status_available' => 'Up',
     'template_realm_status_not_available' => 'Down',
     'template_realm_status_filters_not_found' => 'No results match the selected filters.',
+    
+    'template_menu_character_info' => 'Character Summary',
+    'template_achievements_search' => 'Filter achievements…',
+    'template_achievements_progress' => 'Progress Overview',
+    'template_achievements_total_completed' => 'Total Completed',
+    'template_achievements_points_tooltip' => 'Tooltip.show(this, &#39;%d / %d points&#39;, { location: &#39;middleRight&#39; });',
+    'template_achievements_progress_bar_data' => '%d / %d (%d%%)',
+    'template_achievements_latest_achievements' => 'Recently Earned'
 );
 ?>

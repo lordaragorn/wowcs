@@ -19,17 +19,19 @@ if(!$achievements) {
 <div id="cat-<?php echo $categoryInfo['id']; ?>" class="container<?php if($categoryID == 81) echo ' feats'; ?>">
 <h3 class="category"><?php echo $categoryInfo['name']; ?></h3><?php
     if($categoryID != 81) {
-        echo '
-    <div class="profile-progress border-4" onmouseover="Tooltip.show(this, &#39;2 675 / 5 530 очков&#39;, { location: &#39;middleRight&#39; });">
-        <div class="bar border-4" style="width: 50%"></div>
-        <div class="bar-contents">259 / 513 (50%)</div>
-    </div>';
+        $progressInfo = WoW_Achievements::GetProgressInfo($categoryID);
+        echo sprintf('<div class="profile-progress border-4" onmouseover="%s">
+        <div class="bar border-4" style="width: %d%%"></div>
+        <div class="bar-contents">%s</div>
+    </div>', sprintf(WoW_Locale::GetString('template_achievements_points_tooltip'), $progressInfo['achievedPoints'], $progressInfo['totalPoints']),
+        $progressInfo['percent'], sprintf(WoW_Locale::GetString('template_achievements_progress_bar_data'), $progressInfo['completed'], $progressInfo['total'], $progressInfo['percent'])
+    );
     }
     ?>
     
     <ul><?php
     foreach($achievements as $ach) {
-        //print_r($ach);
+        
         $criterias_list = null;
         $criterias_failed = false;
         if(is_array($ach['criterias'])) {
@@ -40,7 +42,7 @@ if(!$achievements) {
                     $criterias_failed = true;
                     break;
                 }
-                if($criteria['progressBar']) {
+                if(isset($criteria['progressBar']) && $criteria['progressBar']) {
                     if(!isset($criteria['maxQuantityGold'])) {
                         // Counter
                         $progressBar = sprintf('<div class="bar-contents">%d/ %d (%d%%)</div>',
@@ -62,7 +64,12 @@ if(!$achievements) {
                 }
                 else {
                     if(!$list_opened) {
-                        $criterias_list .= '<ul>';
+                        if(isset($criteria['subAchievement'])) {
+                            $criterias_list .= '<ul class="sub-achievements">';
+                        }
+                        else {
+                            $criterias_list .= '<ul>';
+                        }
                         $list_opened = true;
                     }
                     if(isset($criteria['achievementCriteria'])) {
@@ -76,6 +83,25 @@ if(!$achievements) {
                         $criteria['achievementCriteria']['categoryId'], $criteria['achievementCriteria']['id'],
                         $criteria['achievementCriteria']['iconname'], $criteria['achievementCriteria']['name']
                         );
+                    }
+                    elseif(isset($criteria['subAchievement'])) {
+                        $criterias_list .= sprintf('
+                            <li onmousemove="Tooltip.show(this, \'#ach-tooltip-%d\');">
+                            <span  class="icon-frame frame-36" style=\'background-image: url("http://eu.battle.net/wow-assets/static/images/icons/36/%s.jpg");\'> </span>
+                            <span class="points border-3">%d</span>
+                            <div id="ach-tooltip-%d" style="display: none"><div class="item-tooltip">
+                            <span  class="icon-frame frame-56" style=\'background-image: url("http://eu.battle.net/wow-assets/static/images/icons/56/%s.jpg");\'> </span>
+                            <h3>%s (%d)</h3><div class="color-tooltip-yellow">%s</div></div></div>
+                            </li>
+                        ', 
+                        $criteria['subAchievement']['id'], 
+                        $criteria['subAchievement']['iconname'],
+                        $criteria['subAchievement']['points'],
+                        $criteria['subAchievement']['id'],
+                        $criteria['subAchievement']['iconname'],
+                        $criteria['subAchievement']['name'],
+                        $criteria['subAchievement']['points'],
+                        $criteria['subAchievement']['desc']);
                     }
                     else {
                         $criterias_list .= sprintf('<li%s>%s</li>', (isset($criteria['counter']) && ($criteria['counter'] > 0 && $criteria['date'] > 0)) ? ' class="unlocked"' : null, $criteria['name']);

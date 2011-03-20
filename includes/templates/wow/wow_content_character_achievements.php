@@ -56,15 +56,15 @@ World of Warcraft
 		</div>
 <ul class="profile-sidebar-menu" id="profile-sidebar-menu">
 <li>
-    <a href="<?php echo WoW_Characters::GetURL(); ?>" class="back-to" rel="np"><span class="arrow"><span class="icon">Данные о персонаже</span></span></a>
+    <a href="<?php echo WoW_Characters::GetURL(); ?>" class="back-to" rel="np"><span class="arrow"><span class="icon"><?php echo WoW_Locale::GetString('template_menu_character_info'); ?></span></span></a>
 </li>
 
 <li class="root-menu">
-    <a href="<?php echo WoW_Characters::GetURL(); ?>achievement" class="back-to" rel="np"><span class="arrow"><span class="icon">Достижения</span></span></a>
+    <a href="<?php echo WoW_Characters::GetURL(); ?>achievement" class="back-to" rel="np"><span class="arrow"><span class="icon"><?php echo WoW_LOcale::GetString('template_profile_achievements'); ?></span></span></a>
 </li>
 
 <li class=" active">
-    <a href="<?php echo WoW_Characters::GetURL(); ?>achievement#summary" class="" rel="np"><span class="arrow"><span class="icon">Достижения</span></span></a>
+    <a href="<?php echo WoW_Characters::GetURL(); ?>achievement#summary" class="" rel="np"><span class="arrow"><span class="icon"><?php echo WoW_Locale::GetString('template_profile_achievements'); ?></span></span></a>
 </li>
             <?php
             $categories = WoW_Achievements::BuildCategoriesTree(false);
@@ -93,13 +93,13 @@ World of Warcraft
 </div>
 <div class="profile-contents">
 <div class="profile-section-header">
-<h3 class="category ">Достижения</h3>
+<h3 class="category "><?php echo WoW_Locale::GetString('template_profile_achievements'); ?></h3>
 </div>
 <div class="profile-section">
 			<div class="search-container" id="search-container">
 				<form autocomplete="off">
 					<div>
-						<input type="text" id="achievement-search" alt="Поиск…" value="Поиск…" onkeyup="AchievementsHandler.doSearch(this.value)" class="input" autocomplete="off"  />
+						<input type="text" id="achievement-search" alt="<?php echo WoW_Locale::GetString('template_achievements_search'); ?>" value="<?php echo WoW_Locale::GetString('template_achievements_search'); ?>" onkeyup="AchievementsHandler.doSearch(this.value)" class="input" autocomplete="off"  />
 						<div id="symbol-cross" onclick="AchievementsHandler.resetSearch()"></div>
 					</div>
 				</form>
@@ -113,7 +113,7 @@ World of Warcraft
 
 
 	<div id="cat-summary" class="container">
-		<h3 class="category">Прогресс</h3>
+		<h3 class="category"><?php echo WoW_Locale::GetString('template_achievements_progress'); ?></h3>
 
 		<div class="achievements-total">
 
@@ -121,15 +121,17 @@ World of Warcraft
 
 				<div class="achievements-total-completed">
 					<div class="desc">
-						Всего завершено
+						<?php echo WoW_Locale::GetString('template_achievements_total_completed'); ?>
 					</div>
 	    
 	
-
-	<div class="profile-progress border-4" onmouseover="Tooltip.show(this, &#39;6 340 / 14 065 очков&#39;, { location: &#39;middleRight&#39; });">
-		<div class="bar border-4" style="width: 46%"></div>
+    <?php
+    $progressInfo = WoW_Achievements::GetProgressInfo();
+    ?>
+	<div class="profile-progress border-4" onmouseover="<?php echo sprintf(WoW_Locale::GetString('template_achievements_points_tooltip'), $progressInfo[0]['achievedPoints'], $progressInfo[0]['totalPoints']); ?>">
+		<div class="bar border-4" style="width: <?php echo $progressInfo[0]['percent']; ?>%"></div>
 			<div class="bar-contents">						<strong>
-							601 / 1288 (46%)
+							<?php echo sprintf(WoW_Locale::GetString('template_achievements_progress_bar_data'), $progressInfo[0]['completed'], $progressInfo[0]['total'], $progressInfo[0]['percent']) ?>
 						</strong>
 </div>
 	</div>
@@ -137,155 +139,33 @@ World of Warcraft
 
 				<div class="achievements-categories-total">
 
-						<div class="entry">
+						<?php
+                        foreach($progressInfo as $categoryId => $progress) {
+                            if($categoryId == 0) {
+                                continue; // Total data
+                            }
+                            echo sprintf('<div class="entry" data-id="%d">
 							<div class="entry-inner">
-								<strong class="desc">Общее</strong>
-	    
-	
-    
-	<div class="profile-progress border-4" onmouseover="Tooltip.show(this, &#39;425 / 620 очков&#39;, { location: &#39;middleRight&#39; });">
-		<div class="bar border-4" style="width: 69%"></div>
+								<strong class="desc">%s</strong>    
+	<div class="profile-progress border-4" onmouseover="%s">
+		<div class="bar border-4" style="width: %s"></div>
 			<div class="bar-contents">
-										41 / 59 (69%)
-
+										%s
 </div>
 	</div>
 							</div>
 						</div>
+                        ', $categoryId, WoW_Achievements::GetCategoryName($categoryId), $categoryId != ACHIEVEMENTS_CATEGORY_FEATS ? sprintf(WoW_Locale::GetString('template_achievements_points_tooltip'), $progress['achievedPoints'], $progress['totalPoints']) : null,
+                        $categoryId != ACHIEVEMENTS_CATEGORY_FEATS ? $progress['percent'] . '%' : '1px', $categoryId != ACHIEVEMENTS_CATEGORY_FEATS ? sprintf(WoW_Locale::GetString('template_achievements_progress_bar_data'), $progress['completed'], $progress['total'], $progress['percent']) : $progress['completed']);
+                        }
+                        ?>
 
-						<div class="entry">
-							<div class="entry-inner">
-								<strong class="desc">Задания</strong>
-	    
-	
-    
-	<div class="profile-progress border-4" onmouseover="Tooltip.show(this, &#39;380 / 1 130 очков&#39;, { location: &#39;middleRight&#39; });">
-		<div class="bar border-4" style="width: 34%"></div>
-			<div class="bar-contents">
-										38 / 109 (34%)
-
-</div>
-	</div>
-							</div>
-						</div>
-
-						<div class="entry">
-							<div class="entry-inner entry-inner-right">
-								<strong class="desc">Исследование</strong>
-	    
-	
-    
-	<div class="profile-progress border-4" onmouseover="Tooltip.show(this, &#39;875 / 955 очков&#39;, { location: &#39;middleRight&#39; });">
-		<div class="bar border-4" style="width: 93%"></div>
-			<div class="bar-contents">
-										76 / 81 (93%)
-
-</div>
-	</div>
-							</div>
-						</div>
-
-						<div class="entry">
-							<div class="entry-inner">
-								<strong class="desc">PvP</strong>
-	    
-	
-    
-	<div class="profile-progress border-4" onmouseover="Tooltip.show(this, &#39;740 / 2 580 очков&#39;, { location: &#39;middleRight&#39; });">
-		<div class="bar border-4" style="width: 29%"></div>
-			<div class="bar-contents">
-										67 / 226 (29%)
-
-</div>
-	</div>
-							</div>
-						</div>
-
-						<div class="entry">
-							<div class="entry-inner">
-								<strong class="desc">Подземелья и рейды</strong>
-	    
-	
-    
-	<div class="profile-progress border-4" onmouseover="Tooltip.show(this, &#39;2 675 / 5 530 очков&#39;, { location: &#39;middleRight&#39; });">
-		<div class="bar border-4" style="width: 50%"></div>
-			<div class="bar-contents">
-										259 / 513 (50%)
-
-</div>
-	</div>
-							</div>
-						</div>
-
-						<div class="entry">
-							<div class="entry-inner entry-inner-right">
-								<strong class="desc">Профессии</strong>
-	    
-	
-    
-	<div class="profile-progress border-4" onmouseover="Tooltip.show(this, &#39;390 / 1 080 очков&#39;, { location: &#39;middleRight&#39; });">
-		<div class="bar border-4" style="width: 36%"></div>
-			<div class="bar-contents">
-										39 / 107 (36%)
-
-</div>
-	</div>
-							</div>
-						</div>
-
-						<div class="entry">
-							<div class="entry-inner">
-								<strong class="desc">Репутация</strong>
-	    
-	
-    
-	<div class="profile-progress border-4" onmouseover="Tooltip.show(this, &#39;195 / 630 очков&#39;, { location: &#39;middleRight&#39; });">
-		<div class="bar border-4" style="width: 30%"></div>
-			<div class="bar-contents">
-										16 / 52 (30%)
-
-</div>
-	</div>
-							</div>
-						</div>
-
-						<div class="entry">
-							<div class="entry-inner">
-								<strong class="desc">Игровые события</strong>
-	    
-	
-    
-	<div class="profile-progress border-4" onmouseover="Tooltip.show(this, &#39;660 / 1 540 очков&#39;, { location: &#39;middleRight&#39; });">
-		<div class="bar border-4" style="width: 46%"></div>
-			<div class="bar-contents">
-										65 / 141 (46%)
-
-</div>
-	</div>
-							</div>
-						</div>
-
-						<div class="entry">
-							<div class="entry-inner entry-inner-right">
-								<strong class="desc">Великие подвиги</strong>
-	    
-	
-    
-	<div class="profile-progress border-4" >
-		<div class="bar border-4" style="width: 1px"></div>
-			<div class="bar-contents">
-										20
-
-</div>
-	</div>
-							</div>
-						</div>
 	<span class="clear"><!-- --></span>
 				</div>
 			</div>
 		</div>
 
-		<h3 class="category">Недавно заслужено</h3>
+		<h3 class="category"><?php echo WoW_Locale::GetString('template_achievements_latest_achievements'); ?></h3>
 		<div class="achievements-recent profile-box-full">
 			<ul>
             <?php
