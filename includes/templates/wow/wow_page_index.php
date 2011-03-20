@@ -38,9 +38,11 @@ switch(WoW_Template::GetPageIndex()) {
     case 'character_profile_simple':
         WoW_Template::LoadTemplate('content_character_profile_simple');
         break;
+    /*
     case 'character_talents':
         WoW_Template::LoadTemplate('content_character_talents');
         break;
+    */
     case '404':
         WoW_Template::LoadTemplate('content_404');
         break;
@@ -52,6 +54,12 @@ switch(WoW_Template::GetPageIndex()) {
         break;
     case 'character_achievements':
         WoW_Template::LoadTemplate('content_character_achievements');
+        break;
+    case 'character_reputation':
+        WoW_Template::LoadTemplate('content_character_reputation');
+        break;
+    case 'character_reputation_tabular':
+        WoW_Template::LoadTemplate('content_character_reputation_tabular');
         break;
     case 'search':
         WoW_Template::LoadTemplate('content_search');
@@ -114,6 +122,11 @@ switch(WoW_Template::GetPageData('page')) {
         echo '<script type="text/javascript" src="/wow/static/local-common/js/table.js?v16"></script>
 <script type="text/javascript" src="/wow/static/local-common/js/filter.js?v16"></script>
 <script type="text/javascript" src="/wow/static/js/services/realm-status.js?v7"></script>';
+        break;
+    case 'character_reputation':
+        echo '<script type="text/javascript" src="/wow/static/local-common/js/table.js?v16"></script>
+<script type="text/javascript" src="/wow/static/js/profile.js?v7"></script>
+<script type="text/javascript" src="/wow/static/js/character/reputation.js?v7"></script>';
         break;
 }
 ?>

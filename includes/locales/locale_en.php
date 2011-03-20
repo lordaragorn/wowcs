@@ -54,6 +54,7 @@ $WoW_Locale = array(
     
     'reputation_rank_0' => 'Hated',
     'reputation_rank_1' => 'Hostile',
+    'reputation_rank_2' => 'Unfriendly',
     'reputation_rank_3' => 'Neutral',
     'reputation_rank_4' => 'Friendly',
     'reputation_rank_5' => 'Honoured',
@@ -425,6 +426,13 @@ $WoW_Locale = array(
     'template_achievements_total_completed' => 'Total Completed',
     'template_achievements_points_tooltip' => 'Tooltip.show(this, &#39;%d / %d points&#39;, { location: &#39;middleRight&#39; });',
     'template_achievements_progress_bar_data' => '%d / %d (%d%%)',
-    'template_achievements_latest_achievements' => 'Recently Earned'
+    'template_achievements_latest_achievements' => 'Recently Earned',
+    
+    'template_reputation' => 'Reputation',
+    'template_reputation_faction_others' => 'Other',
+    'template_reputation_tabular' => 'Tabular',
+    'template_reputation_simple' => 'Simple',
+    'template_reputation_table_name' => 'Name',
+    'template_reputation_table_standing' => 'Standing',
 );
 ?>

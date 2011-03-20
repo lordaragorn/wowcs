@@ -75,8 +75,17 @@ else {
                 WoW_Template::SetPageIndex('character_achievements');
                 WoW_Template::SetPageData('page', 'character_achievements');
                 break;
+            case 'reputation':
+                if(isset($url_data['action1']) && $url_data['action1'] == 'tabular') {
+                    WoW_Template::SetPageIndex('character_reputation_tabular');
+                }
+                else {
+                    WoW_Template::SetPageIndex('character_reputation');
+                }
+                WoW_Template::SetPageData('page', 'character_reputation');
+                WoW_Reputation::InitReputation(WoW_Characters::GetGUID());
+                break;
         }
-        
     }
 }
 WoW_Template::SetMenuIndex('menu-game');

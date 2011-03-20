@@ -9,8 +9,8 @@ header('Content-type: text/xml');
         <span class="frame"></span>
     </span>
     <h3><?php echo WoW_Characters::GetName(); ?></h3>
-    <div class="color-c6"><?php echo sprintf('%s-%s (%s) %d %s', WoW_Characters::GetRaceName(), WoW_Characters::GetClassName(), $talents['specsData'][WoW_Characters::GetActiveSpec()]['name'], WoW_Characters::GetLevel(), WoW_Locale::GetString('template_lvl')); ?></div>
-    <div class="color-tooltip-horde"><?php echo WoW_Characters::GetRealmName(); ?></div>
+    <div class="color-c<?php echo sprintf('%d">%s-%s (%s) %d %s', WoW_Characters::GetClassID(), WoW_Characters::GetRaceName(), WoW_Characters::GetClassName(), $talents['specsData'][WoW_Characters::GetActiveSpec()]['name'], WoW_Characters::GetLevel(), WoW_Locale::GetString('template_lvl')); ?></div>
+    <div class="color-tooltip-<?php echo WoW_Characters::GetFactionName(); ?>"><?php echo WoW_Characters::GetRealmName(); ?></div>
     <span class="character-achievementpoints"><?php echo WoW_Achievements::GetAchievementsPoints(); ?></span>
     <span class="clear"><!-- --></span>
     <span class="character-talents">

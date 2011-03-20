@@ -51,10 +51,12 @@ $WoW_Locale = array(
     'character_race_10' => '$gЭльф крови:Эльфийка крови;',
     'character_race_11' => 'Дреней',
     'character_race_22' => 'Ворген',
+    
     'reputation_rank_0' => 'Ненависть',
     'reputation_rank_1' => 'Враждебность',
+    'reputation_rank_2' => 'Неприязнь',
     'reputation_rank_3' => 'Равнодушие',
-    'reputation_rank_4' => 'Дружелюбность',
+    'reputation_rank_4' => 'Дружелюбие',
     'reputation_rank_5' => 'Уважение',
     'reputation_rank_6' => 'Почтение',
     'reputation_rank_7' => 'Превознесение',
@@ -424,6 +426,13 @@ $WoW_Locale = array(
     'template_achievements_total_completed' => 'Всего завершено',
     'template_achievements_points_tooltip' => 'Tooltip.show(this, &#39;%d / %d очков&#39;, { location: &#39;middleRight&#39; });',
     'template_achievements_progress_bar_data' => '%d / %d (%d%%)',
-    'template_achievements_latest_achievements' => 'Недавно заслужено'
+    'template_achievements_latest_achievements' => 'Недавно заслужено',
+    
+    'template_reputation' => 'Репутация',
+    'template_reputation_faction_others' => 'Прочее',
+    'template_reputation_tabular' => 'Таблица',
+    'template_reputation_simple' => 'Список',
+    'template_reputation_table_name' => 'Название',
+    'template_reputation_table_standing' => 'Состояние',
 );
 ?>

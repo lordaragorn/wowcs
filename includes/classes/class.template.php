@@ -449,12 +449,12 @@ Class WoW_Template {
                     array(
                         'path' => '/wow/static/css/guild/guild.css',
                         'version' => 6,
-                        'browser' => ''
+                        'browser' => false
                     ),
                     array(
                         'path' => '/wow/static/css/guild/summary.css',
                         'version' => 6,
-                        'browser' => ''
+                        'browser' => false
                     ),
                     array(
                         'path' => '/wow/static/css/guild/summary-ie6.css',
@@ -468,8 +468,38 @@ Class WoW_Template {
                     array(
                         'path' => '/wow/static/css/game/realmstatus.css',
                         'version' => 7,
-                        'browser' => ''
+                        'browser' => false
                     )
+                );
+                break;
+            case 'character_reputation':
+            case 'character_reputation_tabular':
+                $css_data_page = array(
+                    array(
+                        'path' => '/wow/static/css/profile.css',
+                        'version' => 4,
+                        'browser' => false
+                    ),
+                    array(
+                        'path' => '/wow/static/css/character/reputation.css',
+                        'version' => 7,
+                        'browser' => false
+                    ),
+                    array(
+                        'path' => '/wow/static/css/character/reputation-ie.css',
+                        'version' => 7,
+                        'browser' => 'IE'
+                    ),
+                    array(
+                        'path' => '/wow/static/css/character/reputation-ie6.css',
+                        'version' => 7,
+                        'browser' => 'IE 6'
+                    ),
+                    array(
+                        'path' => '/wow/static/css/character/reputation-ie7.css',
+                        'version' => 7,
+                        'browser' => 'IE 7'
+                    ),
                 );
                 break;
         }
