@@ -1,0 +1,5 @@
+@charset "utf-8";
+
+/* reputation summary */
+
+.faction-score { filter: Shadow(Color=#000000, Direction=180, Strength=1); }

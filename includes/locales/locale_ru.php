@@ -434,5 +434,22 @@ $WoW_Locale = array(
     'template_reputation_simple' => 'Список',
     'template_reputation_table_name' => 'Название',
     'template_reputation_table_standing' => 'Состояние',
+    
+    'template_team_type_format' => '%d на %d',
+    'template_character_team_name' => 'Команда',
+    'template_character_personal_rating' => 'Личный',
+    'template_character_pvp_games' => 'Матчи',
+    'template_character_pvp_lost_won' => 'Победы – поражения',
+    'template_character_team_rating' => 'Рейтинг команды',
+    'template_character_team_per_season' => 'За сезон',
+    'template_character_team_per_week' => 'За неделю',
+    'template_character_pvp_roster' => 'Состав',
+    'template_character_pvp_name_roster' => 'Имя',
+    'template_character_pvp_played_roster' => 'Сыграно',
+    'template_character_pvp_lost_won_roster' => 'Победы – поражения за сезон',
+    'template_character_pvp_lost_won_weekly_roster' => 'Победы – поражения за сезон',
+    'template_character_pvp_rating_roster' => 'Рейтинг',
+    'template_character_pvp_season' => 'Сезон',
+    'template_character_pvp_week' => 'На этой неделе',
 );
 ?>

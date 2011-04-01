@@ -61,6 +61,7 @@ Class WoW_Characters /*implements Interface_Characters*/ {
     private static $power_type     = 0;
     private static $item_level     = array();
     private static $role           = 0;
+    private static $next_pvp       = 2;
     
     // Storages
     private static $professions    = array();
@@ -76,6 +77,9 @@ Class WoW_Characters /*implements Interface_Characters*/ {
     private static $data           = null;
     private static $feed_data      = array(); // Character feed (DB data)
     private static $feeds          = array(); // Character feed (handled)
+    private static $audit          = array(); // Character audit
+    private static $stats_bonuses  = array(); // Enchants/gems bonuses
+    private static $pvp_data       = array(); // Character PvP Data (Arena Teams)
     
     private static function IsCharacterFitsRequirements() {
         if(self::$level < WoWConfig::$MinLevelToDisplay) {
@@ -205,6 +209,15 @@ Class WoW_Characters /*implements Interface_Characters*/ {
     public static function IsCorrect() {
         DB::ConnectToDB(DB_CHARACTERS, self::GetRealmID());
         return (self::$name != null && self::$guid > 0);
+    }
+    
+    public static function InitPvP() {
+        if(!self::IsCorrect()) {
+            WoW_Log::WriteError('%s : character was not found.', __METHOD__);
+            return false;
+        }
+        self::LoadPvPData();
+        self::HandlePvPData();
     }
     
     private static function HandleChosenTitleInfo() {
@@ -555,13 +568,26 @@ Class WoW_Characters /*implements Interface_Characters*/ {
             WoW_Log::WriteError('%s : character was not found.', __METHOD__);
             return false;
         }
-        $skills_professions = array(164, 165, 171, 182, 186, 197, 202, 333, 393, 755, 773);
+        $skills_professions = array(
+            SKILL_BLACKSMITHING,
+            SKILL_LEATHERWORKING,
+            SKILL_ALCHEMY,
+            SKILL_HERBALISM,
+            SKILL_MINING,
+            SKILL_TAILORING,
+            SKILL_ENGINERING,
+            SKILL_ENCHANTING,
+            SKILL_SKINNING,
+            SKILL_JEWELCRAFTING,
+            SKILL_INSCRIPTION
+        );
         $character_professions = DB::Characters()->select("SELECT * FROM `character_skills` WHERE `guid` = %d AND `skill` IN (%s) LIMIT 2", self::GetGUID(), $skills_professions);
         if(!is_array($character_professions)) {
             WoW_Log::WriteLog('%s : professions for character %s (GUID: %d) were not found.', __METHOD__, self::GetName(), self::GetGUID());
             return false;
         }
         self::$professions = $character_professions;
+        unset($character_professions);
         return self::HandleProfessions();
     }
     
@@ -575,6 +601,105 @@ Class WoW_Characters /*implements Interface_Characters*/ {
             WoW_Log::WriteError('%s : unable to load talents for character %s (GUID: %d)!', __METHOD__, self::GetName(), self::GetGUID());
             return false;
         }
+        return true;
+    }
+    
+    private static function HandlePvPData() {
+        $active = true;
+        $pvp = array();
+        foreach(self::$pvp_data as $team) {
+            if(!isset($pvp[$team['type']])) {
+                $pvp[$team['type']] = array(
+                    'data' => array(),
+                    'members' => array()
+                );
+                $pvp[$team['type']]['data'] = array(
+                    'id' => $team['arenateamid'],
+                    'name' => $team['name'],
+                    'url' => sprintf('/wow/arena/%s/%dv%d/%s/', self::GetRealmName(), $team['type'], $team['type'], $team['name']),
+                    'captain' => $team['captainguid'],
+                    'type' => $team['type'],
+                    'type_text' => sprintf('%dv%d', $team['type'], $team['type']),
+                    'active' => $active,
+                    'faction' => WoW_Utils::GetFactionId($team['race']), // At least one member has 'race' field
+                    'BGColor' => dechex($team['BackgroundColor'] - 255),
+                    'EStyle' => $team['EmblemStyle'],
+                    'EColor' => dechex($team['EmblemColor'] - 255),
+                    'BStyle' => $team['BorderStyle'],
+                    'BColor' => dechex($team['BorderColor'] - 255),
+                    'rating' => $team['rating'],
+                    'games_week' => $team['games_week'],
+                    'wins_week' => $team['wins_week'],
+                    'lost_week' => $team['lost_week'],
+                    'games_season' => $team['games_season'],
+                    'wins_season' => $team['wins_season'],
+                    'lost_season' => $team['lost_season'],
+                    'personal_rating' => 0,
+                    'rank' => $team['rank']
+                );
+                $active = false;
+            }
+            $pvp[$team['type']]['members'][] = array(
+                'guid' => $team['guid'],
+                'name' => $team['charName'],
+                'race' => $team['race'],
+                'class' => $team['class'],
+                'gender' => $team['gender'],
+                'level' => $team['level'],
+                'url' => sprintf('/wow/character/%s/%s/', self::GetRealmName(), $team['charName']),
+                'played_week' => $team['played_week'],
+                'wons_week' => $team['wons_week'],
+                'played_season' => $team['played_season'],
+                'lost_week' => $team['lost_week_personal'],
+                'played_season' => $team['played_season'],
+                'wons_season' => $team['wons_season'],
+                'lost_season' => $team['lost_season_personal'],
+                'personal_rating' => $team['personal_rating']
+            );
+            if($team['guid'] == self::GetGUID()) {
+                $pvp[$team['type']]['data']['personal_rating'] = $team['personal_rating'];
+            }
+        }
+        self::$pvp_data = $pvp;
+        self::$next_pvp = 2;
+        unset($pvp, $team);
+        return true;
+    }
+    
+    private static function LoadPvPData() {
+        if(!self::IsCorrect()) {
+            WoW_Log::WriteError('%s : character was not found.', __METHOD__);
+            return false;
+        }
+        self::$pvp_data = DB::Characters()->select("
+        SELECT
+        a.*,
+        b.rating,
+        b.games_week,
+        b.wins_week,
+        b.games_season,
+        b.wins_season,
+        b.games_week-b.wins_week AS lost_week,
+        b.games_season-b.wins_season AS lost_season,
+        b.rank,
+        c.guid,
+        c.played_week,
+        c.wons_week,
+        c.played_season,
+        c.wons_season,
+        c.played_week-c.wons_week AS lost_week_personal,
+        c.played_season-c.wons_season AS lost_season_personal,
+        c.personal_rating,
+        d.name AS charName,
+        d.race,
+        d.class,
+        d.gender,
+        d.level
+        FROM arena_team        AS a
+        JOIN arena_team_stats  AS b ON b.arenateamid = a.arenateamid
+        JOIN arena_team_member AS c ON c.arenateamid = a.arenateamid
+        JOIN characters        AS d ON d.guid = c.guid
+        WHERE c.guid = %d", self::GetGUID());
         return true;
     }
     
@@ -759,8 +884,67 @@ Class WoW_Characters /*implements Interface_Characters*/ {
         return self::$feeds;
     }
     
+    /**
+     * @param bool $current = true
+     * @param bool $update = false
+     **/
+    private static function GetNextPvPIndex($current = true, $update = false) {
+        switch(self::$next_pvp) {
+            case 2:
+                if($update) {
+                    self::$next_pvp = 3;
+                }
+                return $current ? 2 : 3;
+                break;
+            case 3:
+                if($update) {
+                    self::$next_pvp = 5;
+                }
+                return $current ? 3 : 5;
+                break;
+            case 5:
+                if($update) {
+                    self::$next_pvp = 2;
+                }
+                return $current ? 5 : 2;
+                break;
+            default:
+                return 2;
+        }
+    }
+    
+    /**
+     * @param int $index
+     **/
+    public static function SetPvPIndex($index) {
+        self::$next_pvp = $index;
+    }
+    
+    public static function GetPvPData($full = false) {
+        if(!self::$pvp_data || !is_array(self::$pvp_data)) {
+            return false;
+        }
+        if($full) {
+            return self::$pvp_data;
+        }
+        if(isset(self::$pvp_data[self::GetNextPvPIndex()])) {
+            return self::$pvp_data[self::GetNextPvPIndex(true, true)];
+        }
+        return false;
+    }
+    
     public static function HasFlag($flag) {
         return (self::$playerFlags & $flag) != 0;
+    }
+    
+    public static function HasProfessionSkill($skill_id) {
+        foreach(self::$professions as $prof) {
+            if($prof['id'] == $skill_id) {
+                return true;
+            }
+        }
+        unset($prof);
+        return false;
     }
     
     public static function GetCharacterEnchant($slot) {
@@ -853,7 +1037,12 @@ Class WoW_Characters /*implements Interface_Characters*/ {
         return isset(self::$m_items[$slot]) ? self::$m_items[$slot] : null;
     }
     
-    public static function GetEquippedItemInfo($slot) {
+    /**
+     * @param int $slot
+     * @param bool $advanced = false
+     * @return array
+     **/
+    public static function GetEquippedItemInfo($slot, $advanced = false) {
         if(!self::IsCorrect()) {
             WoW_Log::WriteError('%s : character was not found.', __METHOD__);
             return false;
@@ -871,7 +1060,7 @@ Class WoW_Characters /*implements Interface_Characters*/ {
             WoW_Log::WriteError('%s : item handler for slot %d is broken.', __METHOD__, $slot);
             return false;
         }
-        $info = DB::World()->selectRow("SELECT `Quality`, `displayid` FROM `item_template` WHERE `entry` = %d LIMIT 1", $item->GetEntry());
+        $info = DB::World()->selectRow("SELECT `Quality`, `displayid`, `socketColor_1`, `socketColor_2`, `socketColor_3` FROM `item_template` WHERE `entry` = %d LIMIT 1", $item->GetEntry());
         if(!$info) {
             WoW_Log::WriteError('%s : item #%d was not found in `item_template` table!', __METHOD__, $item->GetEntry());
             return false;
@@ -881,6 +1070,7 @@ Class WoW_Characters /*implements Interface_Characters*/ {
             'name'    => WoW_Items::GetItemName($item->GetEntry()),
             'guid'    => $item->GetGUID(),
             'quality' => $info['Quality'],
+            'item_level' => $item->GetItemLevel(),
             'icon'    => WoW_Items::GetItemIcon(0, $info['displayid']),
             'slot_id' => $item->GetSlot(),
             'enchid'  => $item->GetEnchantmentId(),
@@ -888,6 +1078,65 @@ Class WoW_Characters /*implements Interface_Characters*/ {
             'g1'      => $item->GetSocketInfo(2),
             'g2'      => $item->GetSocketInfo(3)
         );
+        if($advanced) {
+            $enchantment_info = DB::WoW()->selectRow("
+            SELECT 
+            `DBPREFIX_enchantment`.`text_%s` AS `text`,
+            `DBPREFIX_spellenchantment`.`id` AS `spellId`
+            FROM `DBPREFIX_enchantment`
+            JOIN `DBPREFIX_spellenchantment` ON `DBPREFIX_spellenchantment`.`Value`=`DBPREFIX_enchantment`.`id`
+            WHERE `DBPREFIX_enchantment`.`id` = %d LIMIT 1", WoW_Locale::GetLocale(), $item_data['enchid']);
+            if(is_array($enchantment_info)) {
+                $item_data['enchant_text'] = $enchantment_info['text'];
+                // SpellID 483 - "Learning".
+                $item_data['enchant_quality'] = DB::World()->selectCell("SELECT `Quality` FROM `item_template` WHERE `spellid_1` = 483 AND `spellid_2` = %d LIMIT 1", $enchantment_info['spellId']);
+            }
+            for($socket_index = 0; $socket_index < 3; $socket_index++) {
+                $item_data['gem' . $socket_index] = array();
+                if(isset($item_data['g' . $socket_index]['enchant_id'])) {
+                    $item_data['gem' . $socket_index] = WoW_Items::GetSocketInfo($item_data['g' . $socket_index]['enchant_id']);
+                }
+            }
+            // Character audit
+            $item_data['enchanted'] = true;
+            // Enchantments
+            if($item_data['enchid'] == 0) {
+                $item_data['enchanted'] = false;
+            }
+            if(!in_array($slot, array(EQUIPMENT_SLOT_BACK, EQUIPMENT_SLOT_OFFHAND, EQUIPMENT_SLOT_NECK, EQUIPMENT_SLOT_TABARD, EQUIPMENT_SLOT_TRINKET1, EQUIPMENT_SLOT_TRINKET2))) {
+                $item_data['enchanted'] = true; // Those items can' have enchantment slots.
+            }
+            else {
+                switch($slot) {
+                    case EQUIPMENT_SLOT_FINGER1:
+                    case EQUIPMENT_SLOT_FINGER2:
+                        // Check for SKILL_ENCHANTING
+                        if(self::HasProfessionSkill(SKILL_ENCHANTING) && !$item_data['enchanted']) {
+                            self::UpdateAudit(AUDIT_TYPE_UNUSED_PROFESSION_PERK, array(SKILL_ENCHANTING, $slot));
+                        }
+                        break;
+                    case EQUIPMENT_SLOT_WRISTS:
+                    case EQUIPMENT_SLOT_HANDS:
+                        if(self::HasProfessionSkill(SKILL_BLACKSMITHING) && !$item_data['enchanted']) {
+                            // Blacksmither's sockets are enchants.
+                            self::UpdateAudit(AUDIT_TYPE_UNUSED_PROFESSION_PERK, array(SKILL_ENCHANTING, $slot));
+                        }
+                        break;
+                    case EQUIPMENT_SLOT_WAIST:
+                        if(!$item_data['enchanted']) {
+                            self::UpdateAudit(AUDIT_TYPE_MISSING_BELT_BUCKLE, $slot);
+                        }
+                        break;
+                }
+            }
+            // Empty sockets
+            for($i = 1; $i < 4; $i++) {
+                if($info['socketColor_' . $i] > 0 && $item_data['g' . ($i - 1)] == 0) {
+                    self::UpdateAudit(AUDIT_TYPE_EMPTY_SOCKET, (self::GetAuditInfo(AUDIT_TYPE_EMPTY_SOCKET) + 1));
+                }
+            }
+            
+        }
         // Create data-item url
         $data_item = sprintf('i=%d', $item->GetEntry());
         if($item_data['enchid'] > 0) {
@@ -930,6 +1179,8 @@ Class WoW_Characters /*implements Interface_Characters*/ {
         $item_data['data-item'] = $data_item;
         // Add to cache
         self::$cache_item[$slot] = $item_data;
+        //print_r($item_data);
+        //die;
         return $item_data;
     }
     
@@ -963,6 +1214,18 @@ Class WoW_Characters /*implements Interface_Characters*/ {
             }
         }
         return 0;
+    }
+    
+    public static function IsInArenaTeam($team_type) {
+        switch($team_type) {
+            case 2:
+            case 3:
+            case 5:
+                return isset(self::$pvp_data[$team_type]);
+            default:
+                WoW_Log::WriteError('%s : wrong team type: %d', __METHOD__, $team_type);
+                return false;
+        }
     }
     
     /************************
@@ -2013,6 +2276,23 @@ Class WoW_Characters /*implements Interface_Characters*/ {
         return true;
     }
     
+    public static function GetClassRole() {
+        switch(self::GetClassID()) {
+            case CLASS_HUNTER:
+            case CLASS_ROGUE:
+                return ROLE_MELEE;
+                break;
+            case CLASS_SHAMAN:
+                if(self::GetRole() == ROLE_CASTER) {
+                    // Check - elemental or restoration
+                    
+                }
+                break;
+            case CLASS_DRUID:
+            case CLASS_PRIEST:
+        }
+    }
+    
     public static function GetRole() {
         if(self::$role > 0) {
             return self::$role;
@@ -2033,8 +2313,14 @@ Class WoW_Characters /*implements Interface_Characters*/ {
                         continue;
                     }
                     if($spec['treeOne'] > $spec['treeTwo'] && $spec['treeOne'] > $spec['treeThree']) {
-                        self::$role = ROLE_CASTER;
-                        return ROLE_CASTER; // Paladin: Holy, Druid: Balance, Shaman: Elemental
+                        if(self::GetClassID() == CLASS_PALADIN) {
+                            self::$role = ROLE_CASTER;
+                            return ROLE_HEALER; // Paladin: Holy
+                        }
+                        else {
+                            self::$role = ROLE_CASTER;
+                            return ROLE_CASTER; // Druid: Balance, Shaman: Elemental
+                        }
                     }
                     elseif($spec['treeTwo'] > $spec['treeOne'] && $spec['treeTwo'] > $spec['treeThree']) {
                         self::$role = ROLE_MELEE;
@@ -2046,13 +2332,26 @@ Class WoW_Characters /*implements Interface_Characters*/ {
                             return ROLE_MELEE; // Retribution
                         }
                         else {
-                            self::$role = ROLE_CASTER;
-                            return ROLE_CASTER; // Shaman, Druid: Restoration
+                            self::$role = ROLE_HEALER;
+                            return ROLE_HEALER; // Shaman, Druid: Restoration
                         }
                     }
                 }
                 break;
             case CLASS_PRIEST:
+                foreach(self::$fullTalentData['specsData'] as $spec) {
+                    if($spec['active'] == 1) {
+                        if($spec['treeThree'] > $spec['treeOne'] && $spec['treeThree'] > $spec['treeTwo']) {
+                            self::$role = ROLE_HEALER;
+                            return ROLE_HEALER;
+                        }
+                        else {
+                            self::$role = ROLE_CASTER;
+                            return ROLE_CASTER;
+                        }
+                    }
+                }
+                break;
             case CLASS_MAGE:
             case CLASS_WARLOCK:
                 self::$role = ROLE_CASTER;
@@ -2075,6 +2374,41 @@ Class WoW_Characters /*implements Interface_Characters*/ {
             self::LoadProfessions();
         }
         return self::$professions;
+    }
+    
+    private static function UpdateStatsBonuses($stat, $addValue) {
+        if(!isset(self::$stats_bonuses[$stat])) {
+            self::$stats_bonuses[$stat] = 0;
+        }
+        self::$stats_bonuses += $addValue;
+        return true;
+    }
+    
+    public static function GetStatsBonuses() {
+        return self::$stats_bonuses;
+    }
+    
+    public static function GetStatBonus($stat) {
+        return isset(self::$stats_bonuses[$stat]) ? self::$stats_bonuses[$stat] : 0;
+    }
+    
+    private static function UpdateAudit($type, $value) {
+        self::$audit[$type] = $value;
+        return true;
+    }
+    
+    public static function GetAudit() {
+        //TODO: Implement audit feature
+        return self::$audit;
+    }
+    
+    private static function GetAuditInfo($type) {
+        return isset(self::$audit[$type]) ? self::$audit[$type] : false;
+    }
+    
+    private static function HandleAudit() {
+        //TODO: Implement audit feature
+        return true;
     }
 }
 ?>

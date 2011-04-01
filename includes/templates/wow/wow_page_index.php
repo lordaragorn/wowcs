@@ -38,6 +38,9 @@ switch(WoW_Template::GetPageIndex()) {
     case 'character_profile_simple':
         WoW_Template::LoadTemplate('content_character_profile_simple');
         break;
+    case 'character_profile_advanced':
+        WoW_Template::LoadTemplate('content_character_profile_advanced');
+        break;
     /*
     case 'character_talents':
         WoW_Template::LoadTemplate('content_character_talents');
@@ -60,6 +63,9 @@ switch(WoW_Template::GetPageIndex()) {
         break;
     case 'character_reputation_tabular':
         WoW_Template::LoadTemplate('content_character_reputation_tabular');
+        break;
+    case 'character_pvp':
+        WoW_Template::LoadTemplate('content_character_pvp');
         break;
     case 'search':
         WoW_Template::LoadTemplate('content_search');
@@ -127,6 +133,14 @@ switch(WoW_Template::GetPageData('page')) {
         echo '<script type="text/javascript" src="/wow/static/local-common/js/table.js?v16"></script>
 <script type="text/javascript" src="/wow/static/js/profile.js?v7"></script>
 <script type="text/javascript" src="/wow/static/js/character/reputation.js?v7"></script>';
+        break;
+    case 'character_pvp':
+        echo '<script type="text/javascript" src="/wow/static/local-common/js/table.js?v16"></script>
+<script type="text/javascript" src="/wow/static/local-common/js/dropdown.js?v16"></script>
+<script type="text/javascript" src="/wow/static/js/profile.js?v7"></script>
+<script type="text/javascript" src="/wow/static/js/character/pvp.js?v7"></script>
+<script type="text/javascript" src="/wow/static/js/character/arena-flag.js?v7"></script>
+<script type="text/javascript" src="/wow/static/js/pvp/arena.js?v7"></script>';
         break;
 }
 ?>

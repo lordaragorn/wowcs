@@ -50,6 +50,11 @@ else {
                 WoW_Template::SetPageData('page', 'character_profile');
                 WoW_Characters::CalculateStats(true);
                 break;
+            case 'advanced':
+                WoW_Template::SetPageIndex('character_profile_advanced');
+                WoW_Template::SetPageData('page', 'character_profile');
+                WoW_Characters::CalculateStats(true);
+                break;
             /*
             case 'talent':
                 WoW_Template::SetPageIndex('character_talents');
@@ -84,6 +89,11 @@ else {
                 }
                 WoW_Template::SetPageData('page', 'character_reputation');
                 WoW_Reputation::InitReputation(WoW_Characters::GetGUID());
+                break;
+            case 'pvp':
+                WoW_Template::SetPageIndex('character_pvp');
+                WoW_Template::SetPageData('page', 'character_pvp');
+                WoW_Characters::InitPvP();
                 break;
         }
     }

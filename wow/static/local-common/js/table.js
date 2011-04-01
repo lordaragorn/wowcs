@@ -10,6 +10,7 @@ var Table = Class.extend({
 	/**
 	 * jQuery objects for specific elements.
 	 */
+	wrapper: null,
 	table: null,
 	query: '',
 	controls: [],
@@ -21,45 +22,17 @@ var Table = Class.extend({
 	/**
 	 * Configuration.
 	 */
-	config: {
-		// sorting
-		sorting: true,
-		column: false,
-		method: 'default',
-		type: 'asc',
-		
-		// paging
-		paging: false,
-		page: 1,
-		results: 50,
-		totalPages: null,
-		totalResults: null,
-		pageCount: 10,
-
-		// filtering
-		filtering: true,
-
-		// misc
-		articles: [],
-		cache: false
-	},
+	config: {},
 
 	/**
 	 * Pagination overwrites.
 	 */
-	pager: {
-		page: 1,
-		totalPages: null,
-		totalResults: null
-	},
+	pager: {},
 
 	/**
-	 * Filter rules and mapping.
+	 * Filter rules mapping.
 	 */
-	filters: {
-		map: {},
-		rules: []
-	},
+	filters: {},
 
 	/**
 	 * A cache of all the rows, disconnected from the DOM.
@@ -75,22 +48,26 @@ var Table = Class.extend({
 	 */
 	init: function(table, config) {
 		this.query = table;
-		
-		table = $(table);
 
-		if (table.length) {
-			if (table[0].tagName !== 'table')
-				table = table.find('table');
+		var wrapper = $(table);
 
-			this.table = (table.length) ? table : null;
+		if (wrapper.length) {
+			if (wrapper[0].tagName.toLowerCase() === 'table') {
+				this.table = wrapper;
+				this.wrapper = wrapper.parent('div');
+
+			} else if (wrapper.find('table').length) {
+				this.table = wrapper.find('table');
+				this.wrapper = wrapper;
+
+			} else {
+				this.wrapper = wrapper;
+			}
 		}
 
 		if (this.table) {
-			// Merge configuration
-			this.config = $.extend(this.config, config);
-
-			// Setup the class
-			this.setup();
+			this.reset(true);
+			this.setup(config);
 
 			// Should we cache?
 			if (this.config.cache) {
@@ -108,34 +85,56 @@ var Table = Class.extend({
 	cache: function(recache) {
 		if (this.source.length && !recache)
 			return;
-		
-		var rows = this.table.find('tbody tr'),
+
+		var count = this.table.find('thead th').length,
 			row = null,
-			data = [],
+			rows = this.table.find('tbody tr').detach(),
+			rowspan = null,
+			dataImplicit = [],
+			dataExplicit = [],
+			subrows = [],
 			source = [],
 			columns = [],
-			column = null,
-			i,
-			c;
+			column = null;
 
-		for (i = 0; row = rows[i]; i++) {
+		for (var i = 0; row = rows[i]; i++) {
 			row = $(row);
 
+			// Find no results first
 			if (row.hasClass('no-results')) {
 				this.none = row.removeClass('row-hidden').show().detach();
 				continue;
 			}
 
-			columns = row[0].getElementsByTagName('td');
-			data = [];
+			// Fewer tbody columns than thead columns; must have rowspan/subrows.
+			if (row.find('td').length < count) {
+				continue;
+			}
 
-			for (c = 0; column = columns[c]; c++) {
-				data[c] = this._getText(column, false, this.articles);
+			// Cache cell data
+			columns = row[0].getElementsByTagName('td');
+			dataImplicit = [];
+			dataExplicit = [];
+
+			for (var j = 0; column = columns[j]; j++) {
+				dataImplicit[j] = this._getText(column, false, this.articles);
+				dataExplicit[j] = $(column).text();
+			}
+
+			rowspan = Core.isIE() ? row.find('td[rowspan!="1"]') : row.find('td[rowspan]');
+			subrows = [];
+
+			if (rowspan.length === 1) {
+				for (var k = 1, len = rowspan.attr('rowspan'); k < len; k++) {
+					subrows.push($(rows[k]).detach());
+				}
 			}
 
 			source.push([
-				data,
-				row.detach()
+				dataImplicit,
+				dataExplicit,
+				row.detach(),
+				subrows
 			]);
 		}
 
@@ -279,6 +278,7 @@ var Table = Class.extend({
 				cache = [],
 				count = 0,
 				row = null,
+				subrows = null,
 				add = false,
 				no = 1;
 
@@ -293,12 +293,13 @@ var Table = Class.extend({
 				k = l - i;
 
 				if (source[k]) {
-					row = source[k][1].clone();
+					row = source[k][2].clone();
+					subrows = source[k][3];
 					add = true;
 
 					// Filter down the rows
 					if (config.filtering) {
-						if (!this._processFilters(row, source[k][0])) {
+						if (!this._processFilters(row, source[k])) {
 							continue;
 						}
 					}
@@ -319,12 +320,20 @@ var Table = Class.extend({
 							.addClass('row'+ ((no % 2) ? 1 : 2));
 
 						fragment.appendChild(row[0]);
+
+						if (source[k][3].length > 0) {
+							for (var m = 0, subrow; subrow = subrows[m]; m++) {
+								fragment.appendChild(subrow[0].clone());
+							}
+						}
 					}
 
 					// Save cached data
 					cache.push([
 						source[k][0],
-						row
+						source[k][1],
+						row,
+						subrows
 					]);
 
 					count++;
@@ -360,10 +369,11 @@ var Table = Class.extend({
 	},
 
 	/**
-	 * Reset the class back to defaults, but do not clear the cache.
+	 * Reset the class back to defaults, but do not clear the source cache.
+	 *
+	 * @param exit
 	 */
-	reset: function() {
-		var config = this.config;
+	reset: function(exit) {
 		this.cached = [];
 
 		// Paging
@@ -379,7 +389,12 @@ var Table = Class.extend({
 			rules: []
 		};
 
+		if (exit)
+			return;
+
 		// Sorting
+		var config = this.config;
+		
 		if (config.column !== false)
 			this.sort(config.column, config.method, config.type);
 
@@ -388,10 +403,35 @@ var Table = Class.extend({
 	},
 
 	/**
-	 * Bind the sorting event handlers, setup pagination config, prepare filters, do magic.
+	 * Bind the sorting event handlers, setup config, prepare filters, do magic.
+	 *
+	 * @param config
 	 */
-	setup: function() {
-		var config = this.config;
+	setup: function(config) {
+		this.config = $.extend({
+			// sorting
+			sorting: true,
+			column: false,
+			method: 'default',
+			type: 'asc',
+
+			// paging
+			paging: false,
+			page: 1,
+			results: 50,
+			totalPages: null,
+			totalResults: null,
+			pageCount: 10,
+
+			// filtering
+			filtering: true,
+
+			// misc
+			articles: [],
+			cache: false
+		}, config);
+
+		config = this.config;
 
 		// Sorting
 		if (config.sorting) {
@@ -424,7 +464,7 @@ var Table = Class.extend({
 
 		// Paging
 		if (config.paging) {
-			this.controls = $('.table-options');
+			this.controls = this.wrapper.find('.table-options');
 
 			if (config.totalResults > config.results) {
 				if (!config.totalPages)
@@ -491,7 +531,7 @@ var Table = Class.extend({
 				});
 
 			// Date
-			} else if (method == 'date') {
+			} else if (method === 'date') {
 				var dateParse = Date.parse;
 
 				data.sort(function(a, b) {
@@ -599,7 +639,7 @@ var Table = Class.extend({
 		}
 
 		// Save reference
-		this.pages = $('.table-options .ui-pagination');
+		this.pages = this.wrapper.find('.table-options .ui-pagination');
 	},
 
 	/**
@@ -616,7 +656,7 @@ var Table = Class.extend({
 		cell = $(cell);
 		articles = articles || [];
 
-		var text = (!cell.data('raw')) ? cell.text() : cell.data('raw').toString();
+		var text = (typeof cell.data('raw') == 'undefined') ? cell.text() : cell.data('raw').toString();
 			text = text.trim().toLowerCase();
 
 		if (articles.length === 0 || returnText)
@@ -628,33 +668,6 @@ var Table = Class.extend({
 		}
 
 		return text;
-	},
-
-	/**
-	 * Detect if the string contains a character.
-	 *
-	 * @param needle
-	 * @param haystack
-	 */
-	_matches: function(needle, haystack) {
-		if (typeof haystack === 'number') {
-			return (needle == haystack);
-
-		} else if (typeof needle === 'string') {
-			return (haystack.indexOf(needle) >= 0);
-
-		} else {
-			var valid = true;
-
-			for (var i = 0, test; test = needle[i]; ++i) {
-				if (haystack.indexOf(test) == -1) {
-					valid = false;
-					break;
-				}
-			}
-
-			return valid;
-		}
 	},
 
 	/**
@@ -687,10 +700,10 @@ var Table = Class.extend({
 	 * Returns true if the filter has passed.
 	 *
 	 * @param row
-	 * @param columns
+	 * @param cache
 	 * @return boolean
 	 */
-	_processFilters: function(row, columns) {
+	_processFilters: function(row, cache) {
 		var filters = this.filters.rules,
 			length = filters.length,
 			pass = true,
@@ -704,7 +717,7 @@ var Table = Class.extend({
 				continue;
 
 			// Row
-			if (test.filter === 'row' && !this._matches(test.match, this._getText(row))) {
+			if (test.filter === 'row' && !TableStatic.matches(cache[1].join(' ').toLowerCase(), test.match)) {
 				pass = false;
 
 			// Class
@@ -713,42 +726,15 @@ var Table = Class.extend({
 
 			// Column
 			} else if (test.filter === 'column') {
-				text = columns[test.column];
+				text = cache[0][test.column];
 
-				switch (test.type) {
-					default:
-						pass = this._matches(test.match, text);
-					break;
-					case 'equals':
-						pass = (test.match == text);
-					break;
-					case 'notEquals':
-						pass = (test.match != text);
-					break;
-					case 'exact':
-						pass = (test.match === text);
-					break;
-					case 'range':
-						pass = (parseInt(text) >= test.match[0] && parseInt(text) <= test.match[1]);
-					break;
-					case 'greaterThan':
-						pass = (parseInt(text) > test.match);
-					break;
-					case 'greaterThanEquals':
-						pass = (parseInt(text) >= test.match);
-					break;
-					case 'lessThan':
-						pass = (parseInt(text) < test.match);
-					break;
-					case 'lessThanEquals':
-						pass = (parseInt(text) <= test.match);
-					break;
-					case 'startsWith':
-						pass = (text.substr(0, test.match.length) === test.match);
-					break;
-					case 'endsWith':
-						pass = (text.substr(-test.match.length) === test.match);
-					break;
+				if (text === "") {
+					pass = false;
+				} else {
+					if (TableStatic[test.type])
+						pass = TableStatic[test.type](text, test.match);
+					else
+						pass = TableStatic.matches(text, test.match);
 				}
 			}
 
@@ -865,3 +851,160 @@ var Table = Class.extend({
 	}
 
 });
+
+/**
+ * Static functions used by the table class.
+ */
+var TableStatic = {
+
+	/**
+	 * Detect if the string/array is within an array.
+	 *
+	 * @param text
+	 * @param match
+	 */
+	contains: function(text, match) {
+		text = text.split(' ');
+
+		var valid = false,
+			isArray = !(typeof match === 'string' || typeof match === 'number');
+
+		for (var i = 0, test; test = text[i]; ++i) {
+			if ((isArray && $.inArray(test, match) >= 0) || (!isArray && test.indexOf(match) >= 0)) {
+				valid = true;
+				break;
+			}
+		}
+
+		return valid;
+	},
+
+	/**
+	 * Detect if the string contains a character.
+	 *
+	 * @param text
+	 * @param match
+	 */
+	matches: function(text, match) {
+		if (typeof match === 'number') {
+			return (match == text);
+		}
+
+		if (typeof match === 'string') {
+			return (text.indexOf(match.toLowerCase()) >= 0);
+
+		} else {
+			var valid = true;
+
+			for (var i = 0, test; test = match[i]; ++i) {
+				if (text.indexOf(test.toLowerCase()) === -1) {
+					valid = false;
+					break;
+				}
+			}
+
+			return valid;
+		}
+	},
+
+	/**
+	 * Values are equal.
+	 *
+	 * @param text
+	 * @param match
+	 */
+	equals: function(text, match) {
+		return (match == text);
+	},
+
+	/**
+	 * Values are not equal.
+	 *
+	 * @param text
+	 * @param match
+	 */
+	notEquals: function(text, match) {
+		return (match != text);
+	},
+
+	/**
+	 * Values and type are exact.
+	 *
+	 * @param text
+	 * @param match
+	 */
+	exact: function(text, match) {
+		return (match === text);
+	},
+
+	/**
+	 * Value is within a specific range.
+	 *
+	 * @param text
+	 * @param match
+	 */
+	range: function(text, match) {
+		return (parseInt(text) >= match[0] && parseInt(text) <= match[1]);
+	},
+
+	/**
+	 * Value is greater than a number.
+	 *
+	 * @param text
+	 * @param match
+	 */
+	greaterThan: function(text, match) {
+		return (parseInt(text) > match);
+	},
+
+	/**
+	 * Value is greater or equals to a number.
+	 *
+	 * @param text
+	 * @param match
+	 */
+	greaterThanEquals: function(text, match) {
+		return (parseInt(text) >= match);
+	},
+
+	/**
+	 * Value is less than a number.
+	 *
+	 * @param text
+	 * @param match
+	 */
+	lessThan: function(text, match) {
+		return (parseInt(text) < match);
+	},
+
+	/**
+	 * Value is less or equal to a number.
+	 *
+	 * @param text
+	 * @param match
+	 */
+	lessThanEquals: function(text, match) {
+		return (parseInt(text) <= match);
+	},
+
+	/**
+	 * Value starts with a specific character(s).
+	 *
+	 * @param text
+	 * @param match
+	 */
+	startsWith: function(text, match) {
+		return (text.substr(0, match.length) === match);
+	},
+
+	/**
+	 * Value ends with a specific character(s).
+	 *
+	 * @param text
+	 * @param match
+	 */
+	endsWith: function(text, match) {
+		return (text.substr(-match.length) === match);
+	}
+
+}

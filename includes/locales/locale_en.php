@@ -434,5 +434,22 @@ $WoW_Locale = array(
     'template_reputation_simple' => 'Simple',
     'template_reputation_table_name' => 'Name',
     'template_reputation_table_standing' => 'Standing',
+    
+    'template_team_type_format' => '%dv%d',
+    'template_character_team_name' => 'Team',
+    'template_character_personal_rating' => 'Personal',
+    'template_character_pvp_games' => 'Matches',
+    'template_character_pvp_lost_won' => 'Win - Loss',
+    'template_character_team_rating' => 'Team Rating',
+    'template_character_team_per_season' => 'Season',
+    'template_character_team_per_week' => 'Weekly',
+    'template_character_pvp_roster' => 'Roster',
+    'template_character_pvp_name_roster' => 'Name',
+    'template_character_pvp_played_roster' => 'Played',
+    'template_character_pvp_lost_won_roster' => 'Win - Loss',
+    'template_character_pvp_lost_won_weekly_roster' => 'Win - Loss',
+    'template_character_pvp_rating_roster' => 'Rating',
+    'template_character_pvp_season' => 'Season',
+    'template_character_pvp_week' => 'This week',
 );
 ?>

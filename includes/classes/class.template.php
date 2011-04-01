@@ -502,6 +502,40 @@ Class WoW_Template {
                     ),
                 );
                 break;
+            case 'character_pvp':
+                $css_data_page = array(
+                    array(
+                        'path' => '/wow/static/css/profile.css',
+                        'version' => 4,
+                        'browser' => false
+                    ),
+                    array(
+                        'path' => '/wow/static/css/profile-ie.css',
+                        'version' => 4,
+                        'browser' => 'IE'
+                    ),
+                    array(
+                        'path' => '/wow/static/css/profile-ie6.css',
+                        'version' => 4,
+                        'browser' => 'IE 6'
+                    ),
+                    array(
+                        'path' => '/wow/static/css/character/pvp.css',
+                        'version' => 7,
+                        'browser' => false
+                    ),
+                    array(
+                        'path' => '/wow/static/css/character/pvp-ie.css',
+                        'version' => 7,
+                        'browser' => 'IE'
+                    ),
+                    array(
+                        'path' => '/wow/static/css/arena/arena.css',
+                        'version' => 7,
+                        'browser' => false
+                    )
+                );
+                break;
         }
         $cssList = array_merge($css_data, $css_data_page);
         $cssList[] = array(
@@ -560,22 +594,22 @@ Class WoW_Template {
             case 'character_profile_simple':
             case 'character_profile_advanced':
                 return sprintf('%s @ %s - ' , WoW_Characters::GetName(), WoW_Characters::GetRealmName());
-                break;
             case 'character_talents':
                 return sprintf('%s - ', WoW_Locale::GetString('template_profile_talents'));
-                break;
+            case 'character_achievements':
+                return sprintf('%s - %s - ', WoW_Locale::GetString('template_profile_achievements'), WoW_Locale::GetString('template_menu_game'));
+            case 'character_reputation':
+                return sprintf('%s - %s - ', WoW_Locale::GetString('template_profile_reputation'), WoW_Locale::GetString('template_menu_game'));
             case 'item':
                 return sprintf('%s - ', self::GetPageData('itemName'));
-                break;
             case 'guild_page':
                 return sprintf('%s @ %s - ', WoW_Guild::GetGuildName(), WoW_Guild::GetGuildRealmName());
-                break;
             case 'search':
                 return WoW_Search::GetSearchQuery() != null ? sprintf('%s - %s - ', WoW_Search::GetSearchQuery(), WoW_Locale::GetString('template_search')) : sprintf('%s - ', WoW_Locale::GetString('template_search'));
-                break;
             case 'realm_status':
                 return sprintf('%s - %s - ', WoW_Locale::GetString('template_realm_status'), WoW_Locale::GetString('template_menu_game'));
-                break;
+            case 'character_pvp':
+                return sprintf('PvP - %s - ', WoW_Locale::GetString('template_menu_game'));
         }
     }
 }

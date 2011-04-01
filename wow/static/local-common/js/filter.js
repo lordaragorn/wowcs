@@ -54,8 +54,8 @@ var Filter = {
 	 * @param value
 	 */
 	addParam: function(key, value) {
-		if (key !== undefined) {
-			if (value === undefined || value === "")
+		if (key) {
+			if (!value || value === "")
 				Filter.deleteParam(key);
 			else
 				Filter.query[key] = value;
@@ -72,7 +72,7 @@ var Filter = {
 	appendRangeData: function(self, value) {
 		var range = {};
 
-		if (self.data('min') !== undefined) {
+		if (typeof self.data('min') !== 'undefined') {
 			range = {
 				min: parseInt(value, 10),
 				max: parseInt(self.siblings('input[data-max]').val(), 10),
@@ -105,7 +105,7 @@ var Filter = {
 		}
 
 		if (hash.length > 0)
-			location.hash = hash.join('&');
+			location.replace('#'+ hash.join('&'));
 		else
 			Filter.reset();
 	},
@@ -138,10 +138,14 @@ var Filter = {
 
 			} else {
 				self.change(function() {
-					if (data.field == 'checkbox')
-						data.value = self.is(':checked') ? 'true' : '';
-					else
+					if (data.field == 'checkbox') {
+						if (self.is(':checked'))
+							data.value = (data.filter == 'class' && typeof self.data('value') != 'undefined') ? self.data('value') : 'true';
+						else
+							data.value = '';
+					} else {
 						data.value = self.val();
+					}
 
 					callback(data);
 				});
@@ -195,7 +199,7 @@ var Filter = {
 	reset: function() {
 		Filter.query = {};
 		Filter.timers = {};
-		location.hash = 'reset';
+		location.replace('#reset');
 	},
 
 	/**
@@ -211,11 +215,11 @@ var Filter = {
 			var self = $(this),
 				value;
 
-			if ((value = self.data('min')) !== undefined)
+			if ((value = self.data('min')) !== 'undefined')
 				self.val(value);
-			else if ((value = self.data('max')) !== undefined)
+			else if ((value = self.data('max')) !== 'undefined')
 				self.val(value);
-			else if ((value = self.data('default')) !== undefined)
+			else if ((value = self.data('default')) !== 'undefined')
 				self.val(value);
 			else
 				self.val('');

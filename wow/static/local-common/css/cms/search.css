@@ -3,13 +3,13 @@
 
 #search-results { padding:30px 60px 40px 20px; }
 #results-interior { overflow:hidden; padding-left:20px; }
-.search-categories { padding:40px 0 30px ; overflow:hidden; }
+.search-categories { padding:30px 0 10px ; overflow:hidden; }
 #search-results .search-categories a { display:block; float:left; padding:4px 10px 4px 32px; margin-right:10px; 
 					-moz-border-radius:5px; border-radius:5px;  }
 #search-results .search-categories a:hover, #search-results .search-categories a.selected { color:#fff; }
 
 
-#search-results .results-title { font-size:30px;  color:#92E6FF; padding-top:15px;  }
+#search-results .results-title { font-size:30px; padding-top:15px;  }
 #search-results .results-title span { color:white; } 
 
 #search-results .results-navigation { padding:5px 0; }
@@ -18,8 +18,13 @@
 
 .results-navigation .selected { color:#fff; font-weight:bold; text-decoration:underline; }
 
-#left-results { width:75%; float:left; }
-#right-results { width:24%; float:right; }
+#left-results { width:573px; float:left; }
+#right-results { width:307px; float:right; }
+
+#right-results .results-title { font-size:13px; text-decoration:underline; padding-bottom:10px; }
+.result-set { border-top:1px solid transparent;  }
+#right-results .search-result { background:none; line-height:16px; padding:0; }
+#right-results .search-title { font-size:14px; }
 
 #search-results table.table { width:100%; margin-bottom:30px;  }
 #search-results table.table .table-link { padding:0; }
@@ -29,19 +34,24 @@
 .search-result:hover { } 
 .search-result .result-title { position:relative; }
 .search-result .multi-type { padding-left:21px;  }
-.multi-type .type-icon { background-repeat:no-repeat;  height:32px; width:32px; position:absolute; left:-39px; margin: 3px 0 0 0; }
-.type-icon img { -moz-border-radius:5px; border-radius:5px; display:block; }
+.type-icon { background-repeat:no-repeat; background-position:50%; height:32px; width:32px; position:absolute; left:-39px; margin: 3px 0 0 0; }
+.type-wowitem, .type-wowcharacter { -moz-background-size:100%; -webkit-background-size:100%; background-size:100%; }
+#right-results .type-wowguild { background:none; left:-48px; }
+
+#right-results .more-results { text-align:right; padding-top:6px; }
+
+.type-icon img { display:block; visibility:hidden; }
 .search-result .type-wowitem, .search-result .type-wowcharacter  { border-width:1px; border-style:solid; }
 
 .iconText { display:none; }
 .iconCol { width:40px; text-align:center; }
 
 .list-icon { display:block; float:left; padding:1px; margin-right:10px; border-width:1px; border-style:solid;}
-.list-icon img { display:block; height:18px; }
+.list-icon img { display:block; height:18px; width: 18px; }
 
-.search-result .search-title { font-size:16px; letter-spacing: -1px; font-family: "Lucida Sans Unicode", Arial, Helvetica, sans-serif; }
-.search-result .search-content { padding:5px 0; width:100%; overflow:hidden; line-height:1.5em; }
-.search-result .by-line { padding-top:2px;  }
+.search-result .search-title { font-size:16px; text-decoration:underline;  }
+.search-result .search-content { padding-bottom:5px; width:100%; overflow:hidden; line-height:1.5em; }
+.search-result .by-line { padding-bottom:4px;  }
 .search-result .by-line a { }
 .search-result .by-line a:hover { text-decoration: underline; }
 .search-result .by-line a:focus { text-decoration: underline; }
